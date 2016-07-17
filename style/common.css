@@ -1,0 +1,54 @@
+body{
+  margin: 0% 10% 0% 10%;
+  text-align: justify;
+}
+
+.Panel{
+  padding: 0% 0% 25% 0%;
+  margin: 0 15px 0 15px ;
+
+}
+
+#leftPanel{
+  float: left;
+  display: inline-block;
+
+}
+
+#rightPanel{
+  float: right;
+  display: inline-block;
+}
+
+#dataPanelLeft{
+  float: left;
+  width:200px;
+  border: solid 1px;
+}
+
+#dataPanelRight{
+  float: right;
+  width: 200px;;
+  border: solid 1px;
+}
+
+#monitorLeft{
+    float: right;;
+}
+#monitorRight{
+  float: left;
+}
+
+.Monitor{
+    margin: 0 0 0 0 ;
+    margin: 0 15px 0 15px ;
+}
+
+.monitorGrid{
+  vertical-align: top;
+		height: 35px;
+		width: 35px;
+		display: inline-block;
+		margin: 0px;
+		border: solid 1px;
+}
