@@ -1,0 +1,30 @@
+// global variable for game resources, in form of json.
+
+//string resources
+var string = {
+	"current_stage":"Current Stage",
+	"ship_placement_remaining":"Remaining ship",
+	"ship_classes": [
+    "Battleship",
+  	"Aircraft Carrier",
+    "Crusier",
+		"Destroyer"
+  ]
+}
+//image resources
+//TODO it this usable?
+var img_url = {
+	"ship_icons": [
+
+		["img/ships/jp/BB.png",
+			"img/ships/jp/CV.png",
+			"img/ships/jp/CA.png",
+			"img/ships/jp/DD.png"],
+
+		["img/ships/us/BB.png",
+			"img/ships/us/CV.png",
+			"img/ships/us/CA.png",
+			"img/ships/us/DD.png"]
+
+  ]
+}

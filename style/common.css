@@ -2,11 +2,14 @@ body{
   margin: 0% 8% 0% 8%;
   text-align: center;;
 }
+p{
+	margin: 5px 5px 5px 5px;
+}
 
 .Panel{
   padding: 0% 0% 25% 0%;
   margin: 0 15px 0 15px ;
-  width: 43%;
+  width: auto;
 
 }
 
@@ -21,11 +24,20 @@ body{
 }
 
 .Counter{
-  font-size:1.6em;
+  font-size:1.4em;
   color:red;
 
 }
 
+.ShipIcons{
+	width:240px;
+	height:auto;
+}
+.ShipIcons:hover{
+	width:240px;
+	height:auto;
+	cursor: pointer;
+}
 #rightPanel{
   float: right;
   display: inline-block;
@@ -33,13 +45,15 @@ body{
 
 #dataPanelLeft{
   float: left;
-  width:200px;
+  width:250px;
+	height: auto;
   border: solid 1px;
 }
 
 #dataPanelRight{
   float: right;
-  width: 200px;;
+  width: 250px;;
+	height: auto;
   border: solid 1px;
 }
 

@@ -10,3 +10,7 @@ var MAX_SHIP_COUNT = 6;
 var MAX_BB_COUNT = 2;
 //maximium number of aircraft carrriers allowed.
 var MAX_CV_COUNT = 2;
+//maximium number of crusiers allowed.
+var MAX_CA_COUNT = 3;
+//maximium number of destroyers allowed.
+var MAX_DD_COUNT = 4;
