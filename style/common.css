@@ -38,6 +38,11 @@ p{
 	height:auto;
 	cursor: pointer;
 }
+.ShipIconsEnemy{
+	width:240px;
+	height:auto;
+	transform: scale(-1, 1);
+}
 #rightPanel{
   float: right;
   display: inline-block;
