@@ -1,4 +1,4 @@
-// global variable for game resources, in form of json.
+// global variable for game resources, in form of javascript json.
 
 //string resources
 var string = {
@@ -19,12 +19,22 @@ var img_url = {
 		["img/ships/jp/BB.png",
 			"img/ships/jp/CV.png",
 			"img/ships/jp/CA.png",
-			"img/ships/jp/DD.png"],
+			"img/ships/jp/DD.png"
+		],
 
 		["img/ships/us/BB.png",
 			"img/ships/us/CV.png",
 			"img/ships/us/CA.png",
-			"img/ships/us/DD.png"]
+			"img/ships/us/DD.png"
+		],
+
+		["img/ships/uk/BB.png",
+			"img/ships/uk/CV.png",
+			"img/ships/uk/CA.png",
+			"img/ships/uk/DD.png"
+		]
+
+
 
   ]
 }

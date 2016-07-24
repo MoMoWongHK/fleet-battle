@@ -17,7 +17,7 @@ A turn based tactical naval board game inspired by the classic board game [*Batt
 
 Why wasting time here to read this readme while you can try out the game for yourself?
 
-[Click here to play Fleet Battle](https://github.com/404)
+[Click here to play Fleet Battle](https://tonY1883.github.io/fleet-battle)
 
 ##What's next
 

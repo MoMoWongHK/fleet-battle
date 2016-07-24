@@ -87,7 +87,7 @@ function setUI(){
 		document.getElementById("dataPanelRight").appendChild(counter2);
 		//use a different ship icon set than player 1
 		while (player_2_ship_set == player_1_ship_set) {
-			var shipset = getRandomInt(0,1);
+			var shipset = getRandomInt(0,2);
 			player_2_ship_set = shipset;
 		}
 		for (var i = 0; i < string.ship_classes.length; i++) {
