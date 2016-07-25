@@ -33,15 +33,17 @@ p{
 	width:240px;
 	height:auto;
 }
-.ShipIcons:hover{
-	width:240px;
-	height:auto;
+.ShipIconsSelectable:hover{
 	cursor: pointer;
+	opacity: 0.5;
 }
 .ShipIconsEnemy{
-	width:240px;
-	height:auto;
 	transform: scale(-1, 1);
+}
+
+.DataPanelOverlay{
+	padding-top: 40%;
+	font-size:1.4em;
 }
 #rightPanel{
   float: right;
@@ -74,7 +76,7 @@ p{
     padding: 0 15px 0 15px ;
 }
 
-.monitorGrid{
+.MonitorGrid{
   vertical-align: top;
 		height: 35px;
 		width: 35px;

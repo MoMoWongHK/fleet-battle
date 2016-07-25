@@ -1,5 +1,7 @@
 //Global variables that set the game's settings.
 
+//Switch for random map size
+var RANDOM_MAP_SIZE = false;
 //size of the game map (number of grids each side)
 var MAP_SIZE = 12;
 //size of a grid in px.

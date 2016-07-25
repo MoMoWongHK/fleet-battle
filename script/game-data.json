@@ -7,12 +7,12 @@ var string = {
 	"ship_classes": [
     "Battleship",
   	"Aircraft Carrier",
-    "Crusier",
+    "Cruiser",
 		"Destroyer"
-  ]
+  ],
+	"pending":"Pending..."
 }
 //image resources
-//TODO it this usable?
 var img_url = {
 	"ship_icons": [
 
