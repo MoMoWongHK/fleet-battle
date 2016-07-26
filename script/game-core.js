@@ -8,6 +8,14 @@ var GAME_PHASE_SHIP_PLACEMENT = 0;
 var GAME_PAHSE_AERIAL_COMBAT = 1;
 var GAME_PHASE_COMBAT = 2;
 
+var SHIP_COURSE_VERICAL = 0;
+var SHIP_COURSE_HORIZONTAL = 1;
+
+var SHIP_CLASS_BB = 0;
+var SHIP_CLASS_CV = 1;
+var SHIP_CLASS_CA = 2;
+var SHIP_CLASS_DD = 3;
+
 var ship_class_placing;
 var ship_course_placing = 0;
 var ship_size_placing;
@@ -69,7 +77,7 @@ function setUI() {
 		counter_text_left = counter;
 		document.getElementById("dataPanelContentLeft").appendChild(counter);
 		//determine the ship iocn set to be used by each player
-		var shipset = getRandomInt(0, 2);
+		var shipset = RNG(0, 2);
 		player_1_ship_set = shipset;
 		for (var i = 0; i < string.ship_classes.length; i++) {
 			var sLabel = document.createElement('p');
@@ -95,7 +103,7 @@ function setUI() {
 		document.getElementById("dataPanelContentRight").appendChild(counter2);
 		//use a different ship icon set than player 1
 		while (player_2_ship_set == player_1_ship_set) {
-			var shipset = getRandomInt(0, 2);
+			var shipset = RNG(0, 2);
 			player_2_ship_set = shipset;
 		}
 		for (var i = 0; i < string.ship_classes.length; i++) {
@@ -147,18 +155,18 @@ function onShipIconSelected(evt) {
  */
 function shipPlacable(x, y) {
 	switch (ship_class_placing) {
-		case 0:
-		case 1:
+		case SHIP_CLASS_BB:
+		case SHIP_CLASS_CV:
 			ship_size_placing = 4;
 			break;
-		case 2:
+		case SHIP_CLASS_CA:
 			ship_size_placing = 3;
 			break;
-		case 3:
+		case SHIP_CLASS_DD:
 			ship_size_placing = 2;
 			break;
 	}
-	if (ship_course_placing == 0) {
+	if (ship_course_placing == SHIP_COURSE_VERICAL) {
 		//check if over edge of map
 		if ((x + ship_size_placing) <= MAP_SIZE && y <= MAP_SIZE) {
 			//check if another ship already exsist
@@ -171,7 +179,7 @@ function shipPlacable(x, y) {
 		} else {
 			return false;
 		}
-	} else if (ship_course_placing == 1) {
+	} else if (ship_course_placing == SHIP_COURSE_HORIZONTAL) {
 		if ((y + ship_size_placing) <= MAP_SIZE && x <= MAP_SIZE) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				if (document.querySelector("[y='" + (y + i) + "'][x='" + x + "']").hasAttribute("placed")) {
@@ -194,12 +202,12 @@ function projectShip(evt) {
 	var targetX = parseInt(targetGrid.getAttribute('x'));
 	var targetY = parseInt(targetGrid.getAttribute('y'));
 	if (shipPlacable(targetX, targetY)) {
-		if (ship_course_placing == 0) {
+		if (ship_course_placing == SHIP_COURSE_VERICAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
 				tGrid.style.backgroundColor = 'grey';
 			}
-		} else if (ship_course_placing == 1) {
+		} else if (ship_course_placing == SHIP_COURSE_HORIZONTAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[y='" + (targetY + i) + "'][x='" + targetX + "']");
 				tGrid.style.backgroundColor = 'grey';
@@ -216,7 +224,7 @@ function unProjectShip(evt) {
 	var targetX = parseInt(targetGrid.getAttribute('x'));
 	var targetY = parseInt(targetGrid.getAttribute('y'));
 	if (shipPlacable(targetX, targetY)) {
-		if (ship_course_placing == 0) {
+		if (ship_course_placing == SHIP_COURSE_VERICAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
 				tGrid.style.backgroundColor = '';
@@ -235,7 +243,7 @@ function placeShip(evt) {
 	var targetX = parseInt(targetGrid.getAttribute('x'));
 	var targetY = parseInt(targetGrid.getAttribute('y'));
 	if (shipPlacable(targetX, targetY)) {
-		if (ship_course_placing == 0) {
+		if (ship_course_placing == SHIP_COURSE_VERICAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
 				tGrid.style.backgroundColor = 'black';
@@ -245,7 +253,7 @@ function placeShip(evt) {
 				tGrid.removeEventListener('mouseover', projectShip, false);
 				tGrid.removeEventListener('mouseout', unProjectShip, false);
 			}
-		} else if (ship_course_placing == 1) {
+		} else if (ship_course_placing == SHIP_COURSE_HORIZONTAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[y='" + (targetY + i) + "'][x='" + targetX + "']");
 				tGrid.style.backgroundColor = 'black';
@@ -283,15 +291,12 @@ function stopPlayerShipPlacement(){
 		grids[i].removeEventListener('mouseover', projectShip, false);
 		grids[i].removeEventListener('mouseout', unProjectShip, false);
 	}
+	if(true){
+		shipPlacementBasic();
+	}
 
 }
-/**
- * Returns a random integer between min (inclusive) and max (inclusive)
- * Using Math.round() will give you a non-uniform distribution!
- */
-function getRandomInt(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+
 
 window.onload = function() {
 	setUI();
