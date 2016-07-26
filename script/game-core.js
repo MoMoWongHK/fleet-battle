@@ -14,12 +14,14 @@ var ship_size_placing;
 
 //game stats field for each player
 var player_1_ship_set = 0;
+var player_1_ship_count = 0;
 var player_1_CV_count = 0;
 var player_1_BB_count = 0;
 var player_1_CA_count = 0;
 var player_1_DD_count = 0;
 
 var player_2_ship_set = 0;
+var player_2_ship_count = 0;
 var player_2_CV_count = 0;
 var player_2_BB_count = 0;
 var player_2_CA_count = 0;
@@ -63,6 +65,7 @@ function setUI() {
 		var counter = document.createElement('p');
 		counter.innerHTML = MAX_SHIP_COUNT;
 		counter.setAttribute('class', 'Counter');
+		counter.setAttribute('id', 'counterLeft');
 		counter_text_left = counter;
 		document.getElementById("dataPanelContentLeft").appendChild(counter);
 		//determine the ship iocn set to be used by each player
@@ -87,7 +90,8 @@ function setUI() {
 		var counter2 = document.createElement('p');
 		counter2.innerHTML = MAX_SHIP_COUNT;
 		counter2.setAttribute('class', 'Counter');
-		counter_text_left = counter2;
+		counter2.setAttribute('id', 'counterRight');
+		counter_text_right = counter2;
 		document.getElementById("dataPanelContentRight").appendChild(counter2);
 		//use a different ship icon set than player 1
 		while (player_2_ship_set == player_1_ship_set) {
@@ -124,7 +128,6 @@ function startShipPlacement() {
 	for (var i = 0; i < ships.length; i++) {
 		var t = i;
 		ships[i].addEventListener("click", onShipIconSelected, false);
-		console.log("setting listeners");
 	}
 }
 
@@ -253,6 +256,32 @@ function placeShip(evt) {
 				tGrid.removeEventListener('mouseout', unProjectShip, false);
 			}
 		}
+		player_1_ship_count = player_1_ship_count +1;
+		document.getElementById("counterLeft").innerHTML = parseInt(counter_text_left.innerHTML) - 1;
+		if (player_1_ship_count >= MAX_SHIP_COUNT) {
+			stopPlayerShipPlacement();
+		}
+	}
+
+}
+
+function stopPlayerShipPlacement(){
+	//disable ship selector
+	var ships = document.querySelectorAll('.ShipIconsSelectable');
+	for (var i = 0; i < ships.length; i++) {
+		var t = i;
+		ships[i].removeEventListener("click", onShipIconSelected, false);
+		//remove hover effect
+		var classes = ships[i].getAttribute('class');
+		classes = classes.replace(' ShipIconsSelectable', '');
+		ships[i].setAttribute('class', classes);
+	}
+	//disable grids
+	var grids = document.getElementById("monitorLeft").getElementsByClassName("MonitorGrid");
+	for (var i = 0; i < grids.length; i++) {
+		grids[i].removeEventListener('click', placeShip, false);
+		grids[i].removeEventListener('mouseover', projectShip, false);
+		grids[i].removeEventListener('mouseout', unProjectShip, false);
 	}
 
 }
