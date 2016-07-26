@@ -123,7 +123,7 @@ function startShipPlacement() {
 	var ships = document.querySelectorAll('.ShipIconsSelectable');
 	for (var i = 0; i < ships.length; i++) {
 		var t = i;
-		ships[i].addEventListener("click", onShipIconSelected , false);
+		ships[i].addEventListener("click", onShipIconSelected, false);
 		console.log("setting listeners");
 	}
 }
@@ -156,13 +156,25 @@ function shipPlacable(x, y) {
 			break;
 	}
 	if (ship_course_placing == 0) {
+		//check if over edge of map
 		if ((x + ship_size_placing) <= MAP_SIZE && y <= MAP_SIZE) {
+			//check if another ship already exsist
+			for (var i = 0; i < ship_size_placing; i++) {
+				if (document.querySelector("[x='" + (x + i) + "'][y='" + y + "']").hasAttribute("placed")) {
+					return false;
+				}
+			}
 			return true;
 		} else {
 			return false;
 		}
 	} else if (ship_course_placing == 1) {
 		if ((y + ship_size_placing) <= MAP_SIZE && x <= MAP_SIZE) {
+			for (var i = 0; i < ship_size_placing; i++) {
+				if (document.querySelector("[y='" + (y + i) + "'][x='" + x + "']").hasAttribute("placed")) {
+					return false;
+				}
+			}
 			return true;
 		} else {
 			return false;
@@ -224,6 +236,8 @@ function placeShip(evt) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
 				tGrid.style.backgroundColor = 'black';
+				tGrid.setAttribute("placed", "true");
+				tGrid.setAttribute("ship-class", ship_class_placing);
 				tGrid.removeEventListener('click', placeShip, false);
 				tGrid.removeEventListener('mouseover', projectShip, false);
 				tGrid.removeEventListener('mouseout', unProjectShip, false);
@@ -233,6 +247,8 @@ function placeShip(evt) {
 				var tGrid = document.querySelector("[y='" + (targetY + i) + "'][x='" + targetX + "']");
 				tGrid.style.backgroundColor = 'black';
 				tGrid.removeEventListener('click', placeShip, false);
+				tGrid.setAttribute("placed", "true");
+				tGrid.setAttribute("ship-class", ship_class_placing);
 				tGrid.removeEventListener('mouseover', projectShip, false);
 				tGrid.removeEventListener('mouseout', unProjectShip, false);
 			}
