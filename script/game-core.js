@@ -85,7 +85,20 @@ function setUI() {
 			sLabel.innerHTML = string.ship_classes[i];
 			document.getElementById("dataPanelContentLeft").appendChild(sLabel);
 			var sIcon = document.createElement('img');
-			sIcon.setAttribute('class', 'ShipIcons ShipIconsSelectable');
+			var classes;
+			switch (i) {
+				case SHIP_CLASS_BB:
+				case SHIP_CLASS_CV:
+					classes = 'ShipIcons ShipIconsSelectable';
+					break;
+				case SHIP_CLASS_CA:
+					classes = 'ShipIcons ShipIconsSelectable ShipIconsCA';;
+					break;
+				case SHIP_CLASS_DD:
+					classes = 'ShipIcons ShipIconsSelectable ShipIconsDD';;
+					break;
+			}
+			sIcon.setAttribute('class', classes);
 			sIcon.setAttribute('id', i);
 			sIcon.setAttribute('src', img_url.ship_icons[player_1_ship_set][i]);
 			document.getElementById("dataPanelContentLeft").appendChild(sIcon);
@@ -112,7 +125,20 @@ function setUI() {
 			sLabel2.innerHTML = string.ship_classes[i];
 			document.getElementById("dataPanelContentRight").appendChild(sLabel2);
 			var sIcon2 = document.createElement('img');
-			sIcon2.setAttribute('class', 'ShipIconsEnemy ShipIcons');
+			var classes;
+			switch (i) {
+				case SHIP_CLASS_BB:
+				case SHIP_CLASS_CV:
+					classes = 'ShipIconsEnemy ShipIcons';
+					break;
+				case SHIP_CLASS_CA:
+					classes = 'ShipIconsEnemy ShipIcons ShipIconsCA';;
+					break;
+				case SHIP_CLASS_DD:
+					classes = 'ShipIconsEnemy ShipIcons ShipIconsDD';;
+					break;
+			}
+			sIcon2.setAttribute('class', classes);
 			sIcon2.setAttribute('src', img_url.ship_icons[player_2_ship_set][i]);
 			document.getElementById("dataPanelContentRight").appendChild(sIcon2);
 
@@ -130,6 +156,7 @@ function startShipPlacement() {
 	var p = document.createElement('p');
 	p.innerHTML = string.pending;
 	p.setAttribute('class', 'DataPanelOverlay');
+	p.setAttribute('id', 'pending');
 	document.getElementById("dataPanelRight").appendChild(p);
 	//add onclicklistener for the ship icons
 	var ships = document.querySelectorAll('.ShipIconsSelectable');
@@ -137,6 +164,19 @@ function startShipPlacement() {
 		var t = i;
 		ships[i].addEventListener("click", onShipIconSelected, false);
 	}
+	var rButton = document.createElement('button');
+	rButton.innerHTML = string.rotate;
+	rButton.setAttribute('id', 'rbutton');
+	//rButton.setAttribute('class', 'Button');
+	document.getElementById("dataPanelContentLeft").appendChild(rButton);
+	document.getElementById("rbutton").style.display = 'none';
+	document.getElementById("rbutton").addEventListener('click', function() {
+		if (ship_course_placing == SHIP_COURSE_VERICAL) {
+			ship_course_placing = SHIP_COURSE_HORIZONTAL;
+		} else {
+			ship_course_placing = SHIP_COURSE_VERICAL;
+		}
+	}, false);
 }
 
 function onShipIconSelected(evt) {
@@ -148,6 +188,9 @@ function onShipIconSelected(evt) {
 		grids[i].addEventListener('mouseover', projectShip, false);
 		grids[i].addEventListener('mouseout', unProjectShip, false);
 	}
+	document.getElementById("rbutton").style.display = 'inline-block';
+	document.getElementById("rbutton").style.margin= '5px 60px 5px 60px';
+
 }
 
 /**
@@ -266,6 +309,75 @@ function placeShip(evt) {
 		}
 		player_1_ship_count = player_1_ship_count +1;
 		document.getElementById("counterLeft").innerHTML = parseInt(counter_text_left.innerHTML) - 1;
+		//check for ship class limit
+		switch (ship_class_placing) {
+			case SHIP_CLASS_BB:
+				player_1_BB_count = player_1_BB_count +1;
+				if(player_1_BB_count >= MAX_BB_COUNT){
+					var ships = document.querySelectorAll('.ShipIconsSelectable');
+					var classes = ships[ship_class_placing].getAttribute('class');
+					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
+					ships[ship_class_placing].setAttribute('class', classes);
+					var grids = document.getElementById("monitorLeft").getElementsByClassName("MonitorGrid");
+					//stops player from placing more ships
+					for (var i = 0; i < grids.length; i++) {
+						grids[i].removeEventListener('click', placeShip, false);
+						grids[i].removeEventListener('mouseover', projectShip, false);
+						grids[i].removeEventListener('mouseout', unProjectShip, false);
+					}
+					document.getElementById("rbutton").style.display = 'none';
+				}
+				break;
+			case SHIP_CLASS_CV:
+				player_1_CV_count = player_1_CV_count +1;
+				if(player_1_CV_count >= MAX_CV_COUNT){
+					var ships = document.querySelectorAll('.ShipIconsSelectable');
+					var classes = ships[ship_class_placing].getAttribute('class');
+					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
+					ships[ship_class_placing].setAttribute('class', classes);
+					var grids = document.getElementById("monitorLeft").getElementsByClassName("MonitorGrid");
+					for (var i = 0; i < grids.length; i++) {
+						grids[i].removeEventListener('click', placeShip, false);
+						grids[i].removeEventListener('mouseover', projectShip, false);
+						grids[i].removeEventListener('mouseout', unProjectShip, false);
+					}
+					document.getElementById("rbutton").style.display = 'none';
+				}
+				break;
+			case SHIP_CLASS_CA:
+				player_1_CA_count = player_1_CA_count +1;
+				if(player_1_CA_count >= MAX_CA_COUNT){
+					var ships = document.querySelectorAll('.ShipIconsSelectable');
+					var classes = ships[ship_class_placing].getAttribute('class');
+					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
+					ships[ship_class_placing].setAttribute('class', classes);
+					var grids = document.getElementById("monitorLeft").getElementsByClassName("MonitorGrid");
+					for (var i = 0; i < grids.length; i++) {
+						grids[i].removeEventListener('click', placeShip, false);
+						grids[i].removeEventListener('mouseover', projectShip, false);
+						grids[i].removeEventListener('mouseout', unProjectShip, false);
+					}
+					document.getElementById("rbutton").style.display = 'none';
+				}
+
+				break;
+			case SHIP_CLASS_DD:
+				player_1_DD_count = player_1_DD_count +1;
+				if(player_1_DD_count >= MAX_DD_COUNT){
+					var ships = document.querySelectorAll('.ShipIconsSelectable');
+					var classes = ships[ship_class_placing].getAttribute('class');
+					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
+					ships[ship_class_placing].setAttribute('class', classes);
+					var grids = document.getElementById("monitorLeft").getElementsByClassName("MonitorGrid");
+					for (var i = 0; i < grids.length; i++) {
+						grids[i].removeEventListener('click', placeShip, false);
+						grids[i].removeEventListener('mouseover', projectShip, false);
+						grids[i].removeEventListener('mouseout', unProjectShip, false);
+					}
+					document.getElementById("rbutton").style.display = 'none';
+				}
+				break;
+		}
 		if (player_1_ship_count >= MAX_SHIP_COUNT) {
 			stopPlayerShipPlacement();
 		}
@@ -275,13 +387,14 @@ function placeShip(evt) {
 
 function stopPlayerShipPlacement(){
 	//disable ship selector
-	var ships = document.querySelectorAll('.ShipIconsSelectable');
+	var ships = document.querySelectorAll('.ShipIcons');
 	for (var i = 0; i < ships.length; i++) {
 		var t = i;
 		ships[i].removeEventListener("click", onShipIconSelected, false);
 		//remove hover effect
 		var classes = ships[i].getAttribute('class');
 		classes = classes.replace(' ShipIconsSelectable', '');
+		classes = classes.replace(' ShipIconsUnSelectable', '');
 		ships[i].setAttribute('class', classes);
 	}
 	//disable grids
@@ -291,10 +404,65 @@ function stopPlayerShipPlacement(){
 		grids[i].removeEventListener('mouseover', projectShip, false);
 		grids[i].removeEventListener('mouseout', unProjectShip, false);
 	}
+	var button = document.getElementById("rbutton");
+	button.parentNode.removeChild(button);
 	if(true){
+		//TODO start game button
 		shipPlacementBasic();
+		startGame();
 	}
 
+}
+
+function startGame() {
+	//display info for both players
+	var labels = document.getElementById("dataPanelContentLeft").querySelectorAll('.ShipClassLabel');
+	for (var i = 0; i < labels.length; i++) {
+		switch (i) {
+			case SHIP_CLASS_BB:
+			labels[i].innerHTML = labels[i].innerHTML  +" : " + player_1_BB_count;
+			break;
+			case SHIP_CLASS_CV:
+			labels[i].innerHTML = labels[i].innerHTML +" : " + player_1_CV_count;
+			break;
+			case SHIP_CLASS_CA:
+			labels[i].innerHTML = labels[i].innerHTML +" : " + player_1_CA_count;
+			break;
+			case SHIP_CLASS_DD:
+			labels[i].innerHTML = labels[i].innerHTML +" : " + player_1_DD_count;
+			break;
+		}
+	}
+	document.getElementById("counterLeft").innerHTML = player_1_ship_count;
+	//player 2
+	//unhide the panel
+	document.getElementById("dataPanelContentRight").style.display = '';
+	var overlay = document.getElementById('pending');
+	overlay.parentNode.removeChild(overlay);
+	var labels = document.getElementById("dataPanelContentRight").querySelectorAll('.ShipClassLabel');
+	if(!FOG_OF_WAR){
+		for (var i = 0; i < labels.length; i++) {
+			switch (i) {
+				case SHIP_CLASS_BB:
+				labels[i].innerHTML = labels[i].innerHTML  +" : " + player_2_BB_count;
+				break;
+				case SHIP_CLASS_CV:
+				labels[i].innerHTML = labels[i].innerHTML +" : " + player_2_CV_count;
+				break;
+				case SHIP_CLASS_CA:
+				labels[i].innerHTML = labels[i].innerHTML +" : " + player_2_CA_count;
+				break;
+				case SHIP_CLASS_DD:
+				labels[i].innerHTML = labels[i].innerHTML +" : " + player_2_DD_count;
+				break;
+			}
+		}
+	} else {
+	for (var i = 0; i < labels.length; i++) {
+		labels[i].innerHTML = labels[i].innerHTML  +" : " + "???";
+	}
+}
+document.getElementById("counterLeft").innerHTML = player_1_ship_count;
 }
 
 

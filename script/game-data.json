@@ -10,7 +10,8 @@ var string = {
     "Cruiser",
 		"Destroyer"
   ],
-	"pending":"Pending..."
+	"pending":"Pending...",
+	"rotate":"Rotate"
 }
 //image resources
 var img_url = {

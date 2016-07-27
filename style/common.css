@@ -19,7 +19,7 @@ p{
 
 }
 
-.DataPanelContent{
+.DataPanelContent {
   padding: 5px 5px 5px 5px;
 }
 
@@ -30,7 +30,18 @@ p{
 }
 
 .ShipIcons{
+	float: left;
 	width:240px;
+	height:auto;
+	margin-bottom: 10px;
+	display: inline-block;
+}
+.ShipIconsCA{
+	width:205px;
+	height:auto;
+}
+.ShipIconsDD{
+	width:170px;
 	height:auto;
 }
 .ShipIconsSelectable:hover{
@@ -38,12 +49,13 @@ p{
 	opacity: 0.5;
 }
 
-.ShipIconsUnSelectable:{
+.ShipIconsUnSelectable{
 	opacity: 0.3;
 }
 
 .ShipIconsEnemy{
 	transform: scale(-1, 1);
+	float: right;
 }
 
 .DataPanelOverlay{

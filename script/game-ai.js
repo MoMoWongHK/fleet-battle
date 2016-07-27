@@ -83,7 +83,6 @@ function shipPlacableAi(x, y, type, course) {
 
 
 function shipPlacementBasic() {
-
 	var x = RNG(0, MAP_SIZE);
 	var y = RNG(0, MAP_SIZE);
 	var course = RNG(SHIP_COURSE_VERICAL, SHIP_COURSE_HORIZONTAL);
@@ -95,7 +94,7 @@ function shipPlacementBasic() {
 				var tGrid = document.getElementById("monitorRight").querySelector("[x='" + (x + i) + "'][y='" + y + "']");
 				tGrid.setAttribute("placed", "true");
 				tGrid.setAttribute("ship-class", type);
-				if (FOG_OF_WAR) {
+				if (!FOG_OF_WAR) {
 					tGrid.style.backgroundColor = 'black';
 				}
 			}
@@ -104,13 +103,27 @@ function shipPlacementBasic() {
 				var tGrid = document.getElementById("monitorRight").querySelector("[y='" + (y + i) + "'][x='" + x + "']");
 				tGrid.setAttribute("placed", "true");
 				tGrid.setAttribute("ship-class", type);
-				if (FOG_OF_WAR) {
+				if (!FOG_OF_WAR) {
 					tGrid.style.backgroundColor = 'black';
 				}
 			}
 		}
 		//add the counter
 		player_2_ship_count = player_2_ship_count + 1;
+		switch (type) {
+			case SHIP_CLASS_BB:
+				player_2_BB_count = player_2_BB_count +1;
+				break;
+			case SHIP_CLASS_CV:
+				player_2_CV_count = player_2_CV_count +1;
+				break;
+			case SHIP_CLASS_CA:
+				player_2_CA_count = player_2_CA_count +1;
+				break;
+			case SHIP_CLASS_DD:
+				player_2_DD_count = player_2_DD_count +1;
+				break;
+		}
 		if (player_2_ship_count >= MAX_SHIP_COUNT) {
 			//done!
 		} else {
