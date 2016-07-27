@@ -64,88 +64,88 @@ function setUI() {
 
 	document.getElementById("dataPanelLeft").style.height = GRID_SIZE * MAP_SIZE + MAP_SIZE * 2 + "px";
 	document.getElementById("dataPanelRight").style.height = GRID_SIZE * MAP_SIZE + MAP_SIZE * 2 + "px";
-	if (game_phase == GAME_PHASE_SHIP_PLACEMENT) {
-		//left panel
-		var label = document.createElement('p');
-		label.innerHTML = string.ship_placement_remaining;
-		counter_label_left = label;
-		document.getElementById("dataPanelContentLeft").appendChild(label);
-		var counter = document.createElement('p');
-		counter.innerHTML = MAX_SHIP_COUNT;
-		counter.setAttribute('class', 'Counter');
-		counter.setAttribute('id', 'counterLeft');
-		counter_text_left = counter;
-		document.getElementById("dataPanelContentLeft").appendChild(counter);
-		//determine the ship iocn set to be used by each player
-		var shipset = RNG(0, 2);
-		player_1_ship_set = shipset;
-		for (var i = 0; i < string.ship_classes.length; i++) {
-			var sLabel = document.createElement('p');
-			sLabel.setAttribute('class', 'ShipClassLabel');
-			sLabel.innerHTML = string.ship_classes[i];
-			document.getElementById("dataPanelContentLeft").appendChild(sLabel);
-			var sIcon = document.createElement('img');
-			var classes;
-			switch (i) {
-				case SHIP_CLASS_BB:
-				case SHIP_CLASS_CV:
-					classes = 'ShipIcons ShipIconsSelectable';
-					break;
-				case SHIP_CLASS_CA:
-					classes = 'ShipIcons ShipIconsSelectable ShipIconsCA';;
-					break;
-				case SHIP_CLASS_DD:
-					classes = 'ShipIcons ShipIconsSelectable ShipIconsDD';;
-					break;
-			}
-			sIcon.setAttribute('class', classes);
-			sIcon.setAttribute('id', i);
-			sIcon.setAttribute('src', img_url.ship_icons[player_1_ship_set][i]);
-			document.getElementById("dataPanelContentLeft").appendChild(sIcon);
-		}
-		//right Panel
-		var label2 = document.createElement('p');
-		label2.innerHTML = string.ship_placement_remaining;
-		counter_label_right = label2;
-		document.getElementById("dataPanelContentRight").appendChild(label2);
-		var counter2 = document.createElement('p');
-		counter2.innerHTML = MAX_SHIP_COUNT;
-		counter2.setAttribute('class', 'Counter');
-		counter2.setAttribute('id', 'counterRight');
-		counter_text_right = counter2;
-		document.getElementById("dataPanelContentRight").appendChild(counter2);
-		//use a different ship icon set than player 1
-		while (player_2_ship_set == player_1_ship_set) {
-			var shipset = RNG(0, 2);
-			player_2_ship_set = shipset;
-		}
-		for (var i = 0; i < string.ship_classes.length; i++) {
-			var sLabel2 = document.createElement('p');
-			sLabel2.setAttribute('class', 'ShipClassLabel');
-			sLabel2.innerHTML = string.ship_classes[i];
-			document.getElementById("dataPanelContentRight").appendChild(sLabel2);
-			var sIcon2 = document.createElement('img');
-			var classes;
-			switch (i) {
-				case SHIP_CLASS_BB:
-				case SHIP_CLASS_CV:
-					classes = 'ShipIconsEnemy ShipIcons';
-					break;
-				case SHIP_CLASS_CA:
-					classes = 'ShipIconsEnemy ShipIcons ShipIconsCA';;
-					break;
-				case SHIP_CLASS_DD:
-					classes = 'ShipIconsEnemy ShipIcons ShipIconsDD';;
-					break;
-			}
-			sIcon2.setAttribute('class', classes);
-			sIcon2.setAttribute('src', img_url.ship_icons[player_2_ship_set][i]);
-			document.getElementById("dataPanelContentRight").appendChild(sIcon2);
 
+	//left panel
+	var label = document.createElement('p');
+	label.innerHTML = string.ship_placement_remaining;
+	counter_label_left = label;
+	document.getElementById("dataPanelContentLeft").appendChild(label);
+	var counter = document.createElement('p');
+	counter.innerHTML = MAX_SHIP_COUNT;
+	counter.setAttribute('class', 'Counter');
+	counter.setAttribute('id', 'counterLeft');
+	counter_text_left = counter;
+	document.getElementById("dataPanelContentLeft").appendChild(counter);
+	//determine the ship iocn set to be used by each player
+	var shipset = RNG(0, 2);
+	player_1_ship_set = shipset;
+	for (var i = 0; i < string.ship_classes.length; i++) {
+		var sLabel = document.createElement('p');
+		sLabel.setAttribute('class', 'ShipClassLabel');
+		sLabel.innerHTML = string.ship_classes[i];
+		document.getElementById("dataPanelContentLeft").appendChild(sLabel);
+		var sIcon = document.createElement('img');
+		var classes;
+		switch (i) {
+			case SHIP_CLASS_BB:
+			case SHIP_CLASS_CV:
+				classes = 'ShipIcons';
+				break;
+			case SHIP_CLASS_CA:
+				classes = 'ShipIcons ShipIconsCA';;
+				break;
+			case SHIP_CLASS_DD:
+				classes = 'ShipIcons ShipIconsDD';;
+				break;
 		}
-		startShipPlacement();
+		sIcon.setAttribute('class', classes);
+		sIcon.setAttribute('id', i);
+		sIcon.setAttribute('src', img_url.ship_icons[player_1_ship_set][i]);
+		document.getElementById("dataPanelContentLeft").appendChild(sIcon);
+	}
+	//right Panel
+	var label2 = document.createElement('p');
+	label2.innerHTML = string.ship_placement_remaining;
+	counter_label_right = label2;
+	document.getElementById("dataPanelContentRight").appendChild(label2);
+	var counter2 = document.createElement('p');
+	counter2.innerHTML = MAX_SHIP_COUNT;
+	counter2.setAttribute('class', 'Counter');
+	counter2.setAttribute('id', 'counterRight');
+	counter_text_right = counter2;
+	document.getElementById("dataPanelContentRight").appendChild(counter2);
+	//use a different ship icon set than player 1
+	while (player_2_ship_set == player_1_ship_set) {
+		var shipset = RNG(0, 2);
+		player_2_ship_set = shipset;
+	}
+	for (var i = 0; i < string.ship_classes.length; i++) {
+		var sLabel2 = document.createElement('p');
+		sLabel2.setAttribute('class', 'ShipClassLabel');
+		sLabel2.innerHTML = string.ship_classes[i];
+		document.getElementById("dataPanelContentRight").appendChild(sLabel2);
+		var sIcon2 = document.createElement('img');
+		var classes;
+		switch (i) {
+			case SHIP_CLASS_BB:
+			case SHIP_CLASS_CV:
+				classes = 'ShipIconsEnemy ShipIcons';
+				break;
+			case SHIP_CLASS_CA:
+				classes = 'ShipIconsEnemy ShipIcons ShipIconsCA';;
+				break;
+			case SHIP_CLASS_DD:
+				classes = 'ShipIconsEnemy ShipIcons ShipIconsDD';;
+				break;
+		}
+		sIcon2.setAttribute('class', classes);
+		sIcon2.setAttribute('src', img_url.ship_icons[player_2_ship_set][i]);
+		document.getElementById("dataPanelContentRight").appendChild(sIcon2);
 
 	}
+	var mainButton = document.getElementById("mainButton");
+	mainButton.innerHTML = string.assemble_fleet;
+	mainButton.addEventListener('click', startShipPlacement, false);
 
 
 }
@@ -159,6 +159,12 @@ function startShipPlacement() {
 	p.setAttribute('id', 'pending');
 	document.getElementById("dataPanelRight").appendChild(p);
 	//add onclicklistener for the ship icons
+	var ships = document.getElementById("dataPanelContentLeft").querySelectorAll('.ShipIcons');
+	for (var i = 0; i < ships.length; i++) {
+		var classes = ships[i].getAttribute('class');
+		classes = classes + " ShipIconsSelectable"
+		ships[i].setAttribute('class', classes);
+	}
 	var ships = document.querySelectorAll('.ShipIconsSelectable');
 	for (var i = 0; i < ships.length; i++) {
 		var t = i;
@@ -177,6 +183,15 @@ function startShipPlacement() {
 			ship_course_placing = SHIP_COURSE_VERICAL;
 		}
 	}, false);
+	//prepare button for next page
+	var mainButton = document.getElementById("mainButton");
+	mainButton.innerHTML = string.start_battle;
+	mainButton.removeEventListener('click', startShipPlacement, false);
+	mainButton.addEventListener('click', function() {
+		stopPlayerShipPlacement(); //just in case
+		startGame();
+
+	}, false);
 }
 
 function onShipIconSelected(evt) {
@@ -189,7 +204,7 @@ function onShipIconSelected(evt) {
 		grids[i].addEventListener('mouseout', unProjectShip, false);
 	}
 	document.getElementById("rbutton").style.display = 'inline-block';
-	document.getElementById("rbutton").style.margin= '5px 60px 5px 60px';
+	document.getElementById("rbutton").style.margin = '5px 60px 5px 60px';
 
 }
 
@@ -307,13 +322,13 @@ function placeShip(evt) {
 				tGrid.removeEventListener('mouseout', unProjectShip, false);
 			}
 		}
-		player_1_ship_count = player_1_ship_count +1;
+		player_1_ship_count = player_1_ship_count + 1;
 		document.getElementById("counterLeft").innerHTML = parseInt(counter_text_left.innerHTML) - 1;
 		//check for ship class limit
 		switch (ship_class_placing) {
 			case SHIP_CLASS_BB:
-				player_1_BB_count = player_1_BB_count +1;
-				if(player_1_BB_count >= MAX_BB_COUNT){
+				player_1_BB_count = player_1_BB_count + 1;
+				if (player_1_BB_count >= MAX_BB_COUNT) {
 					var ships = document.querySelectorAll('.ShipIconsSelectable');
 					var classes = ships[ship_class_placing].getAttribute('class');
 					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
@@ -329,8 +344,8 @@ function placeShip(evt) {
 				}
 				break;
 			case SHIP_CLASS_CV:
-				player_1_CV_count = player_1_CV_count +1;
-				if(player_1_CV_count >= MAX_CV_COUNT){
+				player_1_CV_count = player_1_CV_count + 1;
+				if (player_1_CV_count >= MAX_CV_COUNT) {
 					var ships = document.querySelectorAll('.ShipIconsSelectable');
 					var classes = ships[ship_class_placing].getAttribute('class');
 					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
@@ -345,8 +360,8 @@ function placeShip(evt) {
 				}
 				break;
 			case SHIP_CLASS_CA:
-				player_1_CA_count = player_1_CA_count +1;
-				if(player_1_CA_count >= MAX_CA_COUNT){
+				player_1_CA_count = player_1_CA_count + 1;
+				if (player_1_CA_count >= MAX_CA_COUNT) {
 					var ships = document.querySelectorAll('.ShipIconsSelectable');
 					var classes = ships[ship_class_placing].getAttribute('class');
 					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
@@ -362,8 +377,8 @@ function placeShip(evt) {
 
 				break;
 			case SHIP_CLASS_DD:
-				player_1_DD_count = player_1_DD_count +1;
-				if(player_1_DD_count >= MAX_DD_COUNT){
+				player_1_DD_count = player_1_DD_count + 1;
+				if (player_1_DD_count >= MAX_DD_COUNT) {
 					var ships = document.querySelectorAll('.ShipIconsSelectable');
 					var classes = ships[ship_class_placing].getAttribute('class');
 					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
@@ -385,7 +400,10 @@ function placeShip(evt) {
 
 }
 
-function stopPlayerShipPlacement(){
+/**
+ * end the ship plcing and promt ai to place ship if possible
+ */
+function stopPlayerShipPlacement() {
 	//disable ship selector
 	var ships = document.querySelectorAll('.ShipIcons');
 	for (var i = 0; i < ships.length; i++) {
@@ -404,12 +422,13 @@ function stopPlayerShipPlacement(){
 		grids[i].removeEventListener('mouseover', projectShip, false);
 		grids[i].removeEventListener('mouseout', unProjectShip, false);
 	}
-	var button = document.getElementById("rbutton");
-	button.parentNode.removeChild(button);
-	if(true){
-		//TODO start game button
+	//delete the button if it still exsists
+	if (document.getElementById("rbutton") != null) {
+		var button = document.getElementById("rbutton");
+		button.parentNode.removeChild(button);
+	}
+	if (game_mode == GAME_MODE_STANDARD) {
 		shipPlacementBasic();
-		startGame();
 	}
 
 }
@@ -420,17 +439,17 @@ function startGame() {
 	for (var i = 0; i < labels.length; i++) {
 		switch (i) {
 			case SHIP_CLASS_BB:
-			labels[i].innerHTML = labels[i].innerHTML  +" : " + player_1_BB_count;
-			break;
+				labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_BB_count;
+				break;
 			case SHIP_CLASS_CV:
-			labels[i].innerHTML = labels[i].innerHTML +" : " + player_1_CV_count;
-			break;
+				labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_CV_count;
+				break;
 			case SHIP_CLASS_CA:
-			labels[i].innerHTML = labels[i].innerHTML +" : " + player_1_CA_count;
-			break;
+				labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_CA_count;
+				break;
 			case SHIP_CLASS_DD:
-			labels[i].innerHTML = labels[i].innerHTML +" : " + player_1_DD_count;
-			break;
+				labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_DD_count;
+				break;
 		}
 	}
 	document.getElementById("counterLeft").innerHTML = player_1_ship_count;
@@ -440,29 +459,30 @@ function startGame() {
 	var overlay = document.getElementById('pending');
 	overlay.parentNode.removeChild(overlay);
 	var labels = document.getElementById("dataPanelContentRight").querySelectorAll('.ShipClassLabel');
-	if(!FOG_OF_WAR){
+	if (!FOG_OF_WAR) {
+		//show number of enemy ships by class
 		for (var i = 0; i < labels.length; i++) {
 			switch (i) {
 				case SHIP_CLASS_BB:
-				labels[i].innerHTML = labels[i].innerHTML  +" : " + player_2_BB_count;
-				break;
+					labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_BB_count;
+					break;
 				case SHIP_CLASS_CV:
-				labels[i].innerHTML = labels[i].innerHTML +" : " + player_2_CV_count;
-				break;
+					labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_CV_count;
+					break;
 				case SHIP_CLASS_CA:
-				labels[i].innerHTML = labels[i].innerHTML +" : " + player_2_CA_count;
-				break;
+					labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_CA_count;
+					break;
 				case SHIP_CLASS_DD:
-				labels[i].innerHTML = labels[i].innerHTML +" : " + player_2_DD_count;
-				break;
+					labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_DD_count;
+					break;
 			}
 		}
 	} else {
-	for (var i = 0; i < labels.length; i++) {
-		labels[i].innerHTML = labels[i].innerHTML  +" : " + "???";
+		for (var i = 0; i < labels.length; i++) {
+			labels[i].innerHTML = labels[i].innerHTML + " : " + "???";
+		}
 	}
-}
-document.getElementById("counterLeft").innerHTML = player_1_ship_count;
+	document.getElementById("counterLeft").innerHTML = player_1_ship_count;
 }
 
 

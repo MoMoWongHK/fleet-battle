@@ -11,7 +11,13 @@ var string = {
 		"Destroyer"
   ],
 	"pending":"Pending...",
-	"rotate":"Rotate"
+	"rotate":"Rotate ship",
+	"assemble_fleet":"Assemble Fleet",
+	"start_battle":"Start Battle!",
+	"game_objective":"Game Objective",
+	"game_objective_standard": [
+    "Destroy all enemy vessels"
+  ]
 }
 //image resources
 var img_url = {
