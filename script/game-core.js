@@ -11,6 +11,9 @@ var GAME_PHASE_COMBAT = 2;
 var SHIP_COURSE_VERICAL = 0;
 var SHIP_COURSE_HORIZONTAL = 1;
 
+var FLEET_SPEED_FAST = 0;
+var FLEET_SPEED_SLOW = 1;
+
 var SHIP_CLASS_BB = 0;
 var SHIP_CLASS_CV = 1;
 var SHIP_CLASS_CA = 2;
@@ -27,6 +30,8 @@ var player_1_CV_count = 0;
 var player_1_BB_count = 0;
 var player_1_CA_count = 0;
 var player_1_DD_count = 0;
+var player_1_fleet_course = 0;
+var player_1_fleet_speed;
 
 var player_2_ship_set = 0;
 var player_2_ship_count = 0;
@@ -34,6 +39,8 @@ var player_2_CV_count = 0;
 var player_2_BB_count = 0;
 var player_2_CA_count = 0;
 var player_2_DD_count = 0;
+var player_1_fleet_course = 0;
+var player_1_fleet_speed;
 
 /**
  * Set up the basic ui for the game
@@ -60,6 +67,18 @@ function setUI() {
 			}
 		}
 	}
+	//upper panel
+	document.getElementById("objective").innerHTML = string.game_objective;
+	var objective = document.getElementById("objectiveList");
+	switch (game_mode) {
+		case GAME_MODE_STANDARD:
+			var o = document.createElement('li');
+			o.innerHTML = string.game_objective_standard;
+			objective.appendChild(o);
+			break;
+	}
+
+
 	//set up the data Panel
 
 	document.getElementById("dataPanelLeft").style.height = GRID_SIZE * MAP_SIZE + MAP_SIZE * 2 + "px";
@@ -323,6 +342,7 @@ function placeShip(evt) {
 			}
 		}
 		player_1_ship_count = player_1_ship_count + 1;
+		player_1_fleet_course = player_1_fleet_course + ship_course_placing;
 		document.getElementById("counterLeft").innerHTML = parseInt(counter_text_left.innerHTML) - 1;
 		//check for ship class limit
 		switch (ship_class_placing) {
@@ -333,6 +353,7 @@ function placeShip(evt) {
 					var classes = ships[ship_class_placing].getAttribute('class');
 					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
 					ships[ship_class_placing].setAttribute('class', classes);
+					ships[ship_class_placing].removeEventListener("click", onShipIconSelected, false);
 					var grids = document.getElementById("monitorLeft").getElementsByClassName("MonitorGrid");
 					//stops player from placing more ships
 					for (var i = 0; i < grids.length; i++) {
@@ -350,6 +371,7 @@ function placeShip(evt) {
 					var classes = ships[ship_class_placing].getAttribute('class');
 					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
 					ships[ship_class_placing].setAttribute('class', classes);
+					ships[ship_class_placing].removeEventListener("click", onShipIconSelected, false);
 					var grids = document.getElementById("monitorLeft").getElementsByClassName("MonitorGrid");
 					for (var i = 0; i < grids.length; i++) {
 						grids[i].removeEventListener('click', placeShip, false);
@@ -366,6 +388,7 @@ function placeShip(evt) {
 					var classes = ships[ship_class_placing].getAttribute('class');
 					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
 					ships[ship_class_placing].setAttribute('class', classes);
+					ships[ship_class_placing].removeEventListener("click", onShipIconSelected, false);
 					var grids = document.getElementById("monitorLeft").getElementsByClassName("MonitorGrid");
 					for (var i = 0; i < grids.length; i++) {
 						grids[i].removeEventListener('click', placeShip, false);
@@ -383,6 +406,7 @@ function placeShip(evt) {
 					var classes = ships[ship_class_placing].getAttribute('class');
 					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
 					ships[ship_class_placing].setAttribute('class', classes);
+					ships[ship_class_placing].removeEventListener("click", onShipIconSelected, false);
 					var grids = document.getElementById("monitorLeft").getElementsByClassName("MonitorGrid");
 					for (var i = 0; i < grids.length; i++) {
 						grids[i].removeEventListener('click', placeShip, false);
@@ -483,6 +507,30 @@ function startGame() {
 		}
 	}
 	document.getElementById("counterLeft").innerHTML = player_1_ship_count;
+
+	//calculate the stats for each fleet
+	//speed
+	if(player_1_BB_count >= Math.round(player_1_ship_count/2)){
+		player_1_fleet_speed = FLEET_SPEED_SLOW;
+	} else {
+		player_1_fleet_speed = FLEET_SPEED_FAST;
+	}
+	if(player_2_BB_count >= Math.round(player_2_ship_count/2)){
+		player_2_fleet_speed = FLEET_SPEED_SLOW;
+	} else {
+		player_2_fleet_speed = FLEET_SPEED_FAST;
+	}
+	//course
+	if(player_1_fleet_course >= Math.round(player_1_ship_count/2)){
+		player_1_fleet_course = SHIP_COURSE_HORIZONTAL;
+	} else {
+		player_1_fleet_course = SHIP_COURSE_VERICAL;
+	}
+	if(player_2_BB_course >= Math.round(player_2_ship_count/2)){
+		player_2_fleet_course = SHIP_COURSE_HORIZONTAL;
+	} else {
+		player_2_fleet_course = SHIP_COURSE_VERICAL;
+	}
 }
 
 

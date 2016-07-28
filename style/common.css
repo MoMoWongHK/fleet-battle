@@ -12,6 +12,16 @@ p{
   width: auto;
 
 }
+.DataField{
+	color: red;
+	font-weight: bold;
+
+}
+
+#objectivePanel{
+		padding: 0% 30% 0% 30%;
+		display: inline-block;
+}
 
 #leftPanel{
   float: left;

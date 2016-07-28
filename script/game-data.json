@@ -14,7 +14,8 @@ var string = {
 	"rotate":"Rotate ship",
 	"assemble_fleet":"Assemble Fleet",
 	"start_battle":"Start Battle!",
-	"game_objective":"Game Objective",
+	"game_objective":"Game Objective : ",
+	"game_mode_standard":"Skirmish",
 	"game_objective_standard": [
     "Destroy all enemy vessels"
   ]
