@@ -14,11 +14,14 @@ var string = {
 	"rotate":"Rotate ship",
 	"assemble_fleet":"Assemble Fleet",
 	"start_battle":"Start Battle!",
+	"surrender":"Surrender your ships",
 	"game_objective":"Game Objective : ",
 	"game_mode_standard":"Skirmish",
 	"game_objective_standard": [
     "Destroy all enemy vessels"
-  ]
+  ],
+	"game_stage_aerial":"AERIAL COMBAT",
+	"attack_remaining":"Attack Remaining"
 }
 //image resources
 var img_url = {
