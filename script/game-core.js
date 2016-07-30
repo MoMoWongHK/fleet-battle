@@ -8,7 +8,7 @@ var GAME_PHASE_SHIP_PLACEMENT = 0;
 var GAME_PAHSE_AERIAL_COMBAT = 1;
 var GAME_PHASE_COMBAT = 2;
 
-var SHIP_COURSE_VERICAL = 0;
+var SHIP_COURSE_VERTICAL = 0;
 var SHIP_COURSE_HORIZONTAL = 1;
 
 var FLEET_SPEED_FAST = 0;
@@ -206,10 +206,10 @@ function startShipPlacement() {
 	document.getElementById("dataPanelContentLeft").appendChild(rButton);
 	document.getElementById("rbutton").style.display = 'none';
 	document.getElementById("rbutton").addEventListener('click', function() {
-		if (ship_course_placing == SHIP_COURSE_VERICAL) {
+		if (ship_course_placing == SHIP_COURSE_VERTICAL) {
 			ship_course_placing = SHIP_COURSE_HORIZONTAL;
 		} else {
-			ship_course_placing = SHIP_COURSE_VERICAL;
+			ship_course_placing = SHIP_COURSE_VERTICAL;
 		}
 	}, false);
 	//prepare button for next page
@@ -250,7 +250,7 @@ function shipPlacable(x, y) {
 			ship_size_placing = 2;
 			break;
 	}
-	if (ship_course_placing == SHIP_COURSE_VERICAL) {
+	if (ship_course_placing == SHIP_COURSE_VERTICAL) {
 		//check if over edge of map
 		if ((x + ship_size_placing) <= MAP_SIZE && y <= MAP_SIZE) {
 			//check if another ship already exsist
@@ -286,7 +286,7 @@ function projectShip(evt) {
 	var targetX = parseInt(targetGrid.getAttribute('x'));
 	var targetY = parseInt(targetGrid.getAttribute('y'));
 	if (shipPlacable(targetX, targetY)) {
-		if (ship_course_placing == SHIP_COURSE_VERICAL) {
+		if (ship_course_placing == SHIP_COURSE_VERTICAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
 				tGrid.style.backgroundColor = 'grey';
@@ -308,7 +308,7 @@ function unProjectShip(evt) {
 	var targetX = parseInt(targetGrid.getAttribute('x'));
 	var targetY = parseInt(targetGrid.getAttribute('y'));
 	if (shipPlacable(targetX, targetY)) {
-		if (ship_course_placing == SHIP_COURSE_VERICAL) {
+		if (ship_course_placing == SHIP_COURSE_VERTICAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
 				tGrid.style.backgroundColor = '';
@@ -327,7 +327,7 @@ function placeShip(evt) {
 	var targetX = parseInt(targetGrid.getAttribute('x'));
 	var targetY = parseInt(targetGrid.getAttribute('y'));
 	if (shipPlacable(targetX, targetY)) {
-		if (ship_course_placing == SHIP_COURSE_VERICAL) {
+		if (ship_course_placing == SHIP_COURSE_VERTICAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
 				tGrid.style.backgroundColor = 'black';
@@ -542,12 +542,12 @@ function startGame() {
 	if (player_1_fleet_course >= Math.round(player_1_ship_count / 2)) {
 		player_1_fleet_course = SHIP_COURSE_HORIZONTAL;
 	} else {
-		player_1_fleet_course = SHIP_COURSE_VERICAL;
+		player_1_fleet_course = SHIP_COURSE_VERTICAL;
 	}
 	if (player_2_fleet_course >= Math.round(player_2_ship_count / 2)) {
 		player_2_fleet_course = SHIP_COURSE_HORIZONTAL;
 	} else {
-		player_2_fleet_course = SHIP_COURSE_VERICAL;
+		player_2_fleet_course = SHIP_COURSE_VERTICAL;
 	}
 	aerialCombat();
 
@@ -556,6 +556,7 @@ function startGame() {
  * start the aerial combat phase
  */
 function aerialCombat() {
+	game_phase = GAME_PAHSE_AERIAL_COMBAT;
 	ship_class_acting = SHIP_CLASS_CV;
 	document.getElementById("stage").innerHTML = string.game_stage_aerial;
 
@@ -563,10 +564,20 @@ function aerialCombat() {
 	player_1_attack_count = player_1_CV_count * 2;
 	player_2_attack_count = player_2_CV_count * 2;
 	//determine who will go first
-	//var first = RNG(PLAYER_1, PLAYER_2);
-	if (true) {
+	var first = RNG(PLAYER_1, PLAYER_2);
+	if (first == PLAYER_1) {
 		acting_player = PLAYER_1;
-		beginTargeting();
+		if (player_1_attack_count > 0) {
+			beginTargeting();
+		}
+
+	} else {
+		acting_player = PLAYER_2;
+		for (var i = 0; i < player_2_attack_count; i++) {
+			attackBasic();
+		}
+		player_2_attack_count = 0;
+		nextPlayer();
 	}
 
 }
@@ -592,15 +603,19 @@ function fire(evt) {
 	var targetX = parseInt(targetGrid.getAttribute('x'));
 	var targetY = parseInt(targetGrid.getAttribute('y'));
 	if (acting_player == PLAYER_1) {
-		player_1_attack_count = player_1_attack_count -1;
+		player_1_attack_count = player_1_attack_count - 1;
 		document.getElementById("counterLeft").innerHTML = player_1_attack_count;
 	} else if (acting_player == PLAYER_2) {
-		player_2_attack_count = player_2_attack_count -1;
+		player_2_attack_count = player_2_attack_count - 1;
 	}
 	if (ship_class_acting == SHIP_CLASS_CV) {
 		airStrike(targetX, targetY);
 	} else {
 		artilleryStrike(targetX, targetY);
+	}
+	if (player_1_attack_count <= 0) {
+		stopTargeting();
+		nextPlayer();
 	}
 
 
@@ -616,6 +631,7 @@ function airStrike(x, y) {
 		} else {
 			tGrid.setAttribute("hit_count", "1");
 		}
+		tGrid.style.backgroundColor = 'grey';
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = 'red';
@@ -643,11 +659,11 @@ function airStrike(x, y) {
 						ship_size = 2;
 						break;
 				}
-				if (tbearing == SHIP_COURSE_VERICAL) {
+				if (tbearing == SHIP_COURSE_VERTICAL) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorRight").querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
 						Grid.style.backgroundColor = "#990000";
-						Grid.setAttribute("sunk","true");
+						Grid.setAttribute("sunk", "true");
 						Grid.removeEventListener('click', fire, false);
 
 
@@ -656,7 +672,125 @@ function airStrike(x, y) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorRight").querySelector("[y='" + (ty + i) + "'][x='" + tx + "']");
 						Grid.style.backgroundColor = "#990000";
-						Grid.setAttribute("sunk","true");
+						Grid.setAttribute("sunk", "true");
+						Grid.removeEventListener('click', fire, false);
+
+					}
+				}
+			}
+
+		}
+	} else if (acting_player == PLAYER_2) {
+		var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + y + "'][x='" + x + "']");
+		if (tGrid.hasAttribute("hit_count")) {
+			var hit = parseInt(tGrid.getAttribute("hit_count"));
+			tGrid.setAttribute("hit_count", hit + 1);
+		} else {
+			tGrid.setAttribute("hit_count", "1");
+		}
+		tGrid.style.backgroundColor = 'grey';
+		//see if we hit a ship
+		if (tGrid.hasAttribute("placed")) {
+			tGrid.style.backgroundColor = 'red';
+			//see if we sunk it
+			var tx = parseInt(tGrid.getAttribute("head-x"));
+			var ty = parseInt(tGrid.getAttribute("head-y"));
+			var tclass = parseInt(tGrid.getAttribute("ship-class"));
+			var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
+			//mark the ships as destroyed
+			if (shipDestroyed("monitorLeft", tx, ty, tclass, tbearing)) {
+				var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + ty + "'][x='" + tx + "']");
+				var ship_size;
+				switch (tclass) {
+					case SHIP_CLASS_BB:
+						ship_size = 4;
+						break;
+					case SHIP_CLASS_CV:
+						ship_size = 4;
+						break;
+					case SHIP_CLASS_CA:
+						ship_size = 3;
+						break;
+					case SHIP_CLASS_DD:
+						ship_size = 2;
+						break;
+				}
+				if (tbearing == SHIP_COURSE_VERTICAL) {
+					for (var i = 0; i < ship_size; i++) {
+						var Grid = document.getElementById("monitorLeft").querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
+						Grid.style.backgroundColor = "#990000";
+						Grid.setAttribute("sunk", "true");
+
+					}
+				} else if (tbearing == SHIP_COURSE_HORIZONTAL) {
+					for (var i = 0; i < ship_size; i++) {
+						var Grid = document.getElementById("monitorLeft").querySelector("[y='" + (ty + i) + "'][x='" + tx + "']");
+						Grid.style.backgroundColor = "#990000";
+						Grid.setAttribute("sunk", "true");
+
+					}
+				}
+			}
+			return true; //return for AI reference
+		}
+		return false;
+	}
+}
+
+
+
+function artilleryStrike(x, y) {
+	//register the attack
+	if (acting_player == PLAYER_1) {
+		var tGrid = document.getElementById("monitorRight").querySelector("[y='" + y + "'][x='" + x + "']");
+		if (tGrid.hasAttribute("hit_count")) {
+			var hit = parseInt(tGrid.getAttribute("hit_count"));
+			tGrid.setAttribute("hit_count", hit + 1);
+		} else {
+			tGrid.setAttribute("hit_count", "1");
+		}
+		tGrid.style.backgroundColor = 'grey';
+		//see if we hit a ship
+		if (tGrid.hasAttribute("placed")) {
+			tGrid.style.backgroundColor = 'red';
+			tGrid.removeEventListener('mouseover', lockOnSector, false);
+			tGrid.removeEventListener('mouseout', unLockOnSector, false);
+			//see if we sunk it
+			var tx = parseInt(tGrid.getAttribute("head-x"));
+			var ty = parseInt(tGrid.getAttribute("head-y"));
+			var tclass = parseInt(tGrid.getAttribute("ship-class"));
+			var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
+			//mark the ships as destroyed
+			if (shipDestroyed("monitorRight", tx, ty, tclass, tbearing)) {
+				var ship_size;
+				switch (tclass) {
+					case SHIP_CLASS_BB:
+						ship_size = 4;
+						break;
+					case SHIP_CLASS_CV:
+						ship_size = 4;
+						break;
+					case SHIP_CLASS_CA:
+						ship_size = 3;
+						break;
+					case SHIP_CLASS_DD:
+						ship_size = 2;
+						break;
+				}
+				if (tbearing == SHIP_COURSE_VERTICAL) {
+					for (var i = 0; i < ship_size; i++) {
+						var Grid = document.getElementById("monitorRight").querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
+						Grid.style.backgroundColor = "#990000";
+						Grid.setAttribute("sunk", "true");
+						Grid.removeEventListener('click', fire, false);
+
+
+					}
+				} else if (tbearing == SHIP_COURSE_HORIZONTAL) {
+					for (var i = 0; i < ship_size; i++) {
+						var Grid = document.getElementById("monitorRight").querySelector("[y='" + (ty + i) + "'][x='" + tx + "']");
+						Grid.style.backgroundColor = "#990000";
+						Grid.setAttribute("sunk", "true");
 						Grid.removeEventListener('click', fire, false);
 
 					}
@@ -698,31 +832,26 @@ function airStrike(x, y) {
 						ship_size = 2;
 						break;
 				}
-				if (tbearing == SHIP_COURSE_VERICAL) {
+				if (tbearing == SHIP_COURSE_VERTICAL) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorLeft").querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
 						Grid.style.backgroundColor = "#990000";
-						Grid.setAttribute("sunk","true");
+						Grid.setAttribute("sunk", "true");
 
 					}
 				} else if (tbearing == SHIP_COURSE_HORIZONTAL) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorLeft").querySelector("[y='" + (ty + i) + "'][x='" + tx + "']");
 						Grid.style.backgroundColor = "#990000";
-						Grid.setAttribute("sunk","true");
+						Grid.setAttribute("sunk", "true");
 
 					}
 				}
 			}
-			return true;//return for AI reference
+			return true; //return for AI reference
 		}
 		return false;
 	}
-}
-
-
-
-function artilleryStrike(x, y) {
 
 }
 
@@ -748,7 +877,7 @@ function shipDestroyed(map, x, y, sClass, bearing) {
 			criticalDamage = 1;
 			break;
 	}
-	if (bearing == SHIP_COURSE_VERICAL) {
+	if (bearing == SHIP_COURSE_VERTICAL) {
 		for (var i = 0; i < ship_size; i++) {
 			var Grid = document.getElementById(map).querySelector("[x='" + (x + i) + "'][y='" + y + "']");
 			if (Grid.hasAttribute("hit_count")) {
@@ -767,7 +896,7 @@ function shipDestroyed(map, x, y, sClass, bearing) {
 		}
 	} else if (bearing == SHIP_COURSE_HORIZONTAL) {
 		for (var i = 0; i < ship_size; i++) {
-			var Grid = document.getElementById(map).querySelector("[y='" + (y+i)  + "'][x='" + x + "']");
+			var Grid = document.getElementById(map).querySelector("[y='" + (y + i) + "'][x='" + x + "']");
 			if (Grid.hasAttribute("hit_count")) {
 				if (parseInt(Grid.getAttribute("hit_count")) >= criticalDamage) {
 					if (i == (ship_size - 1)) {
@@ -798,6 +927,41 @@ function unLockOnSector(evt) {
 	targetGrid.style.backgroundColor = '';
 }
 
+function stopTargeting() {
+	document.getElementById("counterLeft").innerHTML = player_1_ship_count;
+	document.getElementById("counterLabelLeft").innerHTML = string.ship_placement_remaining;
+	var grids = document.getElementById("monitorRight").getElementsByClassName("MonitorGrid");
+	for (var i = 0; i < grids.length; i++) {
+		grids[i].removeEventListener('click', fire, false);
+		grids[i].removeEventListener('mouseover', lockOnSector, false);
+		//grids[i].removeEventListener('mouseout', unLockOnSector, false);
+	}
+}
+
+function nextPlayer() {
+	if (acting_player == PLAYER_1) {
+		acting_player = PLAYER_2;
+		if (game_mode == GAME_MODE_STANDARD) {
+			if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
+				if (player_2_attack_count > 0) {
+					for (var i = 0; i < player_2_attack_count; i++) {
+						attackBasic();
+					}
+					player_2_attack_count = 0;
+				}
+			}
+		}
+	} else {
+		acting_player = PLAYER_1;
+		if (game_mode == GAME_MODE_STANDARD) {
+			if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
+				if (player_1_attack_count > 0) {
+					beginTargeting();
+				}
+			}
+		}
+	}
+}
 
 window.onload = function() {
 	setUI();

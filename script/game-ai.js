@@ -53,7 +53,7 @@ function shipPlacableAi(x, y, type, course) {
 			ship_size = 2;
 			break;
 	}
-	if (course == SHIP_COURSE_VERICAL) {
+	if (course == SHIP_COURSE_VERTICAL) {
 		//check if over edge of map
 		if ((x + ship_size) < MAP_SIZE && y < MAP_SIZE) {
 			//check if another ship already exsist
@@ -85,11 +85,11 @@ function shipPlacableAi(x, y, type, course) {
 function shipPlacementBasic() {
 	var x = RNG(0, MAP_SIZE);
 	var y = RNG(0, MAP_SIZE);
-	var course = RNG(SHIP_COURSE_VERICAL, SHIP_COURSE_HORIZONTAL);
+	var course = RNG(SHIP_COURSE_VERTICAL, SHIP_COURSE_HORIZONTAL);
 	var type = RNG(SHIP_CLASS_BB, SHIP_CLASS_DD);
 	if (shipPlacableAi(x, y, type, course)) {
 		//place the ship
-		if (course == SHIP_COURSE_VERICAL) {
+		if (course == SHIP_COURSE_VERTICAL) {
 			for (var i = 0; i < ship_size; i++) {
 				var tGrid = document.getElementById("monitorRight").querySelector("[x='" + (x + i) + "'][y='" + y + "']");
 				tGrid.setAttribute("placed", "true");
@@ -119,16 +119,16 @@ function shipPlacementBasic() {
 		player_2_fleet_course = player_2_fleet_course + course;
 		switch (type) {
 			case SHIP_CLASS_BB:
-				player_2_BB_count = player_2_BB_count +1;
+				player_2_BB_count = player_2_BB_count + 1;
 				break;
 			case SHIP_CLASS_CV:
-				player_2_CV_count = player_2_CV_count +1;
+				player_2_CV_count = player_2_CV_count + 1;
 				break;
 			case SHIP_CLASS_CA:
-				player_2_CA_count = player_2_CA_count +1;
+				player_2_CA_count = player_2_CA_count + 1;
 				break;
 			case SHIP_CLASS_DD:
-				player_2_DD_count = player_2_DD_count +1;
+				player_2_DD_count = player_2_DD_count + 1;
 				break;
 		}
 		if (player_2_ship_count >= MAX_SHIP_COUNT) {
@@ -144,5 +144,98 @@ function shipPlacementBasic() {
 		}
 	}
 
+
+}
+
+function attackMain() {
+	//TODO switch for different method of ai
+}
+
+var lastHitCoorX;
+var lastHitCoorY;
+var lastHit = false;
+var lastLastHit = false; //lol
+var d;
+
+function attackBasic() {
+	var x;
+	var y;
+	if (lastHit) {
+		if (!lastLastHit) {
+
+			//try to move around last hit point and hit the remainng section
+			d = RNG(0, 3);
+
+		} else {
+			//continue on the direction
+			switch (d) {
+				case 0:
+					if (document.getElementById("monitorLeft").querySelector("[y='" + lastHitCoorY + "'][x='" + (lastHitCoorX + 1) + "']") != null) {
+						x = lastHitCoorX + 1;
+						y = lastHitCoorY;
+					} else {
+						//flip direction
+						x = lastHitCoorX - 1;
+						y = lastHitCoorY;
+					}
+
+					break;
+				case 1:
+					if (document.getElementById("monitorLeft").querySelector("[y='" + lastHitCoorY + "'][x='" + (lastHitCoorX - 1) + "']") != null) {
+						x = lastHitCoorX - 1;
+						y = lastHitCoorY;
+					} else {
+						//flip direction
+						x = lastHitCoorX + 1;
+						y = lastHitCoorY;
+					}
+					break;
+				case 2:
+					if (document.getElementById("monitorLeft").querySelector("[y='" + (lastHitCoorY - 1) + "'][x='" + lastHitCoorX + "']") != null) {
+						y = lastHitCoorY - 1;
+						x = lastHitCoorX;
+					} else {
+						//flip direction
+						x = lastHitCoorX;
+						y = lastHitCoorY + 1;
+					}
+					break;
+				case 3:
+					if (document.getElementById("monitorLeft").querySelector("[y='" + (lastHitCoorY + 1) + "'][x='" + lastHitCoorX + "']") != null) {
+						y = lastHitCoorY + 1;
+						x = lastHitCoorX;
+					} else {
+						//flip direction
+						x = lastHitCoorX;
+						y = lastHitCoorY - 1;
+					}
+					break;
+			}
+		}
+	} else {
+		//give up and just shoot randomly
+		x = RNG(0, MAP_SIZE);
+		y = RNG(0, MAP_SIZE);
+	}
+
+	//see if available
+	var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + y + "'][x='" + x + "']");
+	if (tGrid == null || tGrid.hasAttribute("sunk")) {
+		//current target destroyed
+		lastHit = false;
+		//if no, do it again
+		attackBasic();
+	} else {
+		lastLastHit = lastHit; //backup
+		if (ship_class_acting == SHIP_CLASS_CV) {
+			lastHit = airStrike(x, y);
+		} else {
+			lastHit = artilleryStrike(x, y);
+		}
+		if (lastHit) {
+			lastHitCoorY = y;
+			lastHitCoorX = x;
+		}
+	}
 
 }
