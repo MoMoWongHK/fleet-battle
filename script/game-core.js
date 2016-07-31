@@ -29,6 +29,8 @@ var acting_player;
 var PLAYER_1 = 0;
 var PLAYER_2 = 1;
 
+var player_1_acted_aerial = false;
+var player_2_acted_aerial = false;
 //game stats field for each player
 var player_1_ship_set = 0;
 var player_1_ship_count = 0;
@@ -524,7 +526,7 @@ function startGame() {
 			labels[i].innerHTML = labels[i].innerHTML + " : " + "???";
 		}
 	}
-	document.getElementById("counterLeft").innerHTML = player_1_ship_count;
+	document.getElementById("counterRight").innerHTML = player_2_ship_count;
 
 	//calculate the stats for each fleet
 	//speed
@@ -559,20 +561,21 @@ function aerialCombat() {
 	game_phase = GAME_PAHSE_AERIAL_COMBAT;
 	ship_class_acting = SHIP_CLASS_CV;
 	document.getElementById("stage").innerHTML = string.game_stage_aerial;
-
-	//get the attack count
-	player_1_attack_count = player_1_CV_count * 2;
-	player_2_attack_count = player_2_CV_count * 2;
 	//determine who will go first
 	var first = RNG(PLAYER_1, PLAYER_2);
 	if (first == PLAYER_1) {
 		acting_player = PLAYER_1;
+		player_1_attack_count = player_1_CV_count * 2;
 		if (player_1_attack_count > 0) {
 			beginTargeting();
+		} else {
+			//no CVs
+			nextPlayer();
 		}
 
 	} else {
 		acting_player = PLAYER_2;
+		player_2_attack_count = player_2_CV_count * 2;
 		for (var i = 0; i < player_2_attack_count; i++) {
 			attackBasic();
 		}
@@ -644,19 +647,25 @@ function airStrike(x, y) {
 			var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
 			//mark the ships as destroyed
 			if (shipDestroyed("monitorRight", tx, ty, tclass, tbearing)) {
+				player_2_ship_count = player_2_ship_count - 1;
+				document.getElementById("counterRight").innerHTML = player_2_ship_count;
 				var ship_size;
 				switch (tclass) {
 					case SHIP_CLASS_BB:
 						ship_size = 4;
+						player_2_BB_count = player_2_BB_count - 1;
 						break;
 					case SHIP_CLASS_CV:
 						ship_size = 4;
+						player_2_CV_count = player_2_CV_count - 1;
 						break;
 					case SHIP_CLASS_CA:
 						ship_size = 3;
+						player_2_CA_count = player_2_CA_count - 1;
 						break;
 					case SHIP_CLASS_DD:
 						ship_size = 2;
+						player_2_DD_count = player_2_DD_count - 1;
 						break;
 				}
 				if (tbearing == SHIP_COURSE_VERTICAL) {
@@ -699,20 +708,25 @@ function airStrike(x, y) {
 			var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
 			//mark the ships as destroyed
 			if (shipDestroyed("monitorLeft", tx, ty, tclass, tbearing)) {
+				player_1_ship_count = player_1_ship_count - 1;
 				var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + ty + "'][x='" + tx + "']");
 				var ship_size;
 				switch (tclass) {
 					case SHIP_CLASS_BB:
 						ship_size = 4;
+						player_1_BB_count = player_1_BB_count - 1;
 						break;
 					case SHIP_CLASS_CV:
 						ship_size = 4;
+						player_1_CV_count = player_1_CV_count - 1;
 						break;
 					case SHIP_CLASS_CA:
 						ship_size = 3;
+						player_1_CA_count = player_1_CA_count - 1;
 						break;
 					case SHIP_CLASS_DD:
 						ship_size = 2;
+						player_1_DD_count = player_1_DD_count - 1;
 						break;
 				}
 				if (tbearing == SHIP_COURSE_VERTICAL) {
@@ -762,19 +776,25 @@ function artilleryStrike(x, y) {
 			var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
 			//mark the ships as destroyed
 			if (shipDestroyed("monitorRight", tx, ty, tclass, tbearing)) {
+				player_2_ship_count = player_2_ship_count - 1;
+				document.getElementById("counterRight").innerHTML = player_2_ship_count;
 				var ship_size;
 				switch (tclass) {
 					case SHIP_CLASS_BB:
 						ship_size = 4;
+						player_2_BB_count = player_2_BB_count - 1;
 						break;
 					case SHIP_CLASS_CV:
 						ship_size = 4;
+						player_2_CV_count = player_2_CV_count - 1;
 						break;
 					case SHIP_CLASS_CA:
 						ship_size = 3;
+						player_2_CA_count = player_2_CA_count - 1;
 						break;
 					case SHIP_CLASS_DD:
 						ship_size = 2;
+						player_2_DD_count = player_2_DD_count - 1;
 						break;
 				}
 				if (tbearing == SHIP_COURSE_VERTICAL) {
@@ -816,20 +836,25 @@ function artilleryStrike(x, y) {
 			var tbearing = parseInt(Grid.getAttribute("ship-bearing"));
 			//mark the ships as destroyed
 			if (shipDestroyed("monitorLeft", tx, ty, tclass, tbearing)) {
+				player_1_ship_count = player_1_ship_count - 1;
 				var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + ty + "'][x='" + tx + "']");
 				var ship_size;
 				switch (tclass) {
 					case SHIP_CLASS_BB:
 						ship_size = 4;
+						player_1_BB_count = player_1_BB_count - 1;
 						break;
 					case SHIP_CLASS_CV:
 						ship_size = 4;
+						player_1_CV_count = player_1_CV_count - 1;
 						break;
 					case SHIP_CLASS_CA:
 						ship_size = 3;
+						player_1_CA_count = player_1_CA_count - 1;
 						break;
 					case SHIP_CLASS_DD:
 						ship_size = 2;
+						player_1_DD_count = player_1_DD_count - 1;
 						break;
 				}
 				if (tbearing == SHIP_COURSE_VERTICAL) {
@@ -854,7 +879,7 @@ function artilleryStrike(x, y) {
 	}
 
 }
-
+//given a coordinate, check if the ship is destroyed.
 function shipDestroyed(map, x, y, sClass, bearing) {
 	var tGrid = document.getElementById(map).querySelector("[y='" + y + "'][x='" + x + "']");
 	var ship_size;
@@ -937,13 +962,37 @@ function stopTargeting() {
 		//grids[i].removeEventListener('mouseout', unLockOnSector, false);
 	}
 }
+//refredh the number of ship displayed for player
+function refreshPlayerPanel() {
+	document.getElementById("counterLeft").innerHTML = player_1_ship_count;
+	var labels = document.getElementById("dataPanelContentLeft").querySelectorAll('.ShipClassLabel');
+	for (var i = 0; i < labels.length; i++) {
+		switch (i) {
+			case SHIP_CLASS_BB:
+				labels[i].innerHTML = string.ship_classes[i] + " : " + player_1_BB_count;
+				break;
+			case SHIP_CLASS_CV:
+				labels[i].innerHTML = string.ship_classes[i] + " : " + player_1_CV_count;
+				break;
+			case SHIP_CLASS_CA:
+				labels[i].innerHTML = string.ship_classes[i] + " : " + player_1_CA_count;
+				break;
+			case SHIP_CLASS_DD:
+				labels[i].innerHTML = string.ship_classes[i] + " : " + player_1_DD_count;
+				break;
+		}
+	}
+
+}
 
 function nextPlayer() {
 	if (acting_player == PLAYER_1) {
 		acting_player = PLAYER_2;
 		if (game_mode == GAME_MODE_STANDARD) {
 			if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
-				if (player_2_attack_count > 0) {
+				player_1_acted_aerial = true;
+				player_2_attack_count = player_2_CV_count * 2;
+				if (player_2_attack_count > 0 && !player_2_acted_aerial) {
 					for (var i = 0; i < player_2_attack_count; i++) {
 						attackBasic();
 					}
@@ -955,7 +1004,9 @@ function nextPlayer() {
 		acting_player = PLAYER_1;
 		if (game_mode == GAME_MODE_STANDARD) {
 			if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
-				if (player_1_attack_count > 0) {
+				player_2_acted_aerial = true;
+				player_1_attack_count = player_1_CV_count * 2;
+				if (player_1_attack_count > 0 && !player_1_acted_aerial) {
 					beginTargeting();
 				}
 			}

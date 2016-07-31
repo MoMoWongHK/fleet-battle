@@ -1,8 +1,8 @@
 #Fleet Battle
 
-A turn based tactical naval board game inspired by the classic board game [*Battleship*](https://en.wikipedia.org/wiki/Battleship_%28game%29) with brand new game mechanism inspired by the anime game *Kantai Collection*  
+A turn based tactical naval board game inspired by the classic board game [*Battleship*](https://en.wikipedia.org/wiki/Battleship_%28game%29) 
 
-### What this have and are *NOT* present in the original *Battleship*
+### Features
 
 - Real Turn Based: turns determined by the number of remaining ship
  * Every ship you destroy weakens your enemy. Be ware that the enemy can do the same to you.
