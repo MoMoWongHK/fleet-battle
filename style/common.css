@@ -8,7 +8,7 @@ p{
 
 .Panel{
   padding: 0% 0% 0% 0%;
-  margin: 0 15px 0 15px ;
+  margin: 0 15px 35px 15px ;
   width: auto;
 
 }
@@ -105,8 +105,6 @@ p{
 
 .MonitorGrid{
   vertical-align: top;
-		height: 35px;
-		width: 35px;
 		display: inline-block;
 		margin: 0px;
 		border: solid 1px;

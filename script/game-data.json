@@ -21,6 +21,7 @@ var string = {
     "Destroy all enemy vessels"
   ],
 	"game_stage_aerial":"AERIAL COMBAT",
+	"game_stage_artillery":"FLEET ACTION",
 	"attack_remaining":"Attack Remaining"
 }
 //image resources

@@ -67,6 +67,8 @@ function setUI() {
 		for (var j = 0; j < MAP_SIZE; j++) {
 			for (var k = 0; k < MAP_SIZE; k++) {
 				var grid = document.createElement('div');
+				grid.style.height = GRID_SIZE + 'px';
+				grid.style.width = GRID_SIZE + 'px';
 				grid.setAttribute('x', j);
 				grid.setAttribute('y', k);
 				grid.setAttribute('class', 'MonitorGrid');

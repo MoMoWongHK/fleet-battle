@@ -3,9 +3,9 @@
 //Switch for random map size
 var RANDOM_MAP_SIZE = false;
 //size of the game map (number of grids each side)
-var MAP_SIZE = 12;
+var MAP_SIZE = 14;
 //size of a grid in px.
-var GRID_SIZE = 35;
+var GRID_SIZE = 30;
 //maximium number of ship allowed
 var MAX_SHIP_COUNT = 6;
 //maximium  number of battleships allowed.
