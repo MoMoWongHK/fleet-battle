@@ -1,8 +1,24 @@
 /**
  * File for codes that are reaposible for the ai opponent.
  */
+//list of ai
+/**
+ * basic ai (in progress)
+ */
 var AI_CONFIGURATION_BASIC = 0;
-
+/**
+ * a better ai (not yet exsist)
+ */
+var AI_CONFIGURATION_INTERMEDIATE = 1;
+/**
+ * an even better ai (not yet exsist)
+ */
+var AI_CONFIGURATION_ADVANCED = 2;
+/**
+ * "You fool. Don't ever think that you are safe just because you hide in the Fog of War... For I can always see through it."
+ * (this is basically cheat!)
+ */
+var AI_CONFIGURATION_ALL_SEEING = 3;
 //variables for data in ai
 
 
@@ -10,8 +26,26 @@ var AI_CONFIGURATION_BASIC = 0;
 /**
  * Codes for computer ship placing
  */
-function aiShipPlacementMain() {
+function shipPlacementMain() {
 	//TODO switch for different method of ai
+	switch (AI_CONFIG) {
+		case AI_CONFIGURATION_BASIC:
+			shipPlacementBasic();
+			break;
+		case AI_CONFIGURATION_INTERMEDIATE:
+			alert(string.game_config_error);
+			break;
+		case AI_CONFIGURATION_ADVANCED:
+			alert(string.game_config_error);
+			break;
+		case AI_CONFIGURATION_ALL_SEEING:
+			alert(string.game_config_error);
+			break;
+		default:
+			alert(string.game_config_error);
+
+	}
+
 }
 
 var ship_size
@@ -149,6 +183,23 @@ function shipPlacementBasic() {
 
 function attackMain() {
 	//TODO switch for different method of ai
+	switch (AI_CONFIG) {
+		case AI_CONFIGURATION_BASIC:
+			attackBasic();
+			break;
+		case AI_CONFIGURATION_INTERMEDIATE:
+			alert(string.game_config_error);
+			break;
+		case AI_CONFIGURATION_ADVANCED:
+			alert(string.game_config_error);
+			break;
+		case AI_CONFIGURATION_ALL_SEEING:
+			alert(string.game_config_error);
+			break;
+		default:
+			alert(string.game_config_error);
+
+	}
 }
 
 var lastHitCoorX;

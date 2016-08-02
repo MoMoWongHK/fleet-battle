@@ -1,29 +1,39 @@
 // global variable for game resources, in form of javascript json.
-
 //string resources
 var string = {
-	"current_stage":"Current Stage",
-	"ship_placement_remaining":"Remaining ship",
+	"game_config_error": "Game not properly configured. Check your game-config.js.",
+	"current_stage": "Current Stage",
+	"ship_placement_remaining": "Remaining ship",
 	"ship_classes": [
-    "Battleship",
-  	"Aircraft Carrier",
-    "Cruiser",
+		"Battleship",
+		"Aircraft Carrier",
+		"Cruiser",
 		"Destroyer"
-  ],
-	"pending":"Pending...",
-	"rotate":"Rotate ship",
-	"assemble_fleet":"Assemble Fleet",
-	"start_battle":"Start Battle!",
-	"surrender":"Surrender your ships",
-	"game_objective":"Game Objective : ",
-	"game_mode_standard":"Skirmish",
+	],
+	"pending": "Pending...",
+	"rotate": "Rotate ship",
+	"assemble_fleet": "Assemble Fleet",
+	"start_battle": "Start Battle!",
+	"no_ship_prompt": "You cannot enter a battle with a ghost fleet!",
+	"surrender": "Surrender your ships",
+	"game_objective": "Game Objective : ",
+	"game_mode_standard": "Skirmish",
 	"game_objective_standard": [
-    "Destroy all enemy vessels"
-  ],
-	"game_stage_aerial":"AERIAL COMBAT",
-	"game_stage_artillery":"FLEET ACTION",
-	"attack_remaining":"Attack Remaining"
+		"Destroy all enemy vessels"
+	],
+	"game_stage_aerial": "AERIAL COMBAT",
+	"game_stage_artillery": "FLEET ACTION",
+	"form_of_engagement_label": "Form of Engagement",
+	"form_of_engagement": [
+		"Parallel",
+		"Head On",
+		"T - Advantage",
+		"T - Disadvantage"
+	],
+	"attack_remaining": "Attack Remaining"
 }
+
+
 //image resources
 var img_url = {
 	"ship_icons": [
@@ -48,5 +58,5 @@ var img_url = {
 
 
 
-  ]
+	]
 }

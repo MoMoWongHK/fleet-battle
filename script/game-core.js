@@ -14,6 +14,12 @@ var SHIP_COURSE_HORIZONTAL = 1;
 var FLEET_SPEED_FAST = 0;
 var FLEET_SPEED_SLOW = 1;
 
+var engagement_form;
+var ENGAGEMENT_FORM_PARALLEL = 0;
+var ENGAGEMENT_FORM_HEADON = 1;
+var ENGAGEMENT_FORM_T_ADV = 2;
+var ENGAGEMENT_FORM_T_DIS = 3;
+
 var SHIP_CLASS_BB = 0;
 var SHIP_CLASS_CV = 1;
 var SHIP_CLASS_CA = 2;
@@ -29,8 +35,9 @@ var acting_player;
 var PLAYER_1 = 0;
 var PLAYER_2 = 1;
 
-var player_1_acted_aerial = false;
-var player_2_acted_aerial = false;
+var player_1_first_act_complete = false;
+var player_2_first_act_complete = false;
+
 //game stats field for each player
 var player_1_ship_set = 0;
 var player_1_ship_count = 0;
@@ -41,6 +48,8 @@ var player_1_DD_count = 0;
 var player_1_fleet_course = 0;
 var player_1_fleet_speed;
 var player_1_attack_count;
+var player_1_turn_counter = 0;
+var player_1_acted = false;
 
 var player_2_ship_set = 0;
 var player_2_ship_count = 0;
@@ -51,6 +60,8 @@ var player_2_DD_count = 0;
 var player_2_fleet_course = 0;
 var player_2_fleet_speed;
 var player_2_attack_count;
+var player_2_turn_counter = 0;
+var player_2_acted = false;
 
 
 /**
@@ -327,6 +338,7 @@ function unProjectShip(evt) {
 }
 
 function placeShip(evt) {
+	//TODO use ship shapes instead of colored grids
 	var targetGrid = evt.target;
 	var targetX = parseInt(targetGrid.getAttribute('x'));
 	var targetY = parseInt(targetGrid.getAttribute('y'));
@@ -469,92 +481,98 @@ function stopPlayerShipPlacement() {
 		button.parentNode.removeChild(button);
 	}
 	if (game_mode == GAME_MODE_STANDARD && player_2_ship_count < MAX_SHIP_COUNT) {
-		shipPlacementBasic();
+		shipPlacementMain();
 	}
 
 }
 
 function startGame() {
-	stopPlayerShipPlacement(); //just in case
-	var mainButton = document.getElementById("mainButton");
-	mainButton.innerHTML = string.start_battle;
-	mainButton.removeEventListener('click', startGame, false);
-	//mainButton.addEventListener('click', startGame, false);
-	//display info for both players
-	var labels = document.getElementById("dataPanelContentLeft").querySelectorAll('.ShipClassLabel');
-	for (var i = 0; i < labels.length; i++) {
-		switch (i) {
-			case SHIP_CLASS_BB:
-				labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_BB_count;
-				break;
-			case SHIP_CLASS_CV:
-				labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_CV_count;
-				break;
-			case SHIP_CLASS_CA:
-				labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_CA_count;
-				break;
-			case SHIP_CLASS_DD:
-				labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_DD_count;
-				break;
-		}
-	}
-	document.getElementById("counterLeft").innerHTML = player_1_ship_count;
-	//player 2
-	//unhide the panel
-	document.getElementById("dataPanelContentRight").style.display = '';
-	var overlay = document.getElementById('pending');
-	overlay.parentNode.removeChild(overlay);
-	var labels = document.getElementById("dataPanelContentRight").querySelectorAll('.ShipClassLabel');
-	if (!FOG_OF_WAR) {
-		//show number of enemy ships by class
+	if (player_1_ship_count <= 0) {
+		//TODO change this to html overl;ay dialog
+		alert(string.no_ship_prompt);
+	} else {
+		stopPlayerShipPlacement(); //just in case
+		player_1_ship_count_total = player_1_ship_count;
+		player_2_ship_count_total = player_2_ship_count;
+		var mainButton = document.getElementById("mainButton");
+		mainButton.innerHTML = string.surrender;
+		mainButton.removeEventListener('click', startGame, false);
+		//mainButton.addEventListener('click', startGame, false);
+		//display info for both players
+		var labels = document.getElementById("dataPanelContentLeft").querySelectorAll('.ShipClassLabel');
 		for (var i = 0; i < labels.length; i++) {
 			switch (i) {
 				case SHIP_CLASS_BB:
-					labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_BB_count;
+					labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_BB_count;
 					break;
 				case SHIP_CLASS_CV:
-					labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_CV_count;
+					labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_CV_count;
 					break;
 				case SHIP_CLASS_CA:
-					labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_CA_count;
+					labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_CA_count;
 					break;
 				case SHIP_CLASS_DD:
-					labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_DD_count;
+					labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_DD_count;
 					break;
 			}
 		}
-	} else {
-		for (var i = 0; i < labels.length; i++) {
-			labels[i].innerHTML = labels[i].innerHTML + " : " + "???";
+		document.getElementById("counterLeft").innerHTML = player_1_ship_count;
+		//player 2
+		//unhide the panel
+		document.getElementById("dataPanelContentRight").style.display = '';
+		var overlay = document.getElementById('pending');
+		overlay.parentNode.removeChild(overlay);
+		var labels = document.getElementById("dataPanelContentRight").querySelectorAll('.ShipClassLabel');
+		if (!FOG_OF_WAR) {
+			//show number of enemy ships by class
+			for (var i = 0; i < labels.length; i++) {
+				switch (i) {
+					case SHIP_CLASS_BB:
+						labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_BB_count;
+						break;
+					case SHIP_CLASS_CV:
+						labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_CV_count;
+						break;
+					case SHIP_CLASS_CA:
+						labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_CA_count;
+						break;
+					case SHIP_CLASS_DD:
+						labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_DD_count;
+						break;
+				}
+			}
+		} else {
+			for (var i = 0; i < labels.length; i++) {
+				labels[i].innerHTML = labels[i].innerHTML + " : " + "???";
+			}
 		}
-	}
-	document.getElementById("counterRight").innerHTML = player_2_ship_count;
+		document.getElementById("counterRight").innerHTML = player_2_ship_count;
 
-	//calculate the stats for each fleet
-	//speed
-	if (player_1_BB_count >= Math.round(player_1_ship_count / 2)) {
-		player_1_fleet_speed = FLEET_SPEED_SLOW;
-	} else {
-		player_1_fleet_speed = FLEET_SPEED_FAST;
+		//calculate the stats for each fleet
+		//speed
+		if (player_1_BB_count >= Math.round(player_1_ship_count / 2)) {
+			player_1_fleet_speed = FLEET_SPEED_SLOW;
+		} else {
+			player_1_fleet_speed = FLEET_SPEED_FAST;
+		}
+		if (player_2_BB_count >= Math.round(player_2_ship_count / 2)) {
+			player_2_fleet_speed = FLEET_SPEED_SLOW;
+		} else {
+			player_2_fleet_speed = FLEET_SPEED_FAST;
+		}
+		//course
+		if (player_1_fleet_course >= Math.round(player_1_ship_count / 2)) {
+			player_1_fleet_course = SHIP_COURSE_HORIZONTAL;
+		} else {
+			player_1_fleet_course = SHIP_COURSE_VERTICAL;
+		}
+		if (player_2_fleet_course >= Math.round(player_2_ship_count / 2)) {
+			player_2_fleet_course = SHIP_COURSE_HORIZONTAL;
+		} else {
+			player_2_fleet_course = SHIP_COURSE_VERTICAL;
+		}
+		aerialCombat();
 	}
-	if (player_2_BB_count >= Math.round(player_2_ship_count / 2)) {
-		player_2_fleet_speed = FLEET_SPEED_SLOW;
-	} else {
-		player_2_fleet_speed = FLEET_SPEED_FAST;
-	}
-	//course
-	if (player_1_fleet_course >= Math.round(player_1_ship_count / 2)) {
-		player_1_fleet_course = SHIP_COURSE_HORIZONTAL;
-	} else {
-		player_1_fleet_course = SHIP_COURSE_VERTICAL;
-	}
-	if (player_2_fleet_course >= Math.round(player_2_ship_count / 2)) {
-		player_2_fleet_course = SHIP_COURSE_HORIZONTAL;
-	} else {
-		player_2_fleet_course = SHIP_COURSE_VERTICAL;
-	}
-	aerialCombat();
-
 }
 /**
  * start the aerial combat phase
@@ -579,12 +597,71 @@ function aerialCombat() {
 		acting_player = PLAYER_2;
 		player_2_attack_count = player_2_CV_count * 2;
 		for (var i = 0; i < player_2_attack_count; i++) {
-			attackBasic();
+			attackMain();
 		}
 		player_2_attack_count = 0;
 		nextPlayer();
 	}
 
+}
+
+function startFleetCombat() {
+	game_phase = GAME_PHASE_COMBAT;
+	document.getElementById("stage").innerHTML = string.game_stage_artillery;
+	//first decide the engagement form
+	if (player_1_fleet_course == player_2_fleet_course) {
+		engagement_form = RNG(ENGAGEMENT_FORM_PARALLEL, ENGAGEMENT_FORM_HEADON);
+	} else {
+		if (player_1_fleet_speed != player_2_fleet_speed) {
+			if (player_1_fleet_speed == FLEET_SPEED_SLOW) {
+				engagement_form = ENGAGEMENT_FORM_T_DIS;
+			} else if (player_2_fleet_speed == FLEET_SPEED_SLOW) {
+				engagement_form = ENGAGEMENT_FORM_T_ADV;
+			}
+		} else {
+			engagement_form = RNG(ENGAGEMENT_FORM_T_ADV, ENGAGEMENT_FORM_T_DIS);
+		}
+	}
+	//show it
+	//TODO sound fx and animation
+	document.getElementById("FoELabel").innerHTML = string.form_of_engagement_label;
+	document.getElementById("FoE").innerHTML = string.form_of_engagement[engagement_form];
+	player_1_acted = false;
+	player_2_acted = false;
+	//determine who will go first
+	var first = RNG(PLAYER_1, PLAYER_2);
+	if (first == PLAYER_1) {
+		acting_player = PLAYER_1;
+		//let's see what type of ships we have.
+		if (player_1_turn_counter <= player_1_BB_count) {
+			ship_class_acting = SHIP_CLASS_BB;
+			player_1_attack_count = BB_ATTACK_COUNT[engagement_form];
+		}
+		if (player_1_attack_count > 0) {
+			player_1_turn_counter = player_1_turn_counter + 1;
+			beginTargeting();
+		} else {
+			nextPlayer();
+		}
+	} else {
+		acting_player = PLAYER_2;
+		//let's see what type of ships we have.
+		if (player_2_turn_counter <= player_2_BB_count) {
+			ship_class_acting = SHIP_CLASS_BB;
+			player_2_attack_count = BB_ATTACK_COUNT[engagement_form];
+		}
+		if (player_2_attack_count > 0) {
+			player_2_turn_counter = player_2_turn_counter + 1;
+			for (var i = 0; i < player_2_attack_count; i++) {
+				attackMain();
+			}
+			player_2_attack_count = 0;
+			nextPlayer();
+		} else {
+			nextPlayer();
+		}
+
+	}
 }
 
 /**
@@ -595,9 +672,13 @@ function beginTargeting() {
 	document.getElementById("counterLabelLeft").innerHTML = string.attack_remaining;
 	var grids = document.getElementById("monitorRight").getElementsByClassName("MonitorGrid");
 	for (var i = 0; i < grids.length; i++) {
-		grids[i].addEventListener('click', fire, false);
-		grids[i].addEventListener('mouseover', lockOnSector, false);
-		grids[i].addEventListener('mouseout', unLockOnSector, false);
+		if (!grids[i].hasAttribute("sunk")) {
+			grids[i].addEventListener('click', fire, false);
+		}
+		if (!grids[i].hasAttribute("sunk") && !grids[i].hasAttribute("hit_count")) {
+			grids[i].addEventListener('mouseover', lockOnSector, false);
+			grids[i].addEventListener('mouseout', unLockOnSector, false);
+		}
 	}
 
 
@@ -627,6 +708,7 @@ function fire(evt) {
 }
 
 function airStrike(x, y) {
+	//TODO sound fx and animation
 	//register the attack
 	if (acting_player == PLAYER_1) {
 		var tGrid = document.getElementById("monitorRight").querySelector("[y='" + y + "'][x='" + x + "']");
@@ -753,9 +835,8 @@ function airStrike(x, y) {
 	}
 }
 
-
-
 function artilleryStrike(x, y) {
+	//TODO sound fx and animation
 	//register the attack
 	if (acting_player == PLAYER_1) {
 		var tGrid = document.getElementById("monitorRight").querySelector("[y='" + y + "'][x='" + x + "']");
@@ -828,14 +909,15 @@ function artilleryStrike(x, y) {
 		} else {
 			tGrid.setAttribute("hit_count", "1");
 		}
+		tGrid.style.backgroundColor = 'grey';
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = 'red';
 			//see if we sunk it
 			var tx = parseInt(tGrid.getAttribute("head-x"));
 			var ty = parseInt(tGrid.getAttribute("head-y"));
-			var tclass = parseInt(Grid.getAttribute("ship-class"));
-			var tbearing = parseInt(Grid.getAttribute("ship-bearing"));
+			var tclass = parseInt(tGrid.getAttribute("ship-class"));
+			var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
 			//mark the ships as destroyed
 			if (shipDestroyed("monitorLeft", tx, ty, tclass, tbearing)) {
 				player_1_ship_count = player_1_ship_count - 1;
@@ -912,7 +994,6 @@ function shipDestroyed(map, x, y, sClass, bearing) {
 					if (i == (ship_size - 1)) {
 						return true;
 					}
-
 				} else {
 					return false;
 				}
@@ -929,7 +1010,6 @@ function shipDestroyed(map, x, y, sClass, bearing) {
 					if (i == (ship_size - 1)) {
 						return true;
 					}
-
 				} else {
 					return false;
 				}
@@ -984,7 +1064,6 @@ function refreshPlayerPanel() {
 				break;
 		}
 	}
-
 }
 
 function nextPlayer() {
@@ -992,13 +1071,123 @@ function nextPlayer() {
 		acting_player = PLAYER_2;
 		if (game_mode == GAME_MODE_STANDARD) {
 			if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
-				player_1_acted_aerial = true;
+				player_1_acted = true;
 				player_2_attack_count = player_2_CV_count * 2;
-				if (player_2_attack_count > 0 && !player_2_acted_aerial) {
+				if (player_2_attack_count > 0 && !player_2_acted) {
 					for (var i = 0; i < player_2_attack_count; i++) {
-						attackBasic();
+						attackMain();
 					}
 					player_2_attack_count = 0;
+					nextPlayer();
+				} else {
+					//well both acted. let's move to next stage.
+					startFleetCombat();
+				}
+			} else if (game_phase == GAME_PHASE_COMBAT) {
+				if (!player_2_first_act_complete) {
+					if (player_2_turn_counter >= player_2_ship_count) {
+						player_2_first_act_complete = true;
+					}
+					if (player_2_turn_counter < player_2_BB_count) {
+						ship_class_acting = SHIP_CLASS_BB;
+						player_2_attack_count = BB_ATTACK_COUNT[engagement_form];
+
+						if (player_2_attack_count > 0) {
+							player_2_turn_counter = player_2_turn_counter + 1;
+							for (var i = 0; i < player_2_attack_count; i++) {
+								attackMain();
+							}
+							nextPlayer();
+						}
+					} else if (player_1_turn_counter < player_1_BB_count) {
+						//the opponent still have BBs yet.skip this turn directly.
+						nextPlayer();
+					} else if (player_2_turn_counter < player_2_CA_count + player_2_BB_count) {
+						ship_class_acting = SHIP_CLASS_CA;
+						player_2_attack_count = CA_ATTACK_COUNT[engagement_form];
+
+						if (player_2_attack_count > 0) {
+							player_2_turn_counter = player_2_turn_counter + 1;
+							for (var i = 0; i < player_2_attack_count; i++) {
+								attackMain();
+							}
+							nextPlayer();
+						} else {
+							//extra code for cCA under t-dis(0 atk chance)
+							player_2_turn_counter = player_2_turn_counter + 1;
+							nextPlayer();
+						}
+					} else if (player_1_turn_counter < player_1_CA_count + player_1_BB_count) {
+						//ditto
+						nextPlayer();
+					} else if (player_2_turn_counter < player_2_DD_count + player_2_CA_count + player_2_BB_count) {
+						ship_class_acting = SHIP_CLASS_DD;
+						player_2_attack_count = DD_ATTACK_COUNT[engagement_form];
+
+						if (player_2_attack_count > 0) {
+							player_2_turn_counter = player_2_turn_counter + 1;
+							for (var i = 0; i < player_2_attack_count; i++) {
+								attackMain();
+							}
+							nextPlayer();
+						} else {
+							//extra code for cCA under t-dis(0 atk chance)
+							player_2_turn_counter = player_2_turn_counter + 1;
+							nextPlayer();
+						}
+					} else if (player_1_turn_counter < player_1_DD_count + player_1_CA_count + player_1_BB_count) {
+						//ditto
+						nextPlayer();
+					} else if (player_2_turn_counter < player_2_CV_count + player_2_DD_count + player_2_CA_count + player_2_BB_count) {
+						ship_class_acting = SHIP_CLASS_CV;
+						player_2_attack_count = CV_ATTACK_COUNT[engagement_form];
+
+						if (player_2_attack_count > 0) {
+							player_2_turn_counter = player_2_turn_counter + 1;
+							for (var i = 0; i < player_2_attack_count; i++) {
+								attackMain();
+							}
+							nextPlayer();
+						}
+
+					} else if (player_1_turn_counter < player_1_CV_count + player_1_DD_count + player_1_CA_count + player_1_BB_count) {
+						//ditto
+						nextPlayer();
+					} else {
+						nextPlayer();
+					}
+				} else {
+					if (player_2_turn_counter <= player_2_BB_count) {
+						ship_class_acting = SHIP_CLASS_BB;
+						player_2_attack_count = BB_ATTACK_COUNT[engagement_form];
+					} else if (player_2_turn_counter <= player_2_CA_count + player_2_BB_count) {
+						ship_class_acting = SHIP_CLASS_CA;
+						player_2_attack_count = CA_ATTACK_COUNT[engagement_form];
+					} else if (player_2_turn_counter <= player_2_DD_count + player_2_CA_count + player_2_BB_count) {
+						ship_class_acting = SHIP_CLASS_DD;
+						player_2_attack_count = DD_ATTACK_COUNT[engagement_form];
+					} else if (player_2_turn_counter <= player_2_CV_count + player_2_DD_count + player_2_CA_count + player_2_BB_count) {
+						ship_class_acting = SHIP_CLASS_CV;
+						player_2_attack_count = CV_ATTACK_COUNT[engagement_form];
+					}
+
+					if (player_2_attack_count > 0) {
+						for (var i = 0; i < player_2_attack_count; i++) {
+							attackMain();
+						}
+						player_2_attack_count = 0;
+					}
+					player_2_turn_counter = player_2_turn_counter + 1;
+					if (player_2_turn_counter > player_2_ship_count) {
+						player_2_acted = true;
+					}
+					if (player_2_acted && player_1_acted) {
+						player_2_turn_counter = 0;
+						player_1_turn_counter = 0;
+						player_2_acted = false;
+						player_1_acted = false;
+					}
+					nextPlayer();
 				}
 			}
 		}
@@ -1006,15 +1195,110 @@ function nextPlayer() {
 		acting_player = PLAYER_1;
 		if (game_mode == GAME_MODE_STANDARD) {
 			if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
-				player_2_acted_aerial = true;
+				player_2_acted = true;
 				player_1_attack_count = player_1_CV_count * 2;
-				if (player_1_attack_count > 0 && !player_1_acted_aerial) {
+				if (player_1_attack_count > 0 && !player_1_acted) {
 					beginTargeting();
+				} else {
+					startFleetCombat();
+				}
+
+			} else if (game_phase == GAME_PHASE_COMBAT) {
+				if (!player_1_first_act_complete) {
+					if (player_1_turn_counter >= player_1_ship_count) {
+						player_1_first_act_complete = true;
+					}
+					if (player_1_turn_counter < player_1_BB_count) {
+						ship_class_acting = SHIP_CLASS_BB;
+						player_1_attack_count = BB_ATTACK_COUNT[engagement_form];
+
+						if (player_1_attack_count > 0) {
+							player_1_turn_counter = player_1_turn_counter + 1;
+							beginTargeting();
+						}
+					} else if (player_2_turn_counter < player_2_BB_count) {
+						//the opponent still have BBs yet.skip this turn directly.
+						nextPlayer();
+					} else if (player_1_turn_counter < player_1_CA_count + player_1_BB_count) {
+						ship_class_acting = SHIP_CLASS_CA;
+						player_1_attack_count = CA_ATTACK_COUNT[engagement_form];
+
+						if (player_1_attack_count > 0) {
+							player_1_turn_counter = player_1_turn_counter + 1;
+							beginTargeting();
+						} else {
+							//extra code for cCA under t-dis(0 atk chance)
+							player_1_turn_counter = player_1_turn_counter + 1;
+							nextPlayer();
+						}
+					} else if (player_2_turn_counter < player_2_CA_count + player_2_BB_count) {
+						//ditto
+						nextPlayer();
+					} else if (player_1_turn_counter < player_1_DD_count + player_1_CA_count + player_1_BB_count) {
+						ship_class_acting = SHIP_CLASS_DD;
+						player_1_attack_count = DD_ATTACK_COUNT[engagement_form];
+
+						if (player_1_attack_count > 0) {
+							player_1_turn_counter = player_1_turn_counter + 1;
+							beginTargeting();
+						} else {
+							//extra code for cCA under t-dis(0 atk chance)
+							player_1_turn_counter = player_1_turn_counter + 1;
+							nextPlayer();
+						}
+					} else if (player_2_turn_counter < player_2_DD_count + player_2_CA_count + player_2_BB_count) {
+						//ditto
+						nextPlayer();
+					} else if (player_1_turn_counter < player_1_CV_count + player_1_DD_count + player_1_CA_count + player_1_BB_count) {
+						ship_class_acting = SHIP_CLASS_CV;
+						player_1_attack_count = CV_ATTACK_COUNT[engagement_form];
+
+						if (player_1_attack_count > 0) {
+							player_1_turn_counter = player_1_turn_counter + 1;
+							beginTargeting();
+						}
+
+					} else if (player_2_turn_counter < player_2_CV_count + player_2_DD_count + player_2_CA_count + player_2_BB_count) {
+						//ditto
+						nextPlayer();
+					} else {
+						nextPlayer();
+					}
+				} else {
+					if (player_1_turn_counter <= player_1_BB_count) {
+						ship_class_acting = SHIP_CLASS_BB;
+						player_1_attack_count = BB_ATTACK_COUNT[engagement_form];
+					} else if (player_1_turn_counter <= player_1_CA_count + player_1_BB_count) {
+						ship_class_acting = SHIP_CLASS_CA;
+						player_1_attack_count = CA_ATTACK_COUNT[engagement_form];
+					} else if (player_1_turn_counter <= player_1_DD_count + player_1_CA_count + player_1_BB_count) {
+						ship_class_acting = SHIP_CLASS_DD;
+						player_1_attack_count = DD_ATTACK_COUNT[engagement_form];
+					} else if (player_1_turn_counter <= player_1_CV_count + player_1_DD_count + player_1_CA_count + player_1_BB_count) {
+						ship_class_acting = SHIP_CLASS_CV;
+						player_1_attack_count = CV_ATTACK_COUNT[engagement_form];
+					}
+					player_1_turn_counter = player_1_turn_counter + 1;
+					if (player_1_turn_counter > player_1_ship_count) {
+						player_1_acted = true;
+					}
+					if (player_2_acted && player_1_acted) {
+						player_2_turn_counter = 0;
+						player_1_turn_counter = 0;
+						player_2_acted = false;
+						player_1_acted = false;
+					}
+					if (player_1_attack_count > 0) {
+						beginTargeting();
+					} else {
+						nextPlayer();
+					}
 				}
 			}
 		}
 	}
 }
+
 
 window.onload = function() {
 	setUI();
