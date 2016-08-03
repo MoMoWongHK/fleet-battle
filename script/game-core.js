@@ -719,6 +719,7 @@ function airStrike(x, y) {
 			tGrid.setAttribute("hit_count", "1");
 		}
 		tGrid.style.backgroundColor = 'grey';
+		tGrid.removeEventListener('mouseout', unLockOnSector, false);
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = 'red';
@@ -847,6 +848,7 @@ function artilleryStrike(x, y) {
 			tGrid.setAttribute("hit_count", "1");
 		}
 		tGrid.style.backgroundColor = 'grey';
+		tGrid.removeEventListener('mouseout', unLockOnSector, false);
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = 'red';
@@ -1309,6 +1311,23 @@ function gameEnded() {
 		return true;
 	} else if (player_2_ship_count <= 0) {
 		alert(string.victory);
+		var labels = document.getElementById("dataPanelContentRight").querySelectorAll('.ShipClassLabel');
+		for (var i = 0; i < labels.length; i++) {
+			switch (i) {
+				case SHIP_CLASS_BB:
+					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_BB_count;
+					break;
+				case SHIP_CLASS_CV:
+					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_CV_count;
+					break;
+				case SHIP_CLASS_CA:
+					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_CA_count;
+					break;
+				case SHIP_CLASS_DD:
+					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_DD_count;
+					break;
+			}
+		}
 		return true;
 	} else {
 		return false;

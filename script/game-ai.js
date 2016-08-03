@@ -3,11 +3,11 @@
  */
 //list of ai
 /**
- * basic ai (in progress)
+ * basic ai that is dumb as hell and works like sh*t 
  */
 var AI_CONFIGURATION_BASIC = 0;
 /**
- * a better ai (not yet exsist)
+ * a better ai (in progress)
  */
 var AI_CONFIGURATION_INTERMEDIATE = 1;
 /**
@@ -219,50 +219,51 @@ function attackBasic() {
 
 		} else {
 			//continue on the direction
-			switch (d) {
-				case 0:
-					if (document.getElementById("monitorLeft").querySelector("[y='" + lastHitCoorY + "'][x='" + (lastHitCoorX + 1) + "']") != null) {
-						x = lastHitCoorX + 1;
-						y = lastHitCoorY;
-					} else {
-						//flip direction
-						x = lastHitCoorX - 1;
-						y = lastHitCoorY;
-					}
-
-					break;
-				case 1:
-					if (document.getElementById("monitorLeft").querySelector("[y='" + lastHitCoorY + "'][x='" + (lastHitCoorX - 1) + "']") != null) {
-						x = lastHitCoorX - 1;
-						y = lastHitCoorY;
-					} else {
-						//flip direction
-						x = lastHitCoorX + 1;
-						y = lastHitCoorY;
-					}
-					break;
-				case 2:
-					if (document.getElementById("monitorLeft").querySelector("[y='" + (lastHitCoorY - 1) + "'][x='" + lastHitCoorX + "']") != null) {
-						y = lastHitCoorY - 1;
-						x = lastHitCoorX;
-					} else {
-						//flip direction
-						x = lastHitCoorX;
-						y = lastHitCoorY + 1;
-					}
-					break;
-				case 3:
-					if (document.getElementById("monitorLeft").querySelector("[y='" + (lastHitCoorY + 1) + "'][x='" + lastHitCoorX + "']") != null) {
-						y = lastHitCoorY + 1;
-						x = lastHitCoorX;
-					} else {
-						//flip direction
-						x = lastHitCoorX;
-						y = lastHitCoorY - 1;
-					}
-					break;
-			}
 		}
+		switch (d) {
+			case 0:
+				if (document.getElementById("monitorLeft").querySelector("[y='" + lastHitCoorY + "'][x='" + (lastHitCoorX + 1) + "']") != null) {
+					x = lastHitCoorX + 1;
+					y = lastHitCoorY;
+				} else {
+					//flip direction
+					x = lastHitCoorX - 1;
+					y = lastHitCoorY;
+				}
+
+				break;
+			case 1:
+				if (document.getElementById("monitorLeft").querySelector("[y='" + lastHitCoorY + "'][x='" + (lastHitCoorX - 1) + "']") != null) {
+					x = lastHitCoorX - 1;
+					y = lastHitCoorY;
+				} else {
+					//flip direction
+					x = lastHitCoorX + 1;
+					y = lastHitCoorY;
+				}
+				break;
+			case 2:
+				if (document.getElementById("monitorLeft").querySelector("[y='" + (lastHitCoorY - 1) + "'][x='" + lastHitCoorX + "']") != null) {
+					y = lastHitCoorY - 1;
+					x = lastHitCoorX;
+				} else {
+					//flip direction
+					x = lastHitCoorX;
+					y = lastHitCoorY + 1;
+				}
+				break;
+			case 3:
+				if (document.getElementById("monitorLeft").querySelector("[y='" + (lastHitCoorY + 1) + "'][x='" + lastHitCoorX + "']") != null) {
+					y = lastHitCoorY + 1;
+					x = lastHitCoorX;
+				} else {
+					//flip direction
+					x = lastHitCoorX;
+					y = lastHitCoorY - 1;
+				}
+				break;
+		}
+
 	} else {
 		//give up and just shoot randomly
 		x = RNG(0, MAP_SIZE);
@@ -289,4 +290,36 @@ function attackBasic() {
 		}
 	}
 
+}
+
+
+function attackAllSeeing() {
+	var x;
+	var y;
+	var i;
+	var grids = document.getElementById("monitorLeft").getElementsByClassName("MonitorGrid");
+	i = RNG(0, grids.length -1);
+	//I see where you are.
+	if (grids[i].hasAttribute("placed")) {
+		if (grids[i].hasAttribute("sunk")) {
+			//This has already been eliminated.
+			i = i+1;
+			attackAllSeeing();
+		} else {
+			x = parseInt(tGrid.getAttribute("x"));
+			y = parseInt(tGrid.getAttribute("y"));
+			//Let's show them some mercy. 1/9 hit chance. I think that is enough.
+			x = RNG(x+1, x-1);
+			y = RNG(y+1, y-1);
+			if (ship_class_acting == SHIP_CLASS_CV) {
+			lastHit = airStrike(x, y);
+		} else {
+			lastHit = artilleryStrike(x, y);
+		}
+
+		}
+	} else {
+		//This should not be happening.
+		attackAllSeeing();
+	}
 }
