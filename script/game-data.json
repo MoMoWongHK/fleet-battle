@@ -30,7 +30,9 @@ var string = {
 		"T - Advantage",
 		"T - Disadvantage"
 	],
-	"attack_remaining": "Attack Remaining"
+	"attack_remaining": "Attack Remaining",
+	"victory":"VICTORY!",
+	"defeat":"DEFEAT!"
 }
 
 

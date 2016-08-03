@@ -1067,7 +1067,9 @@ function refreshPlayerPanel() {
 }
 
 function nextPlayer() {
-	if (acting_player == PLAYER_1) {
+	if (gameEnded()) {
+		//do nothing....the game has already ended
+	} else if (acting_player == PLAYER_1) {
 		acting_player = PLAYER_2;
 		if (game_mode == GAME_MODE_STANDARD) {
 			if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
@@ -1296,6 +1298,20 @@ function nextPlayer() {
 				}
 			}
 		}
+	}
+}
+
+function gameEnded() {
+	//see if any one fleet lose all their ships
+	if (player_1_ship_count <= 0) {
+		//TODO use HTML5 dialog instead of alert
+		alert(string.defeat);
+		return true;
+	} else if (player_2_ship_count <= 0) {
+		alert(string.victory);
+		return true;
+	} else {
+		return false;
 	}
 }
 
