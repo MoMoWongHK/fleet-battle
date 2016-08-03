@@ -21,9 +21,14 @@ Why wasting time here to read this readme while you can try out the game for you
 
 ##What's next
 
+###Coming soon™
 - Better UI and effects
 - Improved AI
+- More game modes
+
+### in the far future...
 - Multiplayer
+-Standalone desktop app
 - Historical mode
 
 
