@@ -26,7 +26,7 @@ Why wasting time here to read this readme while you can try out the game for you
 - Improved AI
 - More game modes
 
-### in the far future...
+### In the far future...
 - Multiplayer
 -Standalone desktop app
 - Historical mode
