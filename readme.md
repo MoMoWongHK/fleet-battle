@@ -28,7 +28,7 @@ Why wasting time here to read this readme while you can try out the game for you
 
 ### In the far future...
 - Multiplayer
--Standalone desktop app
+- Standalone desktop app
 - Historical mode
 
 
