@@ -726,12 +726,12 @@ function airStrike(x, y) {
 			tGrid.removeEventListener('mouseover', lockOnSector, false);
 			tGrid.removeEventListener('mouseout', unLockOnSector, false);
 			//see if we sunk it
-			var tx = parseInt(tGrid.getAttribute("head-x"));
-			var ty = parseInt(tGrid.getAttribute("head-y"));
-			var tclass = parseInt(tGrid.getAttribute("ship-class"));
-			var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
-			//mark the ships as destroyed
-			if (shipDestroyed("monitorRight", tx, ty, tclass, tbearing)) {
+			if (shipDestroyed("monitorRight", x, y)) {
+				//mark the ships as destroyed
+				var tx = parseInt(tGrid.getAttribute("head-x"));
+				var ty = parseInt(tGrid.getAttribute("head-y"));
+				var tclass = parseInt(tGrid.getAttribute("ship-class"));
+				var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
 				player_2_ship_count = player_2_ship_count - 1;
 				document.getElementById("counterRight").innerHTML = player_2_ship_count;
 				var ship_size;
@@ -787,12 +787,12 @@ function airStrike(x, y) {
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = 'red';
 			//see if we sunk it
-			var tx = parseInt(tGrid.getAttribute("head-x"));
-			var ty = parseInt(tGrid.getAttribute("head-y"));
-			var tclass = parseInt(tGrid.getAttribute("ship-class"));
-			var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
-			//mark the ships as destroyed
-			if (shipDestroyed("monitorLeft", tx, ty, tclass, tbearing)) {
+			if (shipDestroyed("monitorLeft", x, y)) {
+				var tx = parseInt(tGrid.getAttribute("head-x"));
+				var ty = parseInt(tGrid.getAttribute("head-y"));
+				var tclass = parseInt(tGrid.getAttribute("ship-class"));
+				var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
+				//mark the ships as destroyed
 				player_1_ship_count = player_1_ship_count - 1;
 				var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + ty + "'][x='" + tx + "']");
 				var ship_size;
@@ -855,12 +855,12 @@ function artilleryStrike(x, y) {
 			tGrid.removeEventListener('mouseover', lockOnSector, false);
 			tGrid.removeEventListener('mouseout', unLockOnSector, false);
 			//see if we sunk it
-			var tx = parseInt(tGrid.getAttribute("head-x"));
-			var ty = parseInt(tGrid.getAttribute("head-y"));
-			var tclass = parseInt(tGrid.getAttribute("ship-class"));
-			var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
-			//mark the ships as destroyed
-			if (shipDestroyed("monitorRight", tx, ty, tclass, tbearing)) {
+			if (shipDestroyed("monitorRight", x, y)) {
+				//mark the ships as destroyed
+				var tx = parseInt(tGrid.getAttribute("head-x"));
+				var ty = parseInt(tGrid.getAttribute("head-y"));
+				var tclass = parseInt(tGrid.getAttribute("ship-class"));
+				var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
 				player_2_ship_count = player_2_ship_count - 1;
 				document.getElementById("counterRight").innerHTML = player_2_ship_count;
 				var ship_size;
@@ -916,12 +916,12 @@ function artilleryStrike(x, y) {
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = 'red';
 			//see if we sunk it
-			var tx = parseInt(tGrid.getAttribute("head-x"));
-			var ty = parseInt(tGrid.getAttribute("head-y"));
-			var tclass = parseInt(tGrid.getAttribute("ship-class"));
-			var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
-			//mark the ships as destroyed
-			if (shipDestroyed("monitorLeft", tx, ty, tclass, tbearing)) {
+			if (shipDestroyed("monitorLeft", x, y)) {
+				var tx = parseInt(tGrid.getAttribute("head-x"));
+				var ty = parseInt(tGrid.getAttribute("head-y"));
+				var tclass = parseInt(tGrid.getAttribute("ship-class"));
+				var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
+				//mark the ships as destroyed
 				player_1_ship_count = player_1_ship_count - 1;
 				var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + ty + "'][x='" + tx + "']");
 				var ship_size;
@@ -966,8 +966,12 @@ function artilleryStrike(x, y) {
 
 }
 //given a coordinate, check if the ship is destroyed.
-function shipDestroyed(map, x, y, sClass, bearing) {
+function shipDestroyed(map, x, y) {
 	var tGrid = document.getElementById(map).querySelector("[y='" + y + "'][x='" + x + "']");
+	var tx = parseInt(tGrid.getAttribute("head-x"));
+	var ty = parseInt(tGrid.getAttribute("head-y"));
+	var sClass = parseInt(tGrid.getAttribute("ship-class"));
+	var bearing = parseInt(tGrid.getAttribute("ship-bearing"));
 	var ship_size;
 	var criticalDamage;
 	switch (sClass) {
@@ -990,7 +994,7 @@ function shipDestroyed(map, x, y, sClass, bearing) {
 	}
 	if (bearing == SHIP_COURSE_VERTICAL) {
 		for (var i = 0; i < ship_size; i++) {
-			var Grid = document.getElementById(map).querySelector("[x='" + (x + i) + "'][y='" + y + "']");
+			var Grid = document.getElementById(map).querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
 			if (Grid.hasAttribute("hit_count")) {
 				if (parseInt(Grid.getAttribute("hit_count")) >= criticalDamage) {
 					if (i == (ship_size - 1)) {
@@ -1006,7 +1010,7 @@ function shipDestroyed(map, x, y, sClass, bearing) {
 		}
 	} else if (bearing == SHIP_COURSE_HORIZONTAL) {
 		for (var i = 0; i < ship_size; i++) {
-			var Grid = document.getElementById(map).querySelector("[y='" + (y + i) + "'][x='" + x + "']");
+			var Grid = document.getElementById(map).querySelector("[y='" + (ty + i) + "'][x='" + tx + "']");
 			if (Grid.hasAttribute("hit_count")) {
 				if (parseInt(Grid.getAttribute("hit_count")) >= criticalDamage) {
 					if (i == (ship_size - 1)) {
