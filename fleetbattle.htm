@@ -15,71 +15,73 @@
 		</title>
 	</head>
 	<body>
-		<h1 id="gameTitle">Fleet Battle</h1>
-		<h2 id="subTitle"></h2>
-		<div class="Panel" id="upperPanel">
-			<table id="objectivePanel">
-				<tr>
-					<td>
-						<strong id="objective">
-
-						</strong>
-					</td>
-					<td>
-						<ul id="objectiveList" >
-
-						</ul>
-					</td>
-				</tr>
-				<tr>
-					<!-- seperator -->
-				</tr>
-				<tr>
-
-					<td colspan="2" id="stage" class="DataField">
-
-					</td>
-				</tr>
-				<tr>
-					<!-- seperator -->
-					<td>
-						&nbsp;
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<strong id="FoELabel">
-
-						</strong>
-					</td>
-					<td id="FoE" class="DataField">
-
-					</td>
-				</tr>
-				<tr>
-					<!-- seperator -->
-					<td>
-						&nbsp;
-					</td>
-				</tr>
-			</table>
-			<br>
-			<button id="mainButton"></button>
-		</div>
-		<div class="Panel" id="leftPanel">
-			<div class="DataPanel" id="dataPanelLeft">
-				<div class="DataPanelContent" id = "dataPanelContentLeft">
+		<main class="content">
+			<div class="wrapper">
+				<h1 id="gameTitle">Fleet Battle</h1>
+				<h2 id="subTitle"></h2>
+				<div class="Panel" id="upperPanel">
+					<table id="objectivePanel">
+						<tr>
+							<td>
+								<strong id="objective">
+								</strong>
+							</td>
+							<td>
+								<ul id="objectiveList" >
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<!-- seperator -->
+						</tr>
+						<tr>
+							<td colspan="2" id="stage" class="DataField">
+							</td>
+						</tr>
+						<tr>
+							<!-- seperator -->
+							<td>
+								&nbsp;
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong id="FoELabel">
+								</strong>
+							</td>
+							<td id="FoE" class="DataField">
+							</td>
+						</tr>
+						<tr>
+							<!-- seperator -->
+							<td>
+								&nbsp;
+							</td>
+						</tr>
+					</table>
+					<br>
+					<button id="mainButton"></button>
+				</div>
+				<div class="Panel" id="leftPanel">
+					<div class="DataPanel" id="dataPanelLeft">
+						<div class="DataPanelContent" id = "dataPanelContentLeft">
+						</div>
+					</div>
+					<div class="Monitor" id="monitorLeft"></div>
+				</div>
+				<div id="rightPanel" class="Panel">
+					<div class="Monitor" id="monitorRight"></div>
+					<div class="DataPanel" id="dataPanelRight">
+						<div class="DataPanelContent" id = "dataPanelContentRight">
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="Monitor" id="monitorLeft"></div>
-		</div>
-		<div id="rightPanel" class="Panel">
-			<div class="Monitor" id="monitorRight"></div>
-			<div class="DataPanel" id="dataPanelRight">
-				<div class="DataPanelContent" id = "dataPanelContentRight">
-				</div>
-			</div>
-		</div>
+		</main>
+		<footer>
+			© 2016 Yip Chung Nin<br>
+			Source code, guides and other materials are available on <a href="https://github.com/tonY1883/fleet-battle"><img class="ImgLink" src="img/GitHub_logo.png"></a> 
+		</footer>
 	</body>
 	<script src="script/game-data.json"></script>
 	<script src="script/game-utils.js"></script>
@@ -87,7 +89,4 @@
 	<script src="script/game-ai.js"></script>
 	<script src="script/game-config.js"></script>
 	<script src="script/game-core.js"></script>
-	<footer>
-		<!-- Footer Here -->
-	</footer>
 </html>

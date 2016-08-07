@@ -1,7 +1,42 @@
-body{
-  margin: 0% 8% 0% 8%;
-  text-align: center;;
+html {
+    position: relative;
+    min-height: 100%;
 }
+
+
+body{
+  margin: 0% 8% 60px 8%;
+  text-align: center;;
+	min-height: 100%;
+  display: flex;
+  flex-direction: column;
+	flex: 1;
+	
+}
+
+.content{
+	flex: 1;
+}
+
+.wrapper{
+	display: inline-block;
+}
+
+footer{
+	position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+		display: inline-block;
+}
+
+.ImgLink{
+	height: 1em;
+	width: auto;
+
+}
+
 p{
 	margin: 5px 5px 5px 5px;
 }

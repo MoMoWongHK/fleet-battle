@@ -31,6 +31,7 @@ var string = {
 		"T - Disadvantage"
 	],
 	"attack_remaining": "Attack Remaining",
+	"surrender_confirm":"Are you sure you want to surrender your ship? You will be treated as defeated!",
 	"victory":"VICTORY!",
 	"defeat":"DEFEAT!"
 }
