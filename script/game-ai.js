@@ -573,7 +573,7 @@ function attackIntermediate() {
 
 
 		} else {
-			//give up and just shoot randomly
+			//TODO before v0.3.0: we can handle this better.
 			x = RNG(0, MAP_SIZE);
 			y = RNG(0, MAP_SIZE);
 		}
@@ -581,7 +581,7 @@ function attackIntermediate() {
 
 
 	} else {
-		//give up and just shoot randomly
+		//just shoot randomly
 		x = RNG(0, MAP_SIZE);
 		y = RNG(0, MAP_SIZE);
 	}
@@ -589,10 +589,8 @@ function attackIntermediate() {
 	//see if available
 	var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + y + "'][x='" + x + "']");
 	if (tGrid == null || tGrid.hasAttribute("sunk")) {
-		//current target destroyed
-		lastHit = false;
 		//if no, do it again
-		attackBasic();
+		attackIntermediate();
 	} else {
 		lastLastHit = lastHit; //backup
 		if (ship_class_acting == SHIP_CLASS_CV) {
