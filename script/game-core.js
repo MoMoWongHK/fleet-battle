@@ -500,7 +500,7 @@ function startGame() {
 		var mainButton = document.getElementById("mainButton");
 		mainButton.innerHTML = string.surrender;
 		mainButton.removeEventListener('click', startGame, false);
-		//mainButton.addEventListener('click', startGame, false);
+		mainButton.addEventListener('click', surrender, false);
 		//display info for both players
 		var labels = document.getElementById("dataPanelContentLeft").querySelectorAll('.ShipClassLabel');
 		for (var i = 0; i < labels.length; i++) {
@@ -1349,6 +1349,18 @@ function gameEnded() {
 	} else {
 		return false;
 	}
+}
+
+function surrender(evt) {
+	//TODO replace confirm with html 5 dialog
+	if (confirm(string.surrender_confirm)) {
+		//scuttle all ships to trigger lose effect
+		player_1_ship_count = 0;
+		nextPlayer();
+	} else {
+		//do nothing
+	}
+
 }
 
 
