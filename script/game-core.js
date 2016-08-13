@@ -348,12 +348,18 @@ function placeShip(evt) {
 		if (ship_course_placing == SHIP_COURSE_VERTICAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
-				tGrid.style.backgroundColor = 'black';
+				tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[ship_class_placing][0][i] + "')";
+				console.log(img_url.ship_tiles[ship_class_placing][0][i]);
+				var classes = tGrid.getAttribute('class');
+				classes = classes + " ShipsTile";
+				tGrid.setAttribute('class', classes);
 				tGrid.setAttribute("placed", "true");
 				tGrid.setAttribute("ship-class", ship_class_placing);
 				tGrid.setAttribute("ship-bearing", ship_course_placing);
+				tGrid.setAttribute("sector", i);
 				tGrid.setAttribute("head-x", targetX);
 				tGrid.setAttribute("head-y", targetY);
+				tGrid.style.backgroundColor = '';
 				tGrid.removeEventListener('click', placeShip, false);
 				tGrid.removeEventListener('mouseover', projectShip, false);
 				tGrid.removeEventListener('mouseout', unProjectShip, false);
@@ -361,13 +367,18 @@ function placeShip(evt) {
 		} else if (ship_course_placing == SHIP_COURSE_HORIZONTAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[y='" + (targetY + i) + "'][x='" + targetX + "']");
-				tGrid.style.backgroundColor = 'black';
+				tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[ship_class_placing][0][i] + "')";
+				var classes = tGrid.getAttribute('class');
+				classes = classes + " ShipsTileHorizontal";
+				tGrid.setAttribute('class', classes);
 				tGrid.removeEventListener('click', placeShip, false);
 				tGrid.setAttribute("placed", "true");
 				tGrid.setAttribute("ship-class", ship_class_placing);
 				tGrid.setAttribute("ship-bearing", ship_course_placing);
+				tGrid.setAttribute("sector", i);
 				tGrid.setAttribute("head-x", targetX);
 				tGrid.setAttribute("head-y", targetY);
+				tGrid.style.backgroundColor = '';
 				tGrid.removeEventListener('mouseover', projectShip, false);
 				tGrid.removeEventListener('mouseout', unProjectShip, false);
 			}
@@ -733,7 +744,12 @@ function airStrike(x, y) {
 		tGrid.removeEventListener('mouseout', unLockOnSector, false);
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
-			tGrid.style.backgroundColor = 'red';
+			tGrid.style.backgroundColor = '';
+			if (!FOG_OF_WAR) {
+				tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
+			} else {
+				tGrid.style.backgroundColor = "red";
+			}
 			tGrid.removeEventListener('mouseover', lockOnSector, false);
 			tGrid.removeEventListener('mouseout', unLockOnSector, false);
 			//see if we sunk it
@@ -767,7 +783,11 @@ function airStrike(x, y) {
 				if (tbearing == SHIP_COURSE_VERTICAL) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorRight").querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
-						Grid.style.backgroundColor = "#990000";
+						if (!FOG_OF_WAR) {
+							Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
+						} else {
+							Grid.style.backgroundColor = "#990000";
+						}
 						Grid.setAttribute("sunk", "true");
 						Grid.removeEventListener('click', fire, false);
 
@@ -776,7 +796,11 @@ function airStrike(x, y) {
 				} else if (tbearing == SHIP_COURSE_HORIZONTAL) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorRight").querySelector("[y='" + (ty + i) + "'][x='" + tx + "']");
-						Grid.style.backgroundColor = "#990000";
+						if (!FOG_OF_WAR) {
+							Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
+						} else {
+							Grid.style.backgroundColor = "#990000";
+						}
 						Grid.setAttribute("sunk", "true");
 						Grid.removeEventListener('click', fire, false);
 
@@ -796,7 +820,8 @@ function airStrike(x, y) {
 		tGrid.style.backgroundColor = 'grey';
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
-			tGrid.style.backgroundColor = 'red';
+			tGrid.style.backgroundColor = '';
+			tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
 			//see if we sunk it
 			if (shipDestroyed("monitorLeft", x, y)) {
 				var tx = parseInt(tGrid.getAttribute("head-x"));
@@ -829,14 +854,14 @@ function airStrike(x, y) {
 				if (tbearing == SHIP_COURSE_VERTICAL) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorLeft").querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
-						Grid.style.backgroundColor = "#990000";
+						Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
 						Grid.setAttribute("sunk", "true");
 
 					}
 				} else if (tbearing == SHIP_COURSE_HORIZONTAL) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorLeft").querySelector("[y='" + (ty + i) + "'][x='" + tx + "']");
-						Grid.style.backgroundColor = "#990000";
+						Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
 						Grid.setAttribute("sunk", "true");
 
 					}
@@ -863,7 +888,12 @@ function artilleryStrike(x, y) {
 		tGrid.removeEventListener('mouseout', unLockOnSector, false);
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
-			tGrid.style.backgroundColor = 'red';
+			tGrid.style.backgroundColor = '';
+			if (!FOG_OF_WAR) {
+				tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
+			} else {
+				tGrid.style.backgroundColor = "red";
+			}
 			tGrid.removeEventListener('mouseover', lockOnSector, false);
 			tGrid.removeEventListener('mouseout', unLockOnSector, false);
 			//see if we sunk it
@@ -897,7 +927,11 @@ function artilleryStrike(x, y) {
 				if (tbearing == SHIP_COURSE_VERTICAL) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorRight").querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
-						Grid.style.backgroundColor = "#990000";
+						if (!FOG_OF_WAR) {
+							Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
+						} else {
+							Grid.style.backgroundColor = "#990000";
+						}
 						Grid.setAttribute("sunk", "true");
 						Grid.removeEventListener('click', fire, false);
 
@@ -906,7 +940,11 @@ function artilleryStrike(x, y) {
 				} else if (tbearing == SHIP_COURSE_HORIZONTAL) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorRight").querySelector("[y='" + (ty + i) + "'][x='" + tx + "']");
-						Grid.style.backgroundColor = "#990000";
+						if (!FOG_OF_WAR) {
+							Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
+						} else {
+							Grid.style.backgroundColor = "#990000";
+						}
 						Grid.setAttribute("sunk", "true");
 						Grid.removeEventListener('click', fire, false);
 
@@ -926,7 +964,8 @@ function artilleryStrike(x, y) {
 		tGrid.style.backgroundColor = 'grey';
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
-			tGrid.style.backgroundColor = 'red';
+			tGrid.style.backgroundColor = '';
+			tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
 			//see if we sunk it
 			if (shipDestroyed("monitorLeft", x, y)) {
 				var tx = parseInt(tGrid.getAttribute("head-x"));
@@ -959,14 +998,14 @@ function artilleryStrike(x, y) {
 				if (tbearing == SHIP_COURSE_VERTICAL) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorLeft").querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
-						Grid.style.backgroundColor = "#990000";
+						Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
 						Grid.setAttribute("sunk", "true");
 
 					}
 				} else if (tbearing == SHIP_COURSE_HORIZONTAL) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorLeft").querySelector("[y='" + (ty + i) + "'][x='" + tx + "']");
-						Grid.style.backgroundColor = "#990000";
+						Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
 						Grid.setAttribute("sunk", "true");
 
 					}

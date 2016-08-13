@@ -103,6 +103,15 @@ p{
 	float: right;
 }
 
+.ShipsTile{
+	background-size: contain;
+}
+
+.ShipsTileHorizontal{
+	background-size: contain;
+	transform: rotate(-90deg);
+}
+
 .DataPanelOverlay{
 	padding-top: 40%;
 	font-size:1.4em;

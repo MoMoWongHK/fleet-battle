@@ -131,8 +131,12 @@ function shipPlacementBasic() {
 				tGrid.setAttribute("head-x", x);
 				tGrid.setAttribute("head-y", y);
 				tGrid.setAttribute("ship-bearing", course);
+				tGrid.setAttribute("sector", i);
 				if (!FOG_OF_WAR) {
 					tGrid.style.backgroundColor = 'black';
+					var classes = tGrid.getAttribute('class');
+					classes = classes + " ShipsTile";
+					tGrid.setAttribute('class', classes);
 				}
 			}
 		} else if (course == SHIP_COURSE_HORIZONTAL) {
@@ -143,8 +147,12 @@ function shipPlacementBasic() {
 				tGrid.setAttribute("head-x", x);
 				tGrid.setAttribute("head-y", y);
 				tGrid.setAttribute("ship-bearing", course);
+				tGrid.setAttribute("sector", i);
 				if (!FOG_OF_WAR) {
-					tGrid.style.backgroundColor = 'black';
+					tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[ship_class_placing][0][i] + "')";
+					var classes = tGrid.getAttribute('class');
+					classes = classes + " ShipsTileHorizontal";
+					tGrid.setAttribute('class', classes);
 				}
 			}
 		}
@@ -182,32 +190,32 @@ function shipPlacementBasic() {
 }
 
 var q = 0;
+
 function shipPlacementIntermediate() {
 	var x;
 	var y;
 	//try to make ship spawn more even
 	switch (q) {
-			case 0:
-				x = RNG(0, Math.round(MAP_SIZE/2));
-				y = RNG(0, Math.round(MAP_SIZE/2));
-				break;
-			case 1:
-				 x = RNG(Math.round(MAP_SIZE/2), MAP_SIZE);
-				y = RNG(0, Math.round(MAP_SIZE/2));
-				break;
-			case 2:
-				x = RNG(0, Math.round(MAP_SIZE/2));
-				y = RNG(Math.round(MAP_SIZE/2), MAP_SIZE);
-				break;
-			case 3:
-				x = RNG(Math.round(MAP_SIZE/2), MAP_SIZE);
-				y = RNG(Math.round(MAP_SIZE/2), MAP_SIZE);
-				break;
-		}
+		case 0:
+			x = RNG(0, Math.round(MAP_SIZE / 2));
+			y = RNG(0, Math.round(MAP_SIZE / 2));
+			break;
+		case 1:
+			x = RNG(Math.round(MAP_SIZE / 2), MAP_SIZE);
+			y = RNG(0, Math.round(MAP_SIZE / 2));
+			break;
+		case 2:
+			x = RNG(0, Math.round(MAP_SIZE / 2));
+			y = RNG(Math.round(MAP_SIZE / 2), MAP_SIZE);
+			break;
+		case 3:
+			x = RNG(Math.round(MAP_SIZE / 2), MAP_SIZE);
+			y = RNG(Math.round(MAP_SIZE / 2), MAP_SIZE);
+			break;
+	}
 	var course = RNG(SHIP_COURSE_VERTICAL, SHIP_COURSE_HORIZONTAL);
 	var type = RNG(SHIP_CLASS_BB, SHIP_CLASS_DD);
 	if (shipPlacableAi(x, y, type, course)) {
-		//place the ship
 		if (course == SHIP_COURSE_VERTICAL) {
 			for (var i = 0; i < ship_size; i++) {
 				var tGrid = document.getElementById("monitorRight").querySelector("[x='" + (x + i) + "'][y='" + y + "']");
@@ -216,8 +224,12 @@ function shipPlacementIntermediate() {
 				tGrid.setAttribute("head-x", x);
 				tGrid.setAttribute("head-y", y);
 				tGrid.setAttribute("ship-bearing", course);
+				tGrid.setAttribute("sector", i);
 				if (!FOG_OF_WAR) {
 					tGrid.style.backgroundColor = 'black';
+					var classes = tGrid.getAttribute('class');
+					classes = classes + " ShipsTile";
+					tGrid.setAttribute('class', classes);
 				}
 			}
 		} else if (course == SHIP_COURSE_HORIZONTAL) {
@@ -228,8 +240,12 @@ function shipPlacementIntermediate() {
 				tGrid.setAttribute("head-x", x);
 				tGrid.setAttribute("head-y", y);
 				tGrid.setAttribute("ship-bearing", course);
+				tGrid.setAttribute("sector", i);
 				if (!FOG_OF_WAR) {
-					tGrid.style.backgroundColor = 'black';
+					tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[ship_class_placing][0][i] + "')";
+					var classes = tGrid.getAttribute('class');
+					classes = classes + " ShipsTileHorizontal";
+					tGrid.setAttribute('class', classes);
 				}
 			}
 		}
@@ -250,9 +266,9 @@ function shipPlacementIntermediate() {
 				player_2_DD_count = player_2_DD_count + 1;
 				break;
 		}
-		q = q+1;
-		if (q>3) {
-			q=0;
+		q = q + 1;
+		if (q > 3) {
+			q = 0;
 		}
 		if (player_2_ship_count >= MAX_SHIP_COUNT) {
 			//done!
@@ -612,7 +628,7 @@ function attackIntermediate() {
 			if (shipDestroyed("monitorLeft", x, y)) {
 				target_locked = false;
 				hitCount = 0;
-			} 
+			}
 
 		}
 	}
