@@ -421,6 +421,7 @@ function attackIntermediate() {
 						y = lastHitCoorY;
 					} else {
 						//flip direction
+						d = 1;
 						x = lastHitCoorX - 1;
 						y = lastHitCoorY;
 					}
@@ -432,6 +433,7 @@ function attackIntermediate() {
 						y = lastHitCoorY;
 					} else {
 						//flip direction
+						d = 0;
 						x = lastHitCoorX + 1;
 						y = lastHitCoorY;
 					}
@@ -442,6 +444,7 @@ function attackIntermediate() {
 						x = lastHitCoorX;
 					} else {
 						//flip direction
+						d = 3;
 						x = lastHitCoorX;
 						y = lastHitCoorY + 1;
 					}
@@ -452,6 +455,7 @@ function attackIntermediate() {
 						x = lastHitCoorX;
 					} else {
 						//flip direction
+						d = 2;
 						x = lastHitCoorX;
 						y = lastHitCoorY - 1;
 					}
@@ -469,6 +473,7 @@ function attackIntermediate() {
 							y = lastHitCoorY;
 						} else {
 							//flip direction
+							d = 1;
 							x = lastHitCoorX - 1;
 							y = lastHitCoorY;
 						}
@@ -480,6 +485,7 @@ function attackIntermediate() {
 							y = lastHitCoorY;
 						} else {
 							//flip direction
+							d = 0;
 							x = lastHitCoorX + 1;
 							y = lastHitCoorY;
 						}
@@ -490,6 +496,7 @@ function attackIntermediate() {
 							x = lastHitCoorX;
 						} else {
 							//flip direction
+							d = 3;
 							x = lastHitCoorX;
 							y = lastHitCoorY + 1;
 						}
@@ -500,6 +507,7 @@ function attackIntermediate() {
 							x = lastHitCoorX;
 						} else {
 							//flip direction
+							d = 2;
 							x = lastHitCoorX;
 							y = lastHitCoorY - 1;
 						}
@@ -507,38 +515,72 @@ function attackIntermediate() {
 				}
 			} else {
 				//MUST.BE.NEAR.BY!
-				//flip the direction
-				switch (d) {
-					case 0:
-						if (document.getElementById("monitorLeft").querySelector("[y='" + lockedCoorY + "'][x='" + (lockedCoorX - 1) + "']") != null) {
-							x = lockedCoorX - 1;
-							y = lockedCoorY;
-							d = 1;
-						}
+				if (hitCount < 4) {
+					//flip the direction
+					switch (d) {
+						case 0:
+							if (document.getElementById("monitorLeft").querySelector("[y='" + lockedCoorY + "'][x='" + (lockedCoorX - 1) + "']") != null) {
+								x = lockedCoorX - 1;
+								y = lockedCoorY;
+								d = 1;
+							}
 
-						break;
-					case 1:
-						if (document.getElementById("monitorLeft").querySelector("[y='" + lockedCoorY + "'][x='" + (lockedCoorX + 1) + "']") != null) {
-							x = lockedCoorX + 1;
-							y = lockedCoorY;
+							break;
+						case 1:
+							if (document.getElementById("monitorLeft").querySelector("[y='" + lockedCoorY + "'][x='" + (lockedCoorX + 1) + "']") != null) {
+								x = lockedCoorX + 1;
+								y = lockedCoorY;
+								d = 0;
+							}
+							break;
+						case 2:
+							if (document.getElementById("monitorLeft").querySelector("[y='" + (lockedCoorY + 1) + "'][x='" + lockedCoorX + "']") != null) {
+								y = lockedCoorY + 1;
+								x = lockedCoorX;
+								d = 3;
+							}
+							break;
+						case 3:
+							if (document.getElementById("monitorLeft").querySelector("[y='" + (lockedCoorY - 1) + "'][x='" + lockedCoorX + "']") != null) {
+								y = lockedCoorY - 1;
+								x = lockedCoorX;
+								d = 2;
+							}
+							break;
+					}
+				} else {
+					//probaly a battleship. try to hit it twice in every sector.
+					//which means we simply flip the dirction and son't touch the coordinates.
+					switch (d) {
+						case 0:
+							x = lastHitCoorX;
+							y = lastHitCoorY;
+							d = 1;
+
+
+							break;
+						case 1:
+							x = lastHitCoorX;
+							y = lastHitCoorY;
 							d = 0;
-						}
-						break;
-					case 2:
-						if (document.getElementById("monitorLeft").querySelector("[y='" + (lockedCoorY + 1) + "'][x='" + lockedCoorX + "']") != null) {
-							y = lockedCoorY + 1;
-							x = lockedCoorX;
+
+							break;
+						case 2:
+							x = lastHitCoorX;
+							y = lastHitCoorY;
+
 							d = 3;
-						}
-						break;
-					case 3:
-						if (document.getElementById("monitorLeft").querySelector("[y='" + (lockedCoorY - 1) + "'][x='" + lockedCoorX + "']") != null) {
-							y = lockedCoorY - 1;
-							x = lockedCoorX;
+
+							break;
+						case 3:
+							x = lastHitCoorX;
+							y = lastHitCoorY;
 							d = 2;
-						}
-						break;
+
+							break;
+					}
 				}
+
 			}
 		} else if (lastHitCoorX == lockedCoorX && lastHitCoorY == lockedCoorY) {
 			//wrong direction
