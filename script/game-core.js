@@ -624,7 +624,7 @@ function startFleetCombat() {
 	document.getElementById("stage").innerHTML = string.game_stage_artillery;
 	//first decide the engagement form
 	if (player_1_fleet_course == player_2_fleet_course) {
-		player_1_engagement = RNG(ENGAGEMENT_FORM_PARALLEL, ENGAGEMENT_FORM_HEADON);
+		player_1_engagement_form = RNG(ENGAGEMENT_FORM_PARALLEL, ENGAGEMENT_FORM_HEADON);
 		player_2_engagement_form = player_1_engagement_form;
 	} else {
 		if (player_1_fleet_speed != player_2_fleet_speed) {
