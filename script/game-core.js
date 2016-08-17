@@ -740,18 +740,18 @@ function airStrike(x, y) {
 		} else {
 			tGrid.setAttribute("hit_count", "1");
 		}
-		tGrid.style.backgroundColor = 'grey';
-		tGrid.removeEventListener('mouseout', unLockOnSector, false);
+		tGrid.style.backgroundColor = 'navy';
+		tGrid.style.backgroundImage = "";
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = '';
+			tGrid.style.backgroundImage = "";
 			if (!FOG_OF_WAR) {
 				tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
 			} else {
 				tGrid.style.backgroundColor = "red";
 			}
 			tGrid.removeEventListener('mouseover', lockOnSector, false);
-			tGrid.removeEventListener('mouseout', unLockOnSector, false);
 			//see if we sunk it
 			if (shipDestroyed("monitorRight", x, y)) {
 				//mark the ships as destroyed
@@ -817,7 +817,7 @@ function airStrike(x, y) {
 		} else {
 			tGrid.setAttribute("hit_count", "1");
 		}
-		tGrid.style.backgroundColor = 'grey';
+		tGrid.style.backgroundColor = '#000066';
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = '';
@@ -884,18 +884,18 @@ function artilleryStrike(x, y) {
 		} else {
 			tGrid.setAttribute("hit_count", "1");
 		}
-		tGrid.style.backgroundColor = 'grey';
-		tGrid.removeEventListener('mouseout', unLockOnSector, false);
+		tGrid.style.backgroundColor = 'navy';
+		tGrid.style.backgroundImage = "";
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = '';
+			tGrid.style.backgroundImage = "";
 			if (!FOG_OF_WAR) {
 				tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
 			} else {
 				tGrid.style.backgroundColor = "red";
 			}
 			tGrid.removeEventListener('mouseover', lockOnSector, false);
-			tGrid.removeEventListener('mouseout', unLockOnSector, false);
 			//see if we sunk it
 			if (shipDestroyed("monitorRight", x, y)) {
 				//mark the ships as destroyed
@@ -961,7 +961,7 @@ function artilleryStrike(x, y) {
 		} else {
 			tGrid.setAttribute("hit_count", "1");
 		}
-		tGrid.style.backgroundColor = 'grey';
+		tGrid.style.backgroundColor = '#000066';
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = '';
@@ -1083,13 +1083,23 @@ function shipDestroyed(map, x, y) {
 
 function lockOnSector(evt) {
 	var targetGrid = evt.target;
-	targetGrid.style.backgroundColor = 'grey';
+	var sIcon = document.createElement('img');
+	sIcon.setAttribute('src', img_url.crosshair);
+	sIcon.setAttribute('class', "crosshair");
+	sIcon.style.height = GRID_SIZE + "px";
+	sIcon.style.width = GRID_SIZE + "px";
+	sIcon.style.pointerEvents = "none";
+	targetGrid.appendChild(sIcon);
+
 
 }
 
 function unLockOnSector(evt) {
 	var targetGrid = evt.target;
-	targetGrid.style.backgroundColor = '';
+	if (targetGrid.childNodes[targetGrid.childNodes.length - 1].getAttribute("class") == "crosshair") {
+		targetGrid.removeChild(targetGrid.childNodes[targetGrid.childNodes.length - 1]);
+	}
+
 }
 
 function stopTargeting() {
@@ -1364,9 +1374,28 @@ function gameEnded() {
 	if (player_1_ship_count <= 0) {
 		//TODO use HTML5 dialog instead of alert
 		alert(string.defeat);
+		refreshPlayerPanel();
+		var labels = document.getElementById("dataPanelContentRight").querySelectorAll('.ShipClassLabel');
+		for (var i = 0; i < labels.length; i++) {
+			switch (i) {
+				case SHIP_CLASS_BB:
+					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_BB_count;
+					break;
+				case SHIP_CLASS_CV:
+					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_CV_count;
+					break;
+				case SHIP_CLASS_CA:
+					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_CA_count;
+					break;
+				case SHIP_CLASS_DD:
+					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_DD_count;
+					break;
+			}
+		}
 		return true;
 	} else if (player_2_ship_count <= 0) {
 		alert(string.victory);
+		refreshPlayerPanel();
 		var labels = document.getElementById("dataPanelContentRight").querySelectorAll('.ShipClassLabel');
 		for (var i = 0; i < labels.length; i++) {
 			switch (i) {

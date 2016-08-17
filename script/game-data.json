@@ -39,6 +39,7 @@ var string = {
 
 //image resources
 var img_url = {
+	"crosshair": "img/tiles/crosshair.png",
 	"ship_icons": [
 
 		["img/ships/jp/BB.png",
@@ -122,23 +123,6 @@ var img_url = {
 		],
 		[
 			[
-				"img/tiles/CA/sector_1_normal.png",
-				"img/tiles/CA/sector_2_normal.png",
-				"img/tiles/CA/sector_3_normal.png"
-			],
-			[
-				"img/tiles/CA/sector_1_hit.png",
-				"img/tiles/CA/sector_2_hit.png",
-				"img/tiles/CA/sector_3_hit.png"
-			],
-			[
-				"img/tiles/CA/sector_1_sunk.png",
-				"img/tiles/CA/sector_2_sunk.png",
-				"img/tiles/CA/sector_3_sunk.png"
-			]
-		],
-		[
-			[
 				"img/tiles/DD/sector_1_normal.png",
 				"img/tiles/DD/sector_2_normal.png"
 			],
@@ -146,10 +130,7 @@ var img_url = {
 				"img/tiles/DD/sector_1_hit.png",
 				"img/tiles/DD/sector_2_hit.png"
 			],
-			[
-				"img/tiles/DD/sector_1_sunk.png",
-				"img/tiles/DD/sector_2_sunk.png"
-			]
+
 		]
 	]
 }

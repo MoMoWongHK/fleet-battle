@@ -133,7 +133,7 @@ function shipPlacementBasic() {
 				tGrid.setAttribute("ship-bearing", course);
 				tGrid.setAttribute("sector", i);
 				if (!FOG_OF_WAR) {
-					tGrid.style.backgroundColor = 'black';
+					tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[type][0][i] + "')";
 					var classes = tGrid.getAttribute('class');
 					classes = classes + " ShipsTile";
 					tGrid.setAttribute('class', classes);
@@ -149,7 +149,7 @@ function shipPlacementBasic() {
 				tGrid.setAttribute("ship-bearing", course);
 				tGrid.setAttribute("sector", i);
 				if (!FOG_OF_WAR) {
-					tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[ship_class_placing][0][i] + "')";
+					tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[type][0][i] + "')";
 					var classes = tGrid.getAttribute('class');
 					classes = classes + " ShipsTileHorizontal";
 					tGrid.setAttribute('class', classes);
@@ -226,7 +226,7 @@ function shipPlacementIntermediate() {
 				tGrid.setAttribute("ship-bearing", course);
 				tGrid.setAttribute("sector", i);
 				if (!FOG_OF_WAR) {
-					tGrid.style.backgroundColor = 'black';
+					tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[type][0][i] + "')";
 					var classes = tGrid.getAttribute('class');
 					classes = classes + " ShipsTile";
 					tGrid.setAttribute('class', classes);
@@ -242,7 +242,7 @@ function shipPlacementIntermediate() {
 				tGrid.setAttribute("ship-bearing", course);
 				tGrid.setAttribute("sector", i);
 				if (!FOG_OF_WAR) {
-					tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[ship_class_placing][0][i] + "')";
+					tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[type][0][i] + "')";
 					var classes = tGrid.getAttribute('class');
 					classes = classes + " ShipsTileHorizontal";
 					tGrid.setAttribute('class', classes);

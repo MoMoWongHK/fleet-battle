@@ -2,154 +2,133 @@ html {
     position: relative;
     min-height: 100%;
 }
-
-
-body{
-  margin: 0% 8% 60px 8%;
-  text-align: center;;
-	min-height: 100%;
-  display: flex;
-  flex-direction: column;
-	flex: 1;
-	
+body {
+    margin: 0% 8% 60px 8%;
+    text-align: center;
+    ;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
-
-.content{
-	flex: 1;
+.content {
+    flex: 1;
 }
-
-.wrapper{
-	display: inline-block;
+.wrapper {
+    display: inline-block;
 }
-
-footer{
-	position: absolute;
+footer {
+    position: absolute;
     left: 0;
     bottom: 0;
     height: 70px;
     width: 100%;
-		display: inline-block;
+    display: inline-block;
+    padding-bottom: 10px;
 }
-
-.ImgLink{
-	height: 1em;
-	width: auto;
-
+.ImgLink {
+    height: 1em;
+    width: auto;
 }
-
-p{
-	margin: 5px 5px 5px 5px;
+p {
+    margin: 5px 5px 5px 5px;
 }
-
-.Panel{
-  padding: 0% 0% 0% 0%;
-  margin: 0 15px 35px 15px ;
-  width: auto;
-
+.Panel {
+    padding: 0% 0% 0% 0%;
+    margin: 0 15px 35px 15px;
+    width: auto;
 }
-.DataField{
-	color: red;
-	font-weight: bold;
-
+.DataField {
+    color: red;
+    font-weight: bold;
 }
-
-#objectivePanel{
-		padding: 0% 30% 0% 30%;
-		display: inline-block;
+#objectivePanel {
+    padding: 0% 30% 0% 30%;
+    display: inline-block;
 }
-
-#leftPanel{
-  float: left;
-  display: inline-block;
-
+#leftPanel {
+    float: left;
+    display: inline-block;
 }
-
 .DataPanelContent {
-  padding: 5px 5px 5px 5px;
+    padding: 5px 5px 5px 5px;
 }
-
-.Counter{
-  font-size:1.4em;
-  color:red;
-
+.Counter {
+    font-size: 1.4em;
+    color: red;
 }
-
-.ShipIcons{
-	float: left;
-	width:240px;
-	height:auto;
-	margin-bottom: 10px;
-	display: inline-block;
+.ShipIcons {
+    float: left;
+    width: 240px;
+    height: auto;
+    margin-bottom: 10px;
+    display: inline-block;
 }
-.ShipIconsCA{
-	width:205px;
-	height:auto;
+.ShipIconsCA {
+    width: 205px;
+    height: auto;
 }
-.ShipIconsDD{
-	width:170px;
-	height:auto;
+.ShipIconsDD {
+    width: 170px;
+    height: auto;
 }
-.ShipIconsSelectable:hover{
-	cursor: pointer;
-	opacity: 0.5;
+.ShipIconsSelectable:hover {
+    cursor: pointer;
+    opacity: 0.5;
 }
-
-.ShipIconsUnSelectable{
-	opacity: 0.3;
+.ShipIconsUnSelectable {
+    opacity: 0.3;
 }
-
-.ShipIconsEnemy{
-	transform: scale(-1, 1);
-	float: right;
+.ShipIconsEnemy {
+    transform: scale(-1, 1);
+    float: right;
 }
-
-.ShipsTile{
-	background-size: contain;
+.ShipsTile {
+    background-size: contain;
 }
-
-.ShipsTileHorizontal{
-	background-size: contain;
-	transform: rotate(-90deg);
+.ShipsTileHorizontal {
+    background-size: contain;
+    transform: rotate(-90deg);
 }
-
-.DataPanelOverlay{
-	padding-top: 40%;
-	font-size:1.4em;
+.DataPanelOverlay {
+    padding-top: 40%;
+    font-size: 1.4em;
 }
-#rightPanel{
-  float: right;
-  display: inline-block;
+#rightPanel {
+    float: right;
+    display: inline-block;
 }
-
-#dataPanelLeft{
-  float: left;
-  width:250px;
-	height: auto;
-  border: solid 1px;
+#dataPanelLeft {
+    float: left;
+    width: 250px;
+    height: auto;
+    border: solid 1px;
 }
-
-#dataPanelRight{
-  float: right;
-  width: 250px;;
-	height: auto;
-  border: solid 1px;
+#dataPanelRight {
+    float: right;
+    width: 250px;
+    ;
+    height: auto;
+    border: solid 1px;
 }
-
-#monitorLeft{
-    float: right;;
+#monitorLeft {
+    float: right;
+    ;
 }
-#monitorRight{
-  float: left;
+#monitorRight {
+    float: left;
 }
-
-.Monitor{
-    margin: 0 0 0 0 ;
-    padding: 0 15px 0 15px ;
+.Monitor {
+    margin: 0 0 0 0;
+    margin: 0 15px 0 15px;
+    background-color: #0000b3;
+    border: solid 2px;
 }
-
-.MonitorGrid{
-  vertical-align: top;
-		display: inline-block;
-		margin: 0px;
-		border: solid 1px;
+.MonitorGrid {
+    vertical-align: top;
+    background-size: contain;
+    display: inline-block;
+    margin: 0px;
+    border: solid 1px grey;
+    user-select: none;
 }
