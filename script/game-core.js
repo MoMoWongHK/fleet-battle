@@ -817,7 +817,7 @@ function airStrike(x, y) {
 		} else {
 			tGrid.setAttribute("hit_count", "1");
 		}
-		tGrid.style.backgroundColor = '#000066';
+		tGrid.style.backgroundColor = 'navy';
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = '';
@@ -961,7 +961,7 @@ function artilleryStrike(x, y) {
 		} else {
 			tGrid.setAttribute("hit_count", "1");
 		}
-		tGrid.style.backgroundColor = '#000066';
+		tGrid.style.backgroundColor = 'navy';
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = '';
@@ -1015,7 +1015,6 @@ function artilleryStrike(x, y) {
 		}
 		return false;
 	}
-
 }
 //given a coordinate, check if the ship is destroyed.
 function shipDestroyed(map, x, y) {
