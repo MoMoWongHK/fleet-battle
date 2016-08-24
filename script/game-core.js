@@ -24,6 +24,13 @@ var SHIP_CLASS_CV = 1;
 var SHIP_CLASS_CA = 2;
 var SHIP_CLASS_DD = 3;
 
+var MAX_SHIP_COUNT;
+var MAX_BB_COUNT;
+var MAX_CV_COUNT;
+var MAX_CA_COUNT;
+var MAX_DD_COUNT;
+var MAX_AP_COUNT;
+
 var ship_class_placing;
 var ship_course_placing = 0;
 var ship_size_placing;
@@ -96,11 +103,20 @@ function setUI() {
 	//upper panel
 	document.getElementById("objective").innerHTML = string.game_objective;
 	var objective = document.getElementById("objectiveList");
+	var game_mode_label = document.getElementById("gameModeLabel");
+	game_mode_label.innerHTML = string.game_mode_label; 
+	var game_mode_display = document.getElementById("gameMode");
+	game_mode_display.innerHTML = string.game_mode[game_mode];
 	switch (game_mode) {
 		case GAME_MODE_STANDARD:
 			var o = document.createElement('li');
 			o.innerHTML = string.game_objective_standard;
 			objective.appendChild(o);
+			MAX_SHIP_COUNT = MAX_SHIP_COUNT_STANDARD;
+			MAX_CV_COUNT = MAX_CV_COUNT_STANDARD;
+			MAX_BB_COUNT = MAX_BB_COUNT_STANDARD;
+			MAX_CA_COUNT = MAX_CA_COUNT_STANDARD;
+			MAX_DD_COUNT = MAX_DD_COUNT_STANDARD;
 			break;
 	}
 
@@ -754,6 +770,7 @@ function airStrike(x, y) {
 			tGrid.removeEventListener('mouseover', lockOnSector, false);
 			//see if we sunk it
 			if (shipDestroyed("monitorRight", x, y)) {
+				//TODO add instant win determiner
 				//mark the ships as destroyed
 				var tx = parseInt(tGrid.getAttribute("head-x"));
 				var ty = parseInt(tGrid.getAttribute("head-y"));

@@ -2,6 +2,13 @@
 //string resources
 var string = {
 	"game_config_error": "Game not properly configured. Check your game-config.js.",
+	"game_mode_label":"Game Mode :",
+	"game_mode":[
+		"Skirmish",
+		"Dash",
+		"Interception",
+		"Raid"	
+	],
 	"current_stage": "Current Stage",
 	"ship_placement_remaining": "Remaining ship",
 	"ship_classes": [
@@ -16,7 +23,7 @@ var string = {
 	"start_battle": "Start Battle!",
 	"no_ship_prompt": "You cannot enter a battle with a ghost fleet!",
 	"surrender": "Surrender your ships",
-	"game_objective": "Game Objective : ",
+	"game_objective": "Objective : ",
 	"game_mode_standard": "Skirmish",
 	"game_objective_standard": [
 		"Destroy all enemy vessels"

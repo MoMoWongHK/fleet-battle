@@ -49,7 +49,7 @@ footer {
     font-family: 'Tienne', serif;
 }
 .ImgLink {
-    height: 1em;
+    height: 1.1em;
     width: auto;
 }
 p {
@@ -57,8 +57,9 @@ p {
 }
 .Panel {
     padding: 0% 0% 0% 0%;
-    margin: 0 15px 35px 15px;
+    margin: 0 15px 20px 15px;
     width: auto;
+    display: inline-block;
 }
 .DataField {
     color: red;
@@ -70,19 +71,30 @@ p {
     font-family: 'Tienne', serif;
 }
 #objectivePanel {
-    padding: 0% 30% 0% 30%;
+    padding: 20px 30% 0% 30%;
     background-image: url("../img/background/old-paper-1957.png");
     box-shadow: 5px 5px 2px #444444;
     background-size: 100% 100%;
     display: inline-block;
+    table-layout: fixed;
 }
 #mainButton {
-    margin-top: 15px;
     text-align: center;
+    margin: auto;
+    margin-bottom: 15px;
 }
-#leftPanel {
-    float: left;
-    display: inline-block;
+#leftPanel,
+#rightPanel {
+    display: table-cell;
+    padding-bottom: 30px;
+}
+@media screen and (max-width: 1800px) {
+    #leftPanel,
+    #rightPanel {
+        display: inline-block;
+        margin: auto;
+        padding-bottom: 1px;
+    }
 }
 .DataPanelContent {
     padding: 5px 5px 5px 5px;
@@ -127,10 +139,6 @@ p {
 .DataPanelOverlay {
     padding-top: 40%;
     font-size: 1.4em;
-}
-#rightPanel {
-    float: right;
-    display: inline-block;
 }
 .DataPanel {
     width: 250px;

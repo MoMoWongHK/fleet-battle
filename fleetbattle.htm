@@ -23,6 +23,15 @@
 				<div class="Panel" id="upperPanel">
 					<table id="objectivePanel">
 						<!-- TODO ditch this table and try out css -->
+						<!-- ↑Impossoble unless they add colspan for CSS -->
+						<tr>
+							<td>
+								<strong id="gameModeLabel">
+								</strong>
+							</td>
+							<td id="gameMode">
+							</td>
+						</tr>
 						<tr>
 							<td>
 								<strong id="objective">
@@ -62,19 +71,23 @@
 						</tr>
 					</table>
 					<br>
-					<button id="mainButton"></button>
 				</div>
-				<div class="Panel" id="leftPanel">
-					<div class="DataPanel" id="dataPanelLeft">
-						<div class="DataPanelContent" id = "dataPanelContentLeft">
+				<button id="mainButton"></button>
+				<div id="leftPanel">
+					<div class="Panel">
+						<div class="DataPanel" id="dataPanelLeft">
+							<div class="DataPanelContent" id = "dataPanelContentLeft">
+							</div>
 						</div>
+						<div class="Monitor" id="monitorLeft"></div>
 					</div>
-					<div class="Monitor" id="monitorLeft"></div>
 				</div>
-				<div id="rightPanel" class="Panel">
-					<div class="Monitor" id="monitorRight"></div>
-					<div class="DataPanel" id="dataPanelRight">
-						<div class="DataPanelContent" id = "dataPanelContentRight">
+				<div id="rightPanel">
+					<div class="Panel">
+						<div class="Monitor" id="monitorRight"></div>
+						<div class="DataPanel" id="dataPanelRight">
+							<div class="DataPanelContent" id = "dataPanelContentRight">
+							</div>
 						</div>
 					</div>
 				</div>
