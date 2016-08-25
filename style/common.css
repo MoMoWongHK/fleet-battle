@@ -79,6 +79,10 @@ p {
     table-layout: fixed;
 }
 #mainButton {
+    color: #f5f5f5;
+    background-color: #444444;
+    font-family: 'Stardos Stencil', cursive;
+    font-size: 1.1em;
     text-align: center;
     margin: auto;
     margin-bottom: 15px;
