@@ -104,7 +104,7 @@ function setUI() {
 	document.getElementById("objective").innerHTML = string.game_objective;
 	var objective = document.getElementById("objectiveList");
 	var game_mode_label = document.getElementById("gameModeLabel");
-	game_mode_label.innerHTML = string.game_mode_label; 
+	game_mode_label.innerHTML = string.game_mode_label;
 	var game_mode_display = document.getElementById("gameMode");
 	game_mode_display.innerHTML = string.game_mode[game_mode];
 	switch (game_mode) {
@@ -777,7 +777,6 @@ function airStrike(x, y) {
 				var tclass = parseInt(tGrid.getAttribute("ship-class"));
 				var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
 				player_2_ship_count = player_2_ship_count - 1;
-				document.getElementById("counterRight").innerHTML = player_2_ship_count;
 				var ship_size;
 				switch (tclass) {
 					case SHIP_CLASS_BB:
@@ -796,6 +795,11 @@ function airStrike(x, y) {
 						ship_size = 2;
 						player_2_DD_count = player_2_DD_count - 1;
 						break;
+				}
+				if (!FOG_OF_WAR) {
+					refreshEnemyPanel();
+				} else {
+					document.getElementById("counterRight").innerHTML = player_2_ship_count;
 				}
 				if (tbearing == SHIP_COURSE_VERTICAL) {
 					for (var i = 0; i < ship_size; i++) {
@@ -847,7 +851,6 @@ function airStrike(x, y) {
 				var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
 				//mark the ships as destroyed
 				player_1_ship_count = player_1_ship_count - 1;
-				refreshPlayerPanel();
 				var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + ty + "'][x='" + tx + "']");
 				var ship_size;
 				switch (tclass) {
@@ -868,6 +871,7 @@ function airStrike(x, y) {
 						player_1_DD_count = player_1_DD_count - 1;
 						break;
 				}
+				refreshPlayerPanel();
 				if (tbearing == SHIP_COURSE_VERTICAL) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorLeft").querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
@@ -915,13 +919,13 @@ function artilleryStrike(x, y) {
 			tGrid.removeEventListener('mouseover', lockOnSector, false);
 			//see if we sunk it
 			if (shipDestroyed("monitorRight", x, y)) {
+				//TODO add instant win determiner
 				//mark the ships as destroyed
 				var tx = parseInt(tGrid.getAttribute("head-x"));
 				var ty = parseInt(tGrid.getAttribute("head-y"));
 				var tclass = parseInt(tGrid.getAttribute("ship-class"));
 				var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
 				player_2_ship_count = player_2_ship_count - 1;
-				document.getElementById("counterRight").innerHTML = player_2_ship_count;
 				var ship_size;
 				switch (tclass) {
 					case SHIP_CLASS_BB:
@@ -940,6 +944,11 @@ function artilleryStrike(x, y) {
 						ship_size = 2;
 						player_2_DD_count = player_2_DD_count - 1;
 						break;
+				}
+				if (!FOG_OF_WAR) {
+					refreshEnemyPanel();
+				} else {
+					document.getElementById("counterRight").innerHTML = player_2_ship_count;
 				}
 				if (tbearing == SHIP_COURSE_VERTICAL) {
 					for (var i = 0; i < ship_size; i++) {
@@ -991,7 +1000,6 @@ function artilleryStrike(x, y) {
 				var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
 				//mark the ships as destroyed
 				player_1_ship_count = player_1_ship_count - 1;
-				refreshPlayerPanel();
 				var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + ty + "'][x='" + tx + "']");
 				var ship_size;
 				switch (tclass) {
@@ -1012,6 +1020,7 @@ function artilleryStrike(x, y) {
 						player_1_DD_count = player_1_DD_count - 1;
 						break;
 				}
+				refreshPlayerPanel();
 				if (tbearing == SHIP_COURSE_VERTICAL) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorLeft").querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
@@ -1150,26 +1159,31 @@ function refreshPlayerPanel() {
 	}
 }
 
+function refreshEnemyPanel() {
+	document.getElementById("counterRight").innerHTML = player_2_ship_count;
+	var labels = document.getElementById("dataPanelContentRight").querySelectorAll('.ShipClassLabel');
+	for (var i = 0; i < labels.length; i++) {
+		switch (i) {
+			case SHIP_CLASS_BB:
+				labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_BB_count;
+				break;
+			case SHIP_CLASS_CV:
+				labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_CV_count;
+				break;
+			case SHIP_CLASS_CA:
+				labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_CA_count;
+				break;
+			case SHIP_CLASS_DD:
+				labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_DD_count;
+				break;
+		}
+	}
+}
+
 function nextPlayer() {
 	if (gameEnded()) {
 		refreshPlayerPanel();
-		var labels = document.getElementById("dataPanelContentRight").querySelectorAll('.ShipClassLabel');
-		for (var i = 0; i < labels.length; i++) {
-			switch (i) {
-				case SHIP_CLASS_BB:
-					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_BB_count;
-					break;
-				case SHIP_CLASS_CV:
-					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_CV_count;
-					break;
-				case SHIP_CLASS_CA:
-					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_CA_count;
-					break;
-				case SHIP_CLASS_DD:
-					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_DD_count;
-					break;
-			}
-		}
+		refreshEnemyPanel();
 		var mainButton = document.getElementById("mainButton");
 		mainButton.innerHTML = string.new_game;
 		mainButton.removeEventListener('click', surrender, false);

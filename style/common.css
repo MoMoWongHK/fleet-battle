@@ -87,7 +87,9 @@ button{
 #mainButton {
     font-size: 1.1em;
     margin: auto;
+    margin-top: 15px;
     margin-bottom: 15px;
+    display: inline-block;
 }
 #leftPanel,
 #rightPanel {
@@ -99,7 +101,7 @@ button{
     #rightPanel {
         display: inline-block;
         margin: auto;
-        padding-bottom: 1px;
+        margin-bottom: 5px;
     }
 }
 .DataPanelContent {
