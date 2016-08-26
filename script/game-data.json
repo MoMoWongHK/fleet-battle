@@ -40,7 +40,9 @@ var string = {
 	"attack_remaining": "Attack Remaining",
 	"surrender_confirm": "Are you sure you want to surrender your ship? You will be treated as defeated!",
 	"victory": "VICTORY!",
-	"defeat": "DEFEAT!"
+	"defeat": "DEFEAT!",
+	"new_game":"Proceed into next battle",
+	"new_game_confirm":"Are you sure you want to start a new battle?"
 }
 
 

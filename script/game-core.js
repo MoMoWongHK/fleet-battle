@@ -1152,7 +1152,28 @@ function refreshPlayerPanel() {
 
 function nextPlayer() {
 	if (gameEnded()) {
-		//do nothing....the game has already ended
+		refreshPlayerPanel();
+		var labels = document.getElementById("dataPanelContentRight").querySelectorAll('.ShipClassLabel');
+		for (var i = 0; i < labels.length; i++) {
+			switch (i) {
+				case SHIP_CLASS_BB:
+					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_BB_count;
+					break;
+				case SHIP_CLASS_CV:
+					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_CV_count;
+					break;
+				case SHIP_CLASS_CA:
+					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_CA_count;
+					break;
+				case SHIP_CLASS_DD:
+					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_DD_count;
+					break;
+			}
+		}
+		var mainButton = document.getElementById("mainButton");
+		mainButton.innerHTML = string.new_game;
+		mainButton.removeEventListener('click', surrender, false);
+		mainButton.addEventListener('click', newGame, false);
 	} else if (acting_player == PLAYER_1) {
 		acting_player = PLAYER_2;
 		if (game_mode == GAME_MODE_STANDARD) {
@@ -1390,45 +1411,9 @@ function gameEnded() {
 	if (player_1_ship_count <= 0) {
 		//TODO use HTML5 dialog instead of alert
 		alert(string.defeat);
-		refreshPlayerPanel();
-		var labels = document.getElementById("dataPanelContentRight").querySelectorAll('.ShipClassLabel');
-		for (var i = 0; i < labels.length; i++) {
-			switch (i) {
-				case SHIP_CLASS_BB:
-					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_BB_count;
-					break;
-				case SHIP_CLASS_CV:
-					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_CV_count;
-					break;
-				case SHIP_CLASS_CA:
-					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_CA_count;
-					break;
-				case SHIP_CLASS_DD:
-					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_DD_count;
-					break;
-			}
-		}
 		return true;
 	} else if (player_2_ship_count <= 0) {
 		alert(string.victory);
-		refreshPlayerPanel();
-		var labels = document.getElementById("dataPanelContentRight").querySelectorAll('.ShipClassLabel');
-		for (var i = 0; i < labels.length; i++) {
-			switch (i) {
-				case SHIP_CLASS_BB:
-					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_BB_count;
-					break;
-				case SHIP_CLASS_CV:
-					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_CV_count;
-					break;
-				case SHIP_CLASS_CA:
-					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_CA_count;
-					break;
-				case SHIP_CLASS_DD:
-					labels[i].innerHTML = string.ship_classes[i] + " : " + player_2_DD_count;
-					break;
-			}
-		}
 		return true;
 	} else {
 		return false;
@@ -1441,6 +1426,16 @@ function surrender(evt) {
 		//scuttle all ships to trigger lose effect
 		player_1_ship_count = 0;
 		nextPlayer();
+	} else {
+		//do nothing
+	}
+
+}
+
+function newGame(evt) {
+	//TODO replace confirm with html 5 dialog
+	if (confirm(string.new_game_confirm)) {
+		location.reload();
 	} else {
 		//do nothing
 	}
