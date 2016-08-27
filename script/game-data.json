@@ -139,6 +139,10 @@ var img_url = {
 				"img/tiles/DD/sector_1_hit.png",
 				"img/tiles/DD/sector_2_hit.png"
 			],
+			[
+				"img/tiles/DD/sector_1_sunk.png",
+				"img/tiles/DD/sector_2_sunk.png"
+			]
 
 		]
 	]

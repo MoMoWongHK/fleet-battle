@@ -81,6 +81,7 @@ function setUI() {
 	var monitors = document.querySelectorAll('.Monitor');
 	for (var i = 0; i < monitors.length; i++) {
 		//set the map size
+		//TODO ramdom map size generation
 		monitors[i].style.width = GRID_SIZE * MAP_SIZE + MAP_SIZE * 2 + "px";
 		monitors[i].style.height = GRID_SIZE * MAP_SIZE + MAP_SIZE * 2 + "px";
 		//create a grid of MAP_SIZE * MAP_SIZE
