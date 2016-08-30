@@ -225,7 +225,7 @@ function startShipPlacement() {
 	var ships = document.getElementById("dataPanelContentLeft").querySelectorAll('.ShipIcons');
 	for (var i = 0; i < ships.length; i++) {
 		var classes = ships[i].getAttribute('class');
-		classes = classes + " ShipIconsSelectable"
+		classes = classes + " ShipIconsSelectable";
 		ships[i].setAttribute('class', classes);
 	}
 	var ships = document.querySelectorAll('.ShipIconsSelectable');
@@ -357,7 +357,6 @@ function unProjectShip(evt) {
 }
 
 function placeShip(evt) {
-	//TODO use ship shapes instead of colored grids
 	var targetGrid = evt.target;
 	var targetX = parseInt(targetGrid.getAttribute('x'));
 	var targetY = parseInt(targetGrid.getAttribute('y'));
