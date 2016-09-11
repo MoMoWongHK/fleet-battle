@@ -82,8 +82,8 @@ function setUI() {
 	for (var i = 0; i < monitors.length; i++) {
 		//set the map size
 		//TODO ramdom map size generation
-		monitors[i].style.width = GRID_SIZE * MAP_SIZE +2+  "px";
-		monitors[i].style.height = GRID_SIZE * MAP_SIZE +2+"px";
+		monitors[i].style.width = GRID_SIZE * MAP_SIZE + 2 + "px";
+		monitors[i].style.height = GRID_SIZE * MAP_SIZE + 2 + "px";
 		//create a grid of MAP_SIZE * MAP_SIZE
 		for (var j = 0; j < MAP_SIZE; j++) {
 			for (var k = 0; k < MAP_SIZE; k++) {
@@ -102,7 +102,7 @@ function setUI() {
 				grid_canvas.style.width = GRID_SIZE + 'px';
 				grid_canvas.setAttribute('c-x', j);
 				grid_canvas.setAttribute('c-y', k);
-				grid_canvas.setAttribute('class', 'GridCanvas');				
+				grid_canvas.setAttribute('class', 'GridCanvas');
 				grid_canvas.style.top = topPosition + 'px';
 				grid_canvas.style.left = leftPosition + 'px';
 				grid.appendChild(grid_canvas);
@@ -332,12 +332,12 @@ function projectShip(evt) {
 		if (ship_course_placing == SHIP_COURSE_VERTICAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
-				tGrid.style.backgroundColor = 'grey';
+				tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[ship_class_placing][0][i] + "')";
 			}
 		} else if (ship_course_placing == SHIP_COURSE_HORIZONTAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[y='" + (targetY + i) + "'][x='" + targetX + "']");
-				tGrid.style.backgroundColor = 'grey';
+				tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[ship_class_placing][0][i] + "')";
 			}
 		}
 	}
@@ -354,12 +354,12 @@ function unProjectShip(evt) {
 		if (ship_course_placing == SHIP_COURSE_VERTICAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
-				tGrid.style.backgroundColor = '';
+				tGrid.style.backgroundImage = "";
 			}
 		} else if (ship_course_placing == 1) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[y='" + (targetY + i) + "'][x='" + targetX + "']");
-				tGrid.style.backgroundColor = '';
+				tGrid.style.backgroundImage = "";
 			}
 		}
 	}
@@ -374,7 +374,6 @@ function placeShip(evt) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
 				tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[ship_class_placing][0][i] + "')";
-				console.log(img_url.ship_tiles[ship_class_placing][0][i]);
 				var classes = tGrid.getAttribute('class');
 				classes = classes + " ShipsTile";
 				tGrid.setAttribute('class', classes);
@@ -1354,7 +1353,7 @@ function nextPlayer() {
 							player_1_turn_counter = player_1_turn_counter + 1;
 							beginTargeting();
 						} else {
-							//extra code for cCA under t-dis(0 atk chance)
+							//extra code for CA under t-dis(0 atk chance)
 							player_1_turn_counter = player_1_turn_counter + 1;
 							nextPlayer();
 						}
@@ -1369,7 +1368,7 @@ function nextPlayer() {
 							player_1_turn_counter = player_1_turn_counter + 1;
 							beginTargeting();
 						} else {
-							//extra code for cCA under t-dis(0 atk chance)
+							//extra code for DD under t-dis(0 atk chance)
 							player_1_turn_counter = player_1_turn_counter + 1;
 							nextPlayer();
 						}

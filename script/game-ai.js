@@ -48,7 +48,7 @@ function shipPlacementMain() {
 
 }
 
-var ship_size
+var ship_size;
 
 function shipPlacableAi(x, y, type, course) {
 	if (type == SHIP_CLASS_BB) {
