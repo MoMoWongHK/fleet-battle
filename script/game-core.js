@@ -82,8 +82,8 @@ function setUI() {
 	for (var i = 0; i < monitors.length; i++) {
 		//set the map size
 		//TODO ramdom map size generation
-		monitors[i].style.width = GRID_SIZE * MAP_SIZE + MAP_SIZE * 2 + "px";
-		monitors[i].style.height = GRID_SIZE * MAP_SIZE + MAP_SIZE * 2 + "px";
+		monitors[i].style.width = GRID_SIZE * MAP_SIZE +2+  "px";
+		monitors[i].style.height = GRID_SIZE * MAP_SIZE +2+"px";
 		//create a grid of MAP_SIZE * MAP_SIZE
 		for (var j = 0; j < MAP_SIZE; j++) {
 			for (var k = 0; k < MAP_SIZE; k++) {
@@ -94,9 +94,18 @@ function setUI() {
 				grid.setAttribute('y', k);
 				grid.setAttribute('class', 'MonitorGrid');
 				var topPosition = j * GRID_SIZE;
-				var leftPosition = i * GRID_SIZE;
+				var leftPosition = k * GRID_SIZE;
 				grid.style.top = topPosition + 'px';
 				grid.style.left = leftPosition + 'px';
+				var grid_canvas = document.createElement('canvas');
+				grid_canvas.style.height = GRID_SIZE + 'px';
+				grid_canvas.style.width = GRID_SIZE + 'px';
+				grid_canvas.setAttribute('c-x', j);
+				grid_canvas.setAttribute('c-y', k);
+				grid_canvas.setAttribute('class', 'GridCanvas');				
+				grid_canvas.style.top = topPosition + 'px';
+				grid_canvas.style.left = leftPosition + 'px';
+				grid.appendChild(grid_canvas);
 				monitors[i].appendChild(grid);
 			}
 		}
@@ -124,8 +133,8 @@ function setUI() {
 
 	//set up the data Panel
 
-	document.getElementById("dataPanelLeft").style.height = GRID_SIZE * MAP_SIZE + MAP_SIZE * 2 + "px";
-	document.getElementById("dataPanelRight").style.height = GRID_SIZE * MAP_SIZE + MAP_SIZE * 2 + "px";
+	document.getElementById("dataPanelLeft").style.height = GRID_SIZE * MAP_SIZE + 2 + "px";
+	document.getElementById("dataPanelRight").style.height = GRID_SIZE * MAP_SIZE + 2 + "px";
 
 	//left panel
 	var label = document.createElement('p');
@@ -1110,10 +1119,7 @@ function lockOnSector(evt) {
 	var targetGrid = evt.target;
 	var sIcon = document.createElement('img');
 	sIcon.setAttribute('src', img_url.crosshair);
-	sIcon.setAttribute('class', "crosshair");
-	sIcon.style.height = GRID_SIZE + "px";
-	sIcon.style.width = GRID_SIZE + "px";
-	sIcon.style.pointerEvents = "none";
+	sIcon.setAttribute('class', "Crosshair");
 	targetGrid.appendChild(sIcon);
 
 
@@ -1121,7 +1127,7 @@ function lockOnSector(evt) {
 
 function unLockOnSector(evt) {
 	var targetGrid = evt.target;
-	if (targetGrid.childNodes[targetGrid.childNodes.length - 1].getAttribute("class") == "crosshair") {
+	if (targetGrid.childNodes[targetGrid.childNodes.length - 1].getAttribute("class") == "Crosshair") {
 		targetGrid.removeChild(targetGrid.childNodes[targetGrid.childNodes.length - 1]);
 	}
 

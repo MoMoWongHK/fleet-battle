@@ -169,16 +169,40 @@ button{
     float: left;
 }
 .Monitor {
+    position: relative;
     margin: 0 0 0 0;
     margin: 0 15px 0 15px;
     background-color: #0000b3;
     border: solid 2px;
 }
 .MonitorGrid {
+    position:absolute;
     vertical-align: top;
     background-size: contain;
     display: inline-block;
     margin: 0px;
     border: solid 1px grey;
     user-select: none;
+}
+.Crosshair{
+    vertical-align: top;
+    position: absolute;
+    user-select: none;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 25;
+}
+.GridCanvas{
+    vertical-align: top;
+    background-size: contain;
+    display: relative;
+    top:0px;
+    left:0px;
+    margin: 0px;
+    user-select: none;
+    pointer-events: none;
+    z-index: 0;
 }
