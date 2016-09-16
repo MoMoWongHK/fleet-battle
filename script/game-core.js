@@ -771,11 +771,39 @@ function airStrike(x, y) {
 			tGrid.style.backgroundColor = '';
 			tGrid.style.backgroundImage = "";
 			if (!FOG_OF_WAR) {
-				tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
-			} else {
-				tGrid.style.backgroundColor = "red";
+				//tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
 			}
-			tGrid.removeEventListener('mouseover', lockOnSector, false);
+			if (!tGrid.hasAttribute("effectId")) {
+				if (FOG_OF_WAR) {
+					var canvas = tGrid.firstElementChild;
+					var particles = [];
+					var particle_count = 8;
+					for (var i = 0; i < particle_count; i++) {
+						particles.push(new smokeParticle());
+					}
+					if (tGrid.classList.contains("ShipsTileHorizontal")) {
+						var id = setInterval(function() {
+							showSmoke(canvas, particles, true);
+						}, 40);
+					} else {
+						var id = setInterval(function() {
+							showSmoke(canvas, particles, false);
+						}, 40);
+					}
+					tGrid.setAttribute("effectId", id);
+				} else {
+					var canvas = tGrid.firstElementChild;
+					var particles = [];
+					var particle_count = 8;
+					for (var i = 0; i < particle_count; i++) {
+						particles.push(new smokeParticle());
+					}
+					var id = setInterval(function() {
+						showSmoke(canvas, particles);
+					}, 40);
+					tGrid.setAttribute("effectId", id);
+				}
+			}
 			//see if we sunk it
 			if (shipDestroyed("monitorRight", x, y)) {
 				//TODO add instant win determiner
@@ -818,6 +846,10 @@ function airStrike(x, y) {
 							Grid.style.backgroundColor = "#990000";
 						}
 						Grid.setAttribute("sunk", "true");
+						var effectId = parseInt(Grid.getAttribute("effectId"));
+						clearInterval(effectId);
+						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
+						clearCanvas(canvas);
 						Grid.removeEventListener('click', fire, false);
 
 
@@ -831,6 +863,10 @@ function airStrike(x, y) {
 							Grid.style.backgroundColor = "#990000";
 						}
 						Grid.setAttribute("sunk", "true");
+						var effectId = parseInt(Grid.getAttribute("effectId"));
+						clearInterval(effectId);
+						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
+						clearCanvas(canvas);
 						Grid.removeEventListener('click', fire, false);
 
 					}
@@ -850,7 +886,25 @@ function airStrike(x, y) {
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = '';
-			tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
+			//tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
+			if (!tGrid.hasAttribute("effectId")) {
+				var canvas = tGrid.firstElementChild;
+				var particles = [];
+				var particle_count = 8;
+				for (var i = 0; i < particle_count; i++) {
+					particles.push(new smokeParticle());
+				}
+				if (tGrid.classList.contains("ShipsTileHorizontal")) {
+					var id = setInterval(function() {
+						showSmoke(canvas, particles, true);
+					}, 40);
+				} else {
+					var id = setInterval(function() {
+						showSmoke(canvas, particles, false);
+					}, 40);
+				}
+				tGrid.setAttribute("effectId", id);
+			}
 			//see if we sunk it
 			if (shipDestroyed("monitorLeft", x, y)) {
 				var tx = parseInt(tGrid.getAttribute("head-x"));
@@ -884,6 +938,10 @@ function airStrike(x, y) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorLeft").querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
 						Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
+						var effectId = parseInt(Grid.getAttribute("effectId"));
+						clearInterval(effectId);
+						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
+						clearCanvas(canvas);
 						Grid.setAttribute("sunk", "true");
 
 					}
@@ -891,6 +949,10 @@ function airStrike(x, y) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorLeft").querySelector("[y='" + (ty + i) + "'][x='" + tx + "']");
 						Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
+						var effectId = parseInt(Grid.getAttribute("effectId"));
+						clearInterval(effectId);
+						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
+						clearCanvas(canvas);
 						Grid.setAttribute("sunk", "true");
 
 					}
@@ -920,11 +982,39 @@ function artilleryStrike(x, y) {
 			tGrid.style.backgroundColor = '';
 			tGrid.style.backgroundImage = "";
 			if (!FOG_OF_WAR) {
-				tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
-			} else {
-				tGrid.style.backgroundColor = "red";
+				//tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
 			}
-			tGrid.removeEventListener('mouseover', lockOnSector, false);
+			if (!tGrid.hasAttribute("effectId")) {
+				if (FOG_OF_WAR) {
+					var canvas = tGrid.firstElementChild;
+					var particles = [];
+					var particle_count = 8;
+					for (var i = 0; i < particle_count; i++) {
+						particles.push(new smokeParticle());
+					}
+					if (tGrid.classList.contains("ShipsTileHorizontal")) {
+						var id = setInterval(function() {
+							showSmoke(canvas, particles, true);
+						}, 40);
+					} else {
+						var id = setInterval(function() {
+							showSmoke(canvas, particles, false);
+						}, 40);
+					}
+					tGrid.setAttribute("effectId", id);
+				} else {
+					var canvas = tGrid.firstElementChild;
+					var particles = [];
+					var particle_count = 8;
+					for (var i = 0; i < particle_count; i++) {
+						particles.push(new smokeParticle());
+					}
+					var id = setInterval(function() {
+						showSmoke(canvas, particles);
+					}, 40);
+					tGrid.setAttribute("effectId", id);
+				}
+			}
 			//see if we sunk it
 			if (shipDestroyed("monitorRight", x, y)) {
 				//TODO add instant win determiner
@@ -967,6 +1057,10 @@ function artilleryStrike(x, y) {
 							Grid.style.backgroundColor = "#990000";
 						}
 						Grid.setAttribute("sunk", "true");
+						var effectId = parseInt(Grid.getAttribute("effectId"));
+						clearInterval(effectId);
+						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
+						clearCanvas(canvas);
 						Grid.removeEventListener('click', fire, false);
 
 
@@ -980,6 +1074,10 @@ function artilleryStrike(x, y) {
 							Grid.style.backgroundColor = "#990000";
 						}
 						Grid.setAttribute("sunk", "true");
+						var effectId = parseInt(Grid.getAttribute("effectId"));
+						clearInterval(effectId);
+						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
+						clearCanvas(canvas);
 						Grid.removeEventListener('click', fire, false);
 
 					}
@@ -999,7 +1097,25 @@ function artilleryStrike(x, y) {
 		//see if we hit a ship
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = '';
-			tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
+			//tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
+			if (!tGrid.hasAttribute("effectId")) {
+				var canvas = tGrid.firstElementChild;
+				var particles = [];
+				var particle_count = 8;
+				for (var i = 0; i < particle_count; i++) {
+					particles.push(new smokeParticle());
+				}
+				if (tGrid.classList.contains("ShipsTileHorizontal")) {
+					var id = setInterval(function() {
+						showSmoke(canvas, particles, true);
+					}, 40);
+				} else {
+					var id = setInterval(function() {
+						showSmoke(canvas, particles, false);
+					}, 40);
+				}
+				tGrid.setAttribute("effectId", id);
+			}
 			//see if we sunk it
 			if (shipDestroyed("monitorLeft", x, y)) {
 				var tx = parseInt(tGrid.getAttribute("head-x"));
@@ -1033,6 +1149,10 @@ function artilleryStrike(x, y) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorLeft").querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
 						Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
+						var effectId = parseInt(Grid.getAttribute("effectId"));
+						clearInterval(effectId);
+						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
+						clearCanvas(canvas);
 						Grid.setAttribute("sunk", "true");
 
 					}
@@ -1040,6 +1160,10 @@ function artilleryStrike(x, y) {
 					for (var i = 0; i < ship_size; i++) {
 						var Grid = document.getElementById("monitorLeft").querySelector("[y='" + (ty + i) + "'][x='" + tx + "']");
 						Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
+						var effectId = parseInt(Grid.getAttribute("effectId"));
+						clearInterval(effectId);
+						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
+						clearCanvas(canvas);
 						Grid.setAttribute("sunk", "true");
 
 					}
@@ -1050,6 +1174,64 @@ function artilleryStrike(x, y) {
 		return false;
 	}
 }
+
+//effects when a ship is hit
+function showSmoke(canvas, particleList, bearing) {
+	var ctx = canvas.getContext("2d");
+	canvas.width = GRID_SIZE;
+	canvas.height = GRID_SIZE;
+	ctx.globalCompositeOperation = "source-over";
+	if (bearing == true) {
+		//rotate the context
+		ctx.translate(canvas.width / 2, canvas.height / 2);
+		ctx.rotate(Math.PI / 2);
+		ctx.translate(-canvas.width / 2, -canvas.height / 2);
+
+	}
+	ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
+	for (var i = 0; i < particleList.length; i++) {
+		var p = particleList[i];
+		ctx.beginPath();
+		p.opacity = Math.round(p.remaining_life / p.life * 100) / 100
+		var gradient = ctx.createRadialGradient(p.location.x, p.location.y, 0, p.location.x, p.location.y, p.radius);
+		gradient.addColorStop(0, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", " + p.opacity + ")");
+		gradient.addColorStop(0.5, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", " + p.opacity + ")");
+		gradient.addColorStop(1, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", 0)");
+		ctx.fillStyle = gradient;
+		ctx.arc(p.location.x, p.location.y, p.radius, Math.PI * 2, false);
+		ctx.fill();
+		p.remaining_life--;
+		p.location.x += p.speed.x;
+		p.location.y += p.speed.y;
+		if (p.remaining_life < 0) {
+			particleList[i] = new smokeParticle();
+		}
+	}
+}
+
+function smokeParticle() {
+	this.speed = {
+		x: -0.5 + Math.random() * 1,
+		y: -2 + Math.random() * 2
+	};
+	this.location = {
+		x: GRID_SIZE / 2,
+		y: GRID_SIZE / 2
+	};
+	this.radius = 10;
+	this.life = 18 + Math.random() * 5;
+	this.remaining_life = this.life;
+	var cc = Math.round(60 + Math.random() * 40);
+	this.r = cc;
+	this.g = cc;
+	this.b = cc;
+}
+
+function clearCanvas(canvas) {
+	var ctx = canvas.getContext("2d");
+	ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
+}
+
 //given a coordinate, check if the ship is destroyed.
 function shipDestroyed(map, x, y) {
 	var tGrid = document.getElementById(map).querySelector("[y='" + y + "'][x='" + x + "']");

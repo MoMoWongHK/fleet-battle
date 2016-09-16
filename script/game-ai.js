@@ -1,5 +1,5 @@
 /**
- * File for codes that are reaposible for the ai opponent.
+ * File for codes that are reaposible for defining and controlling the actions of  the ai opponent.
  */
 //list of ai
 /**
@@ -26,6 +26,9 @@ var AI_CONFIGURATION_ALL_SEEING = 3;
 /**
  * Codes for computer ship placing
  */
+/**  
+ * Main switch of code for different AI levels configured.
+ */
 function shipPlacementMain() {
 	//TODO switch for different method of ai
 	switch (AI_CONFIG) {
@@ -48,6 +51,9 @@ function shipPlacementMain() {
 
 }
 
+/**
+ *  Code for the AI to determine if the placement of the ship is legal.
+ */
 var ship_size;
 
 function shipPlacableAi(x, y, type, course) {
@@ -115,7 +121,9 @@ function shipPlacableAi(x, y, type, course) {
 
 }
 
-
+/**
+ * Ship placement code for the Basic AI
+ */
 function shipPlacementBasic() {
 	var x = RNG(0, MAP_SIZE);
 	var y = RNG(0, MAP_SIZE);
@@ -189,6 +197,9 @@ function shipPlacementBasic() {
 
 }
 
+/**
+ * Ship placement code for the Intermediate AI
+ */
 var q = 0;
 
 function shipPlacementIntermediate() {
@@ -286,6 +297,12 @@ function shipPlacementIntermediate() {
 
 }
 
+/**
+ * Codes for computer ship targeting
+ */
+/**  
+ * Main switch of code for different AI levels configured.
+ */
 function attackMain() {
 	//TODO switch for different method of ai
 	switch (AI_CONFIG) {
@@ -307,6 +324,9 @@ function attackMain() {
 	}
 }
 
+/**
+ * targeting code for the Basic AI
+ */
 var lastHitCoorX;
 var lastHitCoorY;
 var lastHit = false;
@@ -397,6 +417,9 @@ function attackBasic() {
 
 }
 
+/**
+ * Targeting code for the Intermediate AI
+ */
 var target_locked = false;
 var lockedCoorX;
 var lockedCoorY;
@@ -676,7 +699,9 @@ function attackIntermediate() {
 	}
 }
 
-
+/**
+ * Targeting code for the All-Seeing AI
+ */
 function attackAllSeeing() {
 	var x;
 	var y;
