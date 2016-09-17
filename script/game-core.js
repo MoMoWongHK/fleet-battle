@@ -338,6 +338,7 @@ function projectShip(evt) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[y='" + (targetY + i) + "'][x='" + targetX + "']");
 				tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[ship_class_placing][0][i] + "')";
+				tGrid.classList.add("ShipsTileHorizontal");
 			}
 		}
 	}
@@ -360,6 +361,7 @@ function unProjectShip(evt) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[y='" + (targetY + i) + "'][x='" + targetX + "']");
 				tGrid.style.backgroundImage = "";
+				tGrid.classList.remove("ShipsTileHorizontal");
 			}
 		}
 	}
