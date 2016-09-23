@@ -355,7 +355,7 @@ function unProjectShip(evt) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
 				tGrid.style.backgroundImage = "";
 			}
-		} else if (ship_course_placing == 1) {
+		} else if (ship_course_placing == SHIP_COURSE_HORIZONTAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[y='" + (targetY + i) + "'][x='" + targetX + "']");
 				tGrid.style.backgroundImage = "";
@@ -1008,47 +1008,67 @@ function artilleryStrike(x, y) {
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = '';
 			tGrid.style.backgroundImage = "";
-			if (!tGrid.hasAttribute("effectId")) {
-				var canvas = tGrid.firstElementChild;
-				var particles = [];
-				var particle_count = 8;
-				for (var i = 0; i < particle_count; i++) {
-					particles.push(new smokeParticle());
-				}
-				if (tGrid.classList.contains("ShipsTileHorizontal")) {
-					var id = setInterval(function() {
-						showSmoke(canvas, particles, true);
-					}, 40);
-				} else {
-					var id = setInterval(function() {
-						showSmoke(canvas, particles, false);
-					}, 40);
-				}
-				tGrid.setAttribute("effectId", id);
-			} else {
-				//clear the old effect first
+			if (tGrid.hasAttribute("effectId")) {
+				//stop all previous effects
 				var effectId = parseInt(tGrid.getAttribute("effectId"));
 				clearInterval(effectId);
-				var canvas = tGrid.firstElementChild;
-				var fireParticles = [];
-				var smokeParticles = [];
-				for (var i = 0; i < 10; i++) {
-					fireParticles.push(new fireParticle());
-				}
-				for (var i = 0; i < 5; i++) {
-					smokeParticles.push(new smokeParticle());
-				}
-				if (tGrid.classList.contains("ShipsTileHorizontal")) {
-					var id = setInterval(function() {
-						showFire(canvas, fireParticles, smokeParticles, true);
-					}, 40);
-				} else {
-					var id = setInterval(function() {
-						showFire(canvas, fireParticles, smokeParticles, false);
-					}, 40);
-				}
-				tGrid.setAttribute("effectId", id);
 			}
+			//show expolsion effect
+			var canvas = tGrid.firstElementChild;
+			var particles = [];
+			for (var i = 0; i < 8; i++) {
+				particles.push(new explosionParticle());
+			}
+			var eid = setInterval(function() {
+				showExplosion(canvas, particles, true);
+			}, 40);
+			setTimeout(function() {
+				clearInterval(eid);
+				if (!tGrid.hasAttribute("sunk")) {
+					var hc = parseInt(tGrid.getAttribute("hit_count"));
+					if (hc <= 1) {
+						var canvas = tGrid.firstElementChild;
+						var particles = [];
+						var particle_count = 8;
+						for (var i = 0; i < particle_count; i++) {
+							particles.push(new smokeParticle());
+						}
+						if (tGrid.classList.contains("ShipsTileHorizontal")) {
+							var id = setInterval(function() {
+								showSmoke(canvas, particles, true);
+							}, 40);
+						} else {
+							var id = setInterval(function() {
+								showSmoke(canvas, particles, false);
+							}, 40);
+						}
+						tGrid.setAttribute("effectId", id);
+					} else {
+						//clear the old effect first
+						var effectId = parseInt(tGrid.getAttribute("effectId"));
+						clearInterval(effectId);
+						var canvas = tGrid.firstElementChild;
+						var fireParticles = [];
+						var smokeParticles = [];
+						for (var i = 0; i < 10; i++) {
+							fireParticles.push(new fireParticle());
+						}
+						for (var i = 0; i < 5; i++) {
+							smokeParticles.push(new smokeParticle());
+						}
+						if (tGrid.classList.contains("ShipsTileHorizontal")) {
+							var id = setInterval(function() {
+								showFire(canvas, fireParticles, smokeParticles, true);
+							}, 40);
+						} else {
+							var id = setInterval(function() {
+								showFire(canvas, fireParticles, smokeParticles, false);
+							}, 40);
+						}
+						tGrid.setAttribute("effectId", id);
+					}
+				}
+			}, 1000);
 			//see if we sunk it
 			if (shipDestroyed("monitorRight", x, y)) {
 				//TODO add instant win determiner
@@ -1130,49 +1150,67 @@ function artilleryStrike(x, y) {
 		if (tGrid.hasAttribute("placed")) {
 			tGrid.style.backgroundColor = '';
 			//tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
-			if (!tGrid.hasAttribute("effectId")) {
-				var canvas = tGrid.firstElementChild;
-				var particles = [];
-				var particle_count = 8;
-				for (var i = 0; i < particle_count; i++) {
-					particles.push(new smokeParticle());
-				}
-				if (tGrid.classList.contains("ShipsTileHorizontal")) {
-					var id = setInterval(function() {
-						showSmoke(canvas, particles, true);
-					}, 40);
-				} else {
-					var id = setInterval(function() {
-						showSmoke(canvas, particles, false);
-					}, 40);
-				}
-				tGrid.setAttribute("effectId", id);
-
-			} else {
-				//clear the old effect first
+			if (tGrid.hasAttribute("effectId")) {
+				//stop all previous effects
 				var effectId = parseInt(tGrid.getAttribute("effectId"));
 				clearInterval(effectId);
-				var canvas = tGrid.firstElementChild;
-				var fireParticles = [];
-				var smokeParticles = [];
-				for (var i = 0; i < 10; i++) {
-					fireParticles.push(new fireParticle());
-				}
-				for (var i = 0; i < 5; i++) {
-					smokeParticles.push(new smokeParticle());
-				}
-				if (tGrid.classList.contains("ShipsTileHorizontal")) {
-					var id = setInterval(function() {
-						showFire(canvas, fireParticles, smokeParticles, true);
-					}, 40);
-				} else {
-					var id = setInterval(function() {
-						showFire(canvas, fireParticles, smokeParticles, false);
-					}, 40);
-				}
-				tGrid.setAttribute("effectId", id);
-
 			}
+			//show expolsion effect
+			var canvas = tGrid.firstElementChild;
+			var particles = [];
+			for (var i = 0; i < 8; i++) {
+				particles.push(new explosionParticle());
+			}
+			var eid = setInterval(function() {
+				showExplosion(canvas, particles, true);
+			}, 40);
+			setTimeout(function() {
+				clearInterval(eid);
+				if (!tGrid.hasAttribute("sunk")) {
+					var hc = parseInt(tGrid.getAttribute("hit_count"));
+					if (hc <= 1) {
+						var canvas = tGrid.firstElementChild;
+						var particles = [];
+						var particle_count = 8;
+						for (var i = 0; i < particle_count; i++) {
+							particles.push(new smokeParticle());
+						}
+						if (tGrid.classList.contains("ShipsTileHorizontal")) {
+							var id = setInterval(function() {
+								showSmoke(canvas, particles, true);
+							}, 40);
+						} else {
+							var id = setInterval(function() {
+								showSmoke(canvas, particles, false);
+							}, 40);
+						}
+						tGrid.setAttribute("effectId", id);
+					} else {
+						//clear the old effect first
+						var effectId = parseInt(tGrid.getAttribute("effectId"));
+						clearInterval(effectId);
+						var canvas = tGrid.firstElementChild;
+						var fireParticles = [];
+						var smokeParticles = [];
+						for (var i = 0; i < 10; i++) {
+							fireParticles.push(new fireParticle());
+						}
+						for (var i = 0; i < 5; i++) {
+							smokeParticles.push(new smokeParticle());
+						}
+						if (tGrid.classList.contains("ShipsTileHorizontal")) {
+							var id = setInterval(function() {
+								showFire(canvas, fireParticles, smokeParticles, true);
+							}, 40);
+						} else {
+							var id = setInterval(function() {
+								showFire(canvas, fireParticles, smokeParticles, false);
+							}, 40);
+						}
+						tGrid.setAttribute("effectId", id);
+					}
+				}
+			}, 1000);
 			//see if we sunk it
 			if (shipDestroyed("monitorLeft", x, y)) {
 				var tx = parseInt(tGrid.getAttribute("head-x"));
@@ -1181,7 +1219,6 @@ function artilleryStrike(x, y) {
 				var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
 				//mark the ships as destroyed
 				player_1_ship_count = player_1_ship_count - 1;
-				var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + ty + "'][x='" + tx + "']");
 				var ship_size;
 				switch (tclass) {
 					case SHIP_CLASS_BB:
@@ -1249,7 +1286,7 @@ function showSmoke(canvas, particleList, hBearing) {
 	for (var i = 0; i < particleList.length; i++) {
 		var p = particleList[i];
 		ctx.beginPath();
-		p.opacity = Math.round(p.remaining_life / p.life * 100) / 100
+		p.opacity = Math.round(p.remaining_life / p.life * 100) / 100;
 		var gradient = ctx.createRadialGradient(p.location.x, p.location.y, 0, p.location.x, p.location.y, p.radius);
 		gradient.addColorStop(0, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", " + p.opacity + ")");
 		gradient.addColorStop(0.5, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", " + p.opacity + ")");
@@ -1273,9 +1310,9 @@ function showFire(canvas, particleListFire, particleListSmoke, hBearing) {
 	ctx.globalCompositeOperation = "source-over";
 	if (hBearing == true) {
 		//rotate the context
-		ctx.translate(canvas.width / 2, canvas.height / 2);
+		ctx.translate(canvas.width / 2, canvas.height / 2); //move to origin first so it rotate along the center
 		ctx.rotate(Math.PI / 2);
-		ctx.translate(-canvas.width / 2, -canvas.height / 2);
+		ctx.translate(-canvas.width / 2, -canvas.height / 2); //move it back
 
 	}
 	ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
@@ -1284,10 +1321,10 @@ function showFire(canvas, particleListFire, particleListSmoke, hBearing) {
 		ctx.beginPath();
 		p.opacity = Math.round(p.remaining_life / p.life * 100) / 100
 		var gradient = ctx.createRadialGradient(p.location.x, p.location.y, 0, p.location.x, p.location.y, p.radius);
-		gradient.addColorStop(0, "rgba(" + p.r1 + ", " + p.g1 + ", " + p.b1 + ", " + p.opacity + ")");
-		gradient.addColorStop(0.5, "rgba(" + p.r2 + ", " + p.g2 + ", " + p.b2 + ", " + p.opacity + ")");
-		gradient.addColorStop(0.7, "rgba(" + p.r3 + ", " + p.g3 + ", " + p.b3 + ", " + p.opacity + ")");
-		gradient.addColorStop(1, "rgba(" + p.r3 + ", " + p.g3 + ", " + p.b3 + ", 0)");
+		gradient.addColorStop(0, "rgba(" + p.colorStop1.r + ", " + p.colorStop1.g + ", " + p.colorStop1.b + ", " + p.opacity + ")");
+		gradient.addColorStop(0.4, "rgba(" + p.colorStop2.r + ", " + p.colorStop2.g + ", " + p.colorStop2.b + ", " + p.opacity + ")");
+		gradient.addColorStop(0.6, "rgba(" + p.colorStop3.r + ", " + p.colorStop3.g + ", " + p.colorStop3.b + ", " + p.opacity + ")");
+		gradient.addColorStop(1, "rgba(" + p.colorStop1.r + ", " + p.colorStop1.g + ", " + p.colorStop1.b + ", 0)");
 		ctx.fillStyle = gradient;
 		ctx.arc(p.location.x, p.location.y, p.radius, Math.PI * 2, false);
 		ctx.fill();
@@ -1301,7 +1338,7 @@ function showFire(canvas, particleListFire, particleListSmoke, hBearing) {
 	for (var i = 0; i < particleListSmoke.length; i++) {
 		var p = particleListSmoke[i];
 		ctx.beginPath();
-		p.opacity = Math.round(p.remaining_life / p.life * 100) / 100
+		p.opacity = Math.round(p.remaining_life / p.life * 100) / 100;
 		var gradient = ctx.createRadialGradient(p.location.x, p.location.y, 0, p.location.x, p.location.y, p.radius);
 		gradient.addColorStop(0, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", " + p.opacity + ")");
 		gradient.addColorStop(0.5, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", " + p.opacity + ")");
@@ -1315,6 +1352,32 @@ function showFire(canvas, particleListFire, particleListSmoke, hBearing) {
 		if (p.remaining_life < 0) {
 			particleListSmoke[i] = new smokeParticle();
 		}
+	}
+}
+
+function showExplosion(canvas, particleListFire) {
+	var ctx = canvas.getContext("2d");
+	canvas.width = GRID_SIZE;
+	canvas.height = GRID_SIZE;
+	ctx.globalCompositeOperation = "lighter";
+	ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
+	for (var i = 0; i < particleListFire.length; i++) {
+		var p = particleListFire[i];
+		ctx.beginPath();
+		p.opacity = Math.round(p.remaining_life / p.life * 100) / 100;
+		var gradient = ctx.createRadialGradient(p.location.x, p.location.y, 0, p.location.x, p.location.y, p.radius);
+		var gradient = ctx.createRadialGradient(p.location.x, p.location.y, 0, p.location.x, p.location.y, p.radius);
+		gradient.addColorStop(0, "rgba(" + p.colorStop1.r + ", " + p.colorStop1.g + ", " + p.colorStop1.b + ", " + p.opacity + ")");
+		gradient.addColorStop(0.4, "rgba(" + p.colorStop2.r + ", " + p.colorStop2.g + ", " + p.colorStop2.b + ", " + p.opacity + ")");
+		gradient.addColorStop(0.6, "rgba(" + p.colorStop3.r + ", " + p.colorStop3.g + ", " + p.colorStop3.b + ", " + p.opacity + ")");
+		gradient.addColorStop(0.8, "rgba(" + p.colorStop4.r + ", " + p.colorStop4.g + ", " + p.colorStop4.b + ", " + p.opacity + ")");
+		gradient.addColorStop(1, "rgba(" + p.colorStop4.r + ", " + p.colorStop4.g + ", " + p.colorStop4.b + ", 0)");
+		ctx.fillStyle = gradient;
+		ctx.arc(p.location.x, p.location.y, p.radius, Math.PI * 2, false);
+		ctx.fill();
+		p.remaining_life--;
+		p.location.x += p.speed.x;
+		p.location.y += p.speed.y;
 	}
 }
 
@@ -1348,15 +1411,55 @@ function fireParticle() {
 	this.radius = 8;
 	this.life = 8 + Math.random() * 3;
 	this.remaining_life = this.life;
-	this.r1 = 255;
-	this.g1 = 255;
-	this.b1 = 255;
-	this.r2 = 255;
-	this.g2 = 255;
-	this.b2 = Math.round(200 + Math.random() * 30);
-	this.r3 = 255;
-	this.g3 = 240;
-	this.b3 = Math.round(90 + Math.random() * 30);
+	this.colorStop1 = {
+		r: 255,
+		g: 255,
+		b: 255
+	};
+	this.colorStop2 = {
+		r: 255,
+		g: 255,
+		b: Math.round(200 + Math.random() * 30)
+	};
+	this.colorStop3 = {
+		r: 255,
+		g: 235,
+		b: Math.round(90 + Math.random() * 30)
+	};
+}
+
+function explosionParticle() {
+	this.speed = {
+		x: -0.5 + Math.random() * 1,
+		y: -0.5 + Math.random() * 1
+	};
+	this.location = {
+		x: GRID_SIZE / 2,
+		y: GRID_SIZE / 2
+	};
+	this.radius = 8;
+	this.life = 15 + Math.random() * 5;
+	this.remaining_life = this.life;
+	this.colorStop1 = {
+		r: 255,
+		g: 255,
+		b: 255
+	};
+	this.colorStop2 = {
+		r: 255,
+		g: 255,
+		b: Math.round(200 + Math.random() * 30)
+	};
+	this.colorStop3 = {
+		r: 255,
+		g: 235,
+		b: Math.round(90 + Math.random() * 30)
+	};
+	this.colorStop4 = {
+		r: 255,
+		g: 204,
+		b: Math.round(0 + Math.random() * 10)
+	};
 }
 
 function clearCanvas(canvas) {
