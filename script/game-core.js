@@ -1113,8 +1113,8 @@ function artilleryStrike(x, y) {
 						Grid.setAttribute("sunk", "true");
 						var effectId = parseInt(Grid.getAttribute("effectId"));
 						clearInterval(effectId);
-						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
-						clearCanvas(canvas);
+						var c = Grid.firstElementChild; //stop displaying effect for submerged ships
+						clearCanvas(c);
 						Grid.removeEventListener('click', fire, false);
 					}
 
@@ -1129,8 +1129,8 @@ function artilleryStrike(x, y) {
 						Grid.setAttribute("sunk", "true");
 						var effectId = parseInt(Grid.getAttribute("effectId"));
 						clearInterval(effectId);
-						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
-						clearCanvas(canvas);
+						var c = Grid.firstElementChild; //stop displaying effect for submerged ships
+						clearCanvas(c);
 						Grid.removeEventListener('click', fire, false);
 					}
 				}
@@ -1245,8 +1245,8 @@ function artilleryStrike(x, y) {
 						Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
 						var effectId = parseInt(Grid.getAttribute("effectId"));
 						clearInterval(effectId);
-						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
-						clearCanvas(canvas);
+						var c = Grid.firstElementChild; //stop displaying effect for submerged ships
+						clearCanvas(c);
 						Grid.setAttribute("sunk", "true");
 
 					}
@@ -1256,8 +1256,8 @@ function artilleryStrike(x, y) {
 						Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
 						var effectId = parseInt(Grid.getAttribute("effectId"));
 						clearInterval(effectId);
-						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
-						clearCanvas(canvas);
+						var c = Grid.firstElementChild; //stop displaying effect for submerged ships
+						clearCanvas(c);
 						Grid.setAttribute("sunk", "true");
 
 					}
