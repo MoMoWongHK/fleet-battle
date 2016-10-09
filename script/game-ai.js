@@ -655,6 +655,7 @@ function attackIntermediate() {
 
 		} else {
 			//TODO before v0.3.0: we can handle this better.
+			//@version 0.4.0: It's good enough. For now.
 			x = RNG(0, MAP_SIZE);
 			y = RNG(0, MAP_SIZE);
 		}

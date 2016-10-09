@@ -1136,6 +1136,24 @@ function artilleryStrike(x, y) {
 				}
 			}
 
+		} else {
+			var canvas = tGrid.firstElementChild;
+			var particles = [];
+			for (var i = 0; i < 230; i++) {
+				particles.push(new waterParticle());
+			}
+			if (tGrid.classList.contains("ShipsTileHorizontal")) {
+				var sid = setInterval(function() {
+					showWaterSplash(canvas, particles, true);
+				}, 60);
+			} else {
+				var sid = setInterval(function() {
+					showWaterSplash(canvas, particles, false);
+				}, 60);
+			}
+			setTimeout(function() {
+				clearInterval(sid);
+			}, 3000);
 		}
 	} else if (acting_player == PLAYER_2) {
 		var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + y + "'][x='" + x + "']");
@@ -1264,8 +1282,26 @@ function artilleryStrike(x, y) {
 				}
 			}
 			return true; //return for AI reference
+		} else {
+			var canvas = tGrid.firstElementChild;
+			var particles = [];
+			for (var i = 0; i < 230; i++) {
+				particles.push(new waterParticle());
+			}
+			if (tGrid.classList.contains("ShipsTileHorizontal")) {
+				var sid = setInterval(function() {
+					showWaterSplash(canvas, particles, true);
+				}, 60);
+			} else {
+				var sid = setInterval(function() {
+					showWaterSplash(canvas, particles, false);
+				}, 60);
+			}
+			setTimeout(function() {
+				clearInterval(sid);
+			}, 3000);
+			return false;
 		}
-		return false;
 	}
 }
 
@@ -1340,6 +1376,7 @@ function showFire(canvas, particleListFire, particleListSmoke, hBearing) {
 		ctx.beginPath();
 		p.opacity = Math.round(p.remaining_life / p.life * 100) / 100;
 		var gradient = ctx.createRadialGradient(p.location.x, p.location.y, 0, p.location.x, p.location.y, p.radius);
+		//TODO better effects by randomizing the colorstop size
 		gradient.addColorStop(0, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", " + p.opacity + ")");
 		gradient.addColorStop(0.5, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", " + p.opacity + ")");
 		gradient.addColorStop(1, "rgba(" + p.r + ", " + p.g + ", " + p.b + ", 0)");
@@ -1366,7 +1403,6 @@ function showExplosion(canvas, particleListFire) {
 		ctx.beginPath();
 		p.opacity = Math.round(p.remaining_life / p.life * 100) / 100;
 		var gradient = ctx.createRadialGradient(p.location.x, p.location.y, 0, p.location.x, p.location.y, p.radius);
-		var gradient = ctx.createRadialGradient(p.location.x, p.location.y, 0, p.location.x, p.location.y, p.radius);
 		gradient.addColorStop(0, "rgba(" + p.colorStop1.r + ", " + p.colorStop1.g + ", " + p.colorStop1.b + ", " + p.opacity + ")");
 		gradient.addColorStop(0.4, "rgba(" + p.colorStop2.r + ", " + p.colorStop2.g + ", " + p.colorStop2.b + ", " + p.opacity + ")");
 		gradient.addColorStop(0.6, "rgba(" + p.colorStop3.r + ", " + p.colorStop3.g + ", " + p.colorStop3.b + ", " + p.opacity + ")");
@@ -1378,6 +1414,31 @@ function showExplosion(canvas, particleListFire) {
 		p.remaining_life--;
 		p.location.x += p.speed.x;
 		p.location.y += p.speed.y;
+	}
+}
+
+function showWaterSplash(canvas, particleListWater, hBearing) {
+	var ctx = canvas.getContext("2d");
+	canvas.width = GRID_SIZE;
+	canvas.height = GRID_SIZE;
+	ctx.globalCompositeOperation = "source-over";
+	if (hBearing == true) {
+		//rotate the context
+		ctx.translate(canvas.width / 2, canvas.height / 2);
+		ctx.rotate(Math.PI / 2);
+		ctx.translate(-canvas.width / 2, -canvas.height / 2);
+
+	}
+	ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
+	for (var i = 0; i < particleListWater.length; i++) {
+		var p = particleListWater[i];
+		ctx.beginPath();
+		ctx.fillStyle = "rgb(" + p.color.r + ", " + p.color.g + ", " + p.color.b + ")";
+		ctx.arc(p.location.x, p.location.y, p.radius, Math.PI * 2, false);
+		ctx.fill();
+		p.location.x += p.speed.x;
+		p.location.y += p.speed.y;
+		p.speed.y = p.speed.y - p.gravityPull;
 	}
 }
 
@@ -1459,6 +1520,24 @@ function explosionParticle() {
 		r: 255,
 		g: 204,
 		b: Math.round(0 + Math.random() * 10)
+	};
+}
+
+function waterParticle() {
+	this.speed = {
+		x: -0.25 + Math.random() * 0.5,
+		y: -2.5 + Math.random() * 3
+	};
+	this.gravityPull = -0.2;
+	this.location = {
+		x: GRID_SIZE / 2 - 1.5 + Math.random() * 3,
+		y: GRID_SIZE - 1
+	};
+	this.radius = 1;
+	this.color = {
+		r: 160,
+		g: 210,
+		b: Math.round(200 + Math.random() * 30)
 	};
 }
 
