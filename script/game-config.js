@@ -1,5 +1,8 @@
 //Global variables that set the game's settings.
 
+//whether sound are enabled.
+//TODO maybe these changable settings can be moved to another file?
+var SOUND_ENABLED = true;
 //Switch for random map size
 var RANDOM_MAP_SIZE = false;
 //size of the game map (number of grids each side)

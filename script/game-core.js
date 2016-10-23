@@ -72,11 +72,20 @@ var player_2_attack_count;
 var player_2_turn_counter = 0;
 var player_2_acted = false;
 
+//SFXs
+var gun_fire_sound;
+var plane_attack_sound;
+var attack_hit_sound;
+var attack_miss_sound;
 
 /**
  * Set up the basic ui for the game
  */
-function setUI() {
+function readyGame() {
+	//load the sound first
+	if (SOUND_ENABLED){
+		gun_fire_sound = new Audio(sfx_url.gun_fire);
+	}
 	//set up the main moniters
 	var monitors = document.querySelectorAll('.Monitor');
 	for (var i = 0; i < monitors.length; i++) {
@@ -630,17 +639,16 @@ function aerialCombat() {
 			//no CVs
 			nextPlayer();
 		}
-
 	} else {
 		acting_player = PLAYER_2;
 		player_2_attack_count = player_2_CV_count * 2;
-		for (var i = 0; i < player_2_attack_count; i++) {
+		if (player_2_attack_count > 0) {
 			attackMain();
+		} else {
+			//no CVs
+			nextPlayer();
 		}
-		player_2_attack_count = 0;
-		nextPlayer();
 	}
-
 }
 
 function startFleetCombat() {
@@ -698,11 +706,7 @@ function startFleetCombat() {
 		}
 		if (player_2_attack_count > 0) {
 			player_2_turn_counter = player_2_turn_counter + 1;
-			for (var i = 0; i < player_2_attack_count; i++) {
-				attackMain();
-			}
-			player_2_attack_count = 0;
-			nextPlayer();
+			attackMain();
 		} else {
 			nextPlayer();
 		}
@@ -742,258 +746,36 @@ function fire(evt) {
 	} else {
 		artilleryStrike(targetX, targetY);
 	}
-	if (player_1_attack_count <= 0) {
-		stopTargeting();
-		nextPlayer();
-	}
+	stopTargeting();
 }
 
 function airStrike(x, y) {
 	//TODO sound fx and animation
-	//register the attack
-	if (acting_player == PLAYER_1) {
-		var tGrid = document.getElementById("monitorRight").querySelector("[y='" + y + "'][x='" + x + "']");
-		if (tGrid.hasAttribute("hit_count")) {
-			var hit = parseInt(tGrid.getAttribute("hit_count"));
-			tGrid.setAttribute("hit_count", hit + 1);
-		} else {
-			tGrid.setAttribute("hit_count", "1");
-		}
-		tGrid.style.backgroundColor = 'navy';
-		tGrid.style.backgroundImage = "";
-		//see if we hit a ship
-		if (tGrid.hasAttribute("placed")) {
-			tGrid.style.backgroundColor = '';
-			tGrid.style.backgroundImage = "";
-			if (!tGrid.hasAttribute("effectId")) {
-
-				var canvas = tGrid.firstElementChild;
-				var particles = [];
-				var particle_count = 8;
-				for (var i = 0; i < particle_count; i++) {
-					particles.push(new smokeParticle());
-				}
-				if (tGrid.classList.contains("ShipsTileHorizontal")) {
-					var id = setInterval(function() {
-						showSmoke(canvas, particles, true);
-					}, 40);
-				} else {
-					var id = setInterval(function() {
-						showSmoke(canvas, particles, false);
-					}, 40);
-				}
-				tGrid.setAttribute("effectId", id);
-
-			} else {
-				//clear the old effect first
-				var effectId = parseInt(tGrid.getAttribute("effectId"));
-				clearInterval(effectId);
-				var canvas = tGrid.firstElementChild;
-				var fireParticles = [];
-				var smokeParticles = [];
-				for (var i = 0; i < 10; i++) {
-					fireParticles.push(new fireParticle());
-				}
-				for (var i = 0; i < 5; i++) {
-					smokeParticles.push(new smokeParticle());
-				}
-				if (tGrid.classList.contains("ShipsTileHorizontal")) {
-					var id = setInterval(function() {
-						showFire(canvas, fireParticles, smokeParticles, true);
-					}, 40);
-				} else {
-					var id = setInterval(function() {
-						showFire(canvas, fireParticles, smokeParticles, false);
-					}, 40);
-				}
-				tGrid.setAttribute("effectId", id);
-			}
-			//see if we sunk it
-			if (shipDestroyed("monitorRight", x, y)) {
-				//TODO add instant win determiner
-				//mark the ships as destroyed
-				var tx = parseInt(tGrid.getAttribute("head-x"));
-				var ty = parseInt(tGrid.getAttribute("head-y"));
-				var tclass = parseInt(tGrid.getAttribute("ship-class"));
-				var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
-				player_2_ship_count = player_2_ship_count - 1;
-				var ship_size;
-				switch (tclass) {
-					case SHIP_CLASS_BB:
-						ship_size = 4;
-						player_2_BB_count = player_2_BB_count - 1;
-						break;
-					case SHIP_CLASS_CV:
-						ship_size = 4;
-						player_2_CV_count = player_2_CV_count - 1;
-						break;
-					case SHIP_CLASS_CA:
-						ship_size = 3;
-						player_2_CA_count = player_2_CA_count - 1;
-						break;
-					case SHIP_CLASS_DD:
-						ship_size = 2;
-						player_2_DD_count = player_2_DD_count - 1;
-						break;
-				}
-				if (!FOG_OF_WAR) {
-					refreshEnemyPanel();
-				} else {
-					document.getElementById("counterRight").innerHTML = player_2_ship_count;
-				}
-				if (tbearing == SHIP_COURSE_VERTICAL) {
-					for (var i = 0; i < ship_size; i++) {
-						var Grid = document.getElementById("monitorRight").querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
-						if (!FOG_OF_WAR) {
-							Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
-						} else {
-							Grid.style.backgroundColor = "#990000";
-						}
-						Grid.setAttribute("sunk", "true");
-						var effectId = parseInt(Grid.getAttribute("effectId"));
-						clearInterval(effectId);
-						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
-						clearCanvas(canvas);
-						Grid.removeEventListener('click', fire, false);
-
-
-					}
-				} else if (tbearing == SHIP_COURSE_HORIZONTAL) {
-					for (var i = 0; i < ship_size; i++) {
-						var Grid = document.getElementById("monitorRight").querySelector("[y='" + (ty + i) + "'][x='" + tx + "']");
-						if (!FOG_OF_WAR) {
-							Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
-						} else {
-							Grid.style.backgroundColor = "#990000";
-						}
-						Grid.setAttribute("sunk", "true");
-						var effectId = parseInt(Grid.getAttribute("effectId"));
-						clearInterval(effectId);
-						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
-						clearCanvas(canvas);
-						Grid.removeEventListener('click', fire, false);
-
-					}
-				}
-			}
-		}
-	} else if (acting_player == PLAYER_2) {
-		var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + y + "'][x='" + x + "']");
-		if (tGrid.hasAttribute("hit_count")) {
-			var hit = parseInt(tGrid.getAttribute("hit_count"));
-			tGrid.setAttribute("hit_count", hit + 1);
-		} else {
-			tGrid.setAttribute("hit_count", "1");
-		}
-		tGrid.style.backgroundColor = 'navy';
-		//see if we hit a ship
-		if (tGrid.hasAttribute("placed")) {
-			tGrid.style.backgroundColor = '';
-			//tGrid.style.backgroundImage = "url('" + img_url.ship_tiles[parseInt(tGrid.getAttribute("ship-class"))][1][parseInt(tGrid.getAttribute("sector"))] + "')";
-			if (!tGrid.hasAttribute("effectId")) {
-				var canvas = tGrid.firstElementChild;
-				var particles = [];
-				var particle_count = 8;
-				for (var i = 0; i < particle_count; i++) {
-					particles.push(new smokeParticle());
-				}
-				if (tGrid.classList.contains("ShipsTileHorizontal")) {
-					var id = setInterval(function() {
-						showSmoke(canvas, particles, true);
-					}, 40);
-				} else {
-					var id = setInterval(function() {
-						showSmoke(canvas, particles, false);
-					}, 40);
-				}
-				tGrid.setAttribute("effectId", id);
-
-			} else {
-				//clear the old effect first
-				var effectId = parseInt(tGrid.getAttribute("effectId"));
-				clearInterval(effectId);
-				var canvas = tGrid.firstElementChild;
-				var fireParticles = [];
-				var smokeParticles = [];
-				for (var i = 0; i < 10; i++) {
-					fireParticles.push(new fireParticle());
-				}
-				for (var i = 0; i < 5; i++) {
-					smokeParticles.push(new smokeParticle());
-				}
-				if (tGrid.classList.contains("ShipsTileHorizontal")) {
-					var id = setInterval(function() {
-						showFire(canvas, fireParticles, smokeParticles, true);
-					}, 40);
-				} else {
-					var id = setInterval(function() {
-						showFire(canvas, fireParticles, smokeParticles, false);
-					}, 40);
-				}
-				tGrid.setAttribute("effectId", id);
-			}
-			//see if we sunk it
-			if (shipDestroyed("monitorLeft", x, y)) {
-				var tx = parseInt(tGrid.getAttribute("head-x"));
-				var ty = parseInt(tGrid.getAttribute("head-y"));
-				var tclass = parseInt(tGrid.getAttribute("ship-class"));
-				var tbearing = parseInt(tGrid.getAttribute("ship-bearing"));
-				//mark the ships as destroyed
-				player_1_ship_count = player_1_ship_count - 1;
-				var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + ty + "'][x='" + tx + "']");
-				var ship_size;
-				switch (tclass) {
-					case SHIP_CLASS_BB:
-						ship_size = 4;
-						player_1_BB_count = player_1_BB_count - 1;
-						break;
-					case SHIP_CLASS_CV:
-						ship_size = 4;
-						player_1_CV_count = player_1_CV_count - 1;
-						break;
-					case SHIP_CLASS_CA:
-						ship_size = 3;
-						player_1_CA_count = player_1_CA_count - 1;
-						break;
-					case SHIP_CLASS_DD:
-						ship_size = 2;
-						player_1_DD_count = player_1_DD_count - 1;
-						break;
-				}
-				refreshPlayerPanel();
-				if (tbearing == SHIP_COURSE_VERTICAL) {
-					for (var i = 0; i < ship_size; i++) {
-						var Grid = document.getElementById("monitorLeft").querySelector("[x='" + (tx + i) + "'][y='" + ty + "']");
-						Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
-						var effectId = parseInt(Grid.getAttribute("effectId"));
-						clearInterval(effectId);
-						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
-						clearCanvas(canvas);
-						Grid.setAttribute("sunk", "true");
-
-					}
-				} else if (tbearing == SHIP_COURSE_HORIZONTAL) {
-					for (var i = 0; i < ship_size; i++) {
-						var Grid = document.getElementById("monitorLeft").querySelector("[y='" + (ty + i) + "'][x='" + tx + "']");
-						Grid.style.backgroundImage = "url('" + img_url.ship_tiles[tclass][2][i] + "')";
-						var effectId = parseInt(Grid.getAttribute("effectId"));
-						clearInterval(effectId);
-						var canvas = Grid.firstElementChild; //stop displaying effect for submerged ships
-						clearCanvas(canvas);
-						Grid.setAttribute("sunk", "true");
-
-					}
-				}
-			}
-			return true; //return for AI reference
-		}
-		return false;
+	if (SOUND_ENABLED) {
+		//aircraft_sound.play();
+		//TODO add aircraft sound
+		setTimeout(function () {
+			onAttackLanded(x,y);
+		}, gun_fire_sound.duration * 1000 + 800);
+	} else {
+		onAttackLanded(x,y);
 	}
 }
 
 function artilleryStrike(x, y) {
 	//TODO sound fx and animation
-	//register the attack
+	if (SOUND_ENABLED) {
+		gun_fire_sound.play();
+		setTimeout(function () {
+			onAttackLanded(x,y);
+		}, gun_fire_sound.duration * 1000 + 800);
+	} else {
+		onAttackLanded(x,y);
+	}
+}
+
+//determine if the attack hit and its consequences
+function onAttackLanded(x,y){
 	if (acting_player == PLAYER_1) {
 		var tGrid = document.getElementById("monitorRight").querySelector("[y='" + y + "'][x='" + x + "']");
 		if (tGrid.hasAttribute("hit_count")) {
@@ -1067,8 +849,13 @@ function artilleryStrike(x, y) {
 						}
 						tGrid.setAttribute("effectId", id);
 					}
+					if (player_1_attack_count>0){
+						beginTargeting();
+					} else {
+						nextPlayer();
+					}
 				}
-			}, 1000);
+			}, 1200);
 			//see if we sunk it
 			if (shipDestroyed("monitorRight", x, y)) {
 				//TODO add instant win determiner
@@ -1134,6 +921,11 @@ function artilleryStrike(x, y) {
 						Grid.removeEventListener('click', fire, false);
 					}
 				}
+				if (player_1_attack_count>0){
+					beginTargeting();
+				} else {
+					nextPlayer();
+				}
 			}
 
 		} else {
@@ -1153,6 +945,11 @@ function artilleryStrike(x, y) {
 			}
 			setTimeout(function() {
 				clearInterval(sid);
+				if (player_1_attack_count>0){
+					beginTargeting();
+				} else {
+					nextPlayer();
+				}
 			}, 3000);
 		}
 	} else if (acting_player == PLAYER_2) {
@@ -1227,8 +1024,13 @@ function artilleryStrike(x, y) {
 						}
 						tGrid.setAttribute("effectId", id);
 					}
+					if (player_2_attack_count>0){
+						attackMain();
+					} else {
+						nextPlayer();
+					}
 				}
-			}, 1000);
+			}, 1200);
 			//see if we sunk it
 			if (shipDestroyed("monitorLeft", x, y)) {
 				var tx = parseInt(tGrid.getAttribute("head-x"));
@@ -1280,6 +1082,11 @@ function artilleryStrike(x, y) {
 
 					}
 				}
+				if (player_2_attack_count>0){
+					attackMain();
+				} else {
+					nextPlayer();
+				}
 			}
 			return true; //return for AI reference
 		} else {
@@ -1299,6 +1106,11 @@ function artilleryStrike(x, y) {
 			}
 			setTimeout(function() {
 				clearInterval(sid);
+				if (player_2_attack_count>0){
+					attackMain();
+				} else {
+					nextPlayer();
+				}
 			}, 3000);
 			return false;
 		}
@@ -1306,6 +1118,7 @@ function artilleryStrike(x, y) {
 }
 
 //effects when a ship is hit
+//TODO maybe putting these into a seperate "game-graphic.js" file?
 function showSmoke(canvas, particleList, hBearing) {
 	var ctx = canvas.getContext("2d");
 	canvas.width = GRID_SIZE;
@@ -1696,11 +1509,7 @@ function nextPlayer() {
 				player_1_acted = true;
 				player_2_attack_count = player_2_CV_count * 2;
 				if (player_2_attack_count > 0 && !player_2_acted) {
-					for (var i = 0; i < player_2_attack_count; i++) {
 						attackMain();
-					}
-					player_2_attack_count = 0;
-					nextPlayer();
 				} else {
 					//well both acted. let's move to next stage.
 					startFleetCombat();
@@ -1716,10 +1525,7 @@ function nextPlayer() {
 
 						if (player_2_attack_count > 0) {
 							player_2_turn_counter = player_2_turn_counter + 1;
-							for (var i = 0; i < player_2_attack_count; i++) {
 								attackMain();
-							}
-							nextPlayer();
 						}
 					} else if (player_1_turn_counter < player_1_BB_count) {
 						//the opponent still have BBs yet.skip this turn directly.
@@ -1730,10 +1536,7 @@ function nextPlayer() {
 
 						if (player_2_attack_count > 0) {
 							player_2_turn_counter = player_2_turn_counter + 1;
-							for (var i = 0; i < player_2_attack_count; i++) {
-								attackMain();
-							}
-							nextPlayer();
+							attackMain();
 						} else {
 							//extra code for cCA under t-dis(0 atk chance)
 							player_2_turn_counter = player_2_turn_counter + 1;
@@ -1748,10 +1551,7 @@ function nextPlayer() {
 
 						if (player_2_attack_count > 0) {
 							player_2_turn_counter = player_2_turn_counter + 1;
-							for (var i = 0; i < player_2_attack_count; i++) {
-								attackMain();
-							}
-							nextPlayer();
+							attackMain();
 						} else {
 							//extra code for cCA under t-dis(0 atk chance)
 							player_2_turn_counter = player_2_turn_counter + 1;
@@ -1766,10 +1566,7 @@ function nextPlayer() {
 
 						if (player_2_attack_count > 0) {
 							player_2_turn_counter = player_2_turn_counter + 1;
-							for (var i = 0; i < player_2_attack_count; i++) {
 								attackMain();
-							}
-							nextPlayer();
 						}
 
 					} else if (player_1_turn_counter < player_1_CV_count + player_1_DD_count + player_1_CA_count + player_1_BB_count) {
@@ -1794,10 +1591,7 @@ function nextPlayer() {
 					}
 
 					if (player_2_attack_count > 0) {
-						for (var i = 0; i < player_2_attack_count; i++) {
 							attackMain();
-						}
-						player_2_attack_count = 0;
 					}
 					player_2_turn_counter = player_2_turn_counter + 1;
 					if (player_2_turn_counter > player_2_ship_count) {
@@ -1809,7 +1603,6 @@ function nextPlayer() {
 						player_2_acted = false;
 						player_1_acted = false;
 					}
-					nextPlayer();
 				}
 			}
 		}
@@ -1959,5 +1752,6 @@ function newGame(evt) {
 
 
 window.onload = function() {
-	setUI();
+	//TODO move start game functions to game-mode-select.js
+	readyGame();
 }

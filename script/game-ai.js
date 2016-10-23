@@ -3,7 +3,7 @@
  */
 //list of ai
 /**
- * basic ai that is dumb as hell and works like sh*t 
+ * basic ai that is dumb as hell and works like sh*t (Completed)
  */
 var AI_CONFIGURATION_BASIC = 0;
 /**
@@ -19,8 +19,6 @@ var AI_CONFIGURATION_ADVANCED = 2;
  * (this is basically cheat!)
  */
 var AI_CONFIGURATION_ALL_SEEING = 3;
-//variables for data in ai
-
 
 
 /**
@@ -404,6 +402,7 @@ function attackBasic() {
 		attackBasic();
 	} else {
 		lastLastHit = lastHit; //backup
+		player_2_attack_count = player_2_attack_count - 1;
 		if (ship_class_acting == SHIP_CLASS_CV) {
 			lastHit = airStrike(x, y);
 		} else {
@@ -675,6 +674,7 @@ function attackIntermediate() {
 		attackIntermediate();
 	} else {
 		lastLastHit = lastHit; //backup
+		player_2_attack_count = player_2_attack_count - 1;
 		if (ship_class_acting == SHIP_CLASS_CV) {
 			lastHit = airStrike(x, y);
 		} else {
@@ -695,7 +695,6 @@ function attackIntermediate() {
 				target_locked = false;
 				hitCount = 0;
 			}
-
 		}
 	}
 }
@@ -718,6 +717,7 @@ function attackAllSeeing() {
 		x = parseInt(grids[i].getAttribute("x"));
 		y = parseInt(grids[i].getAttribute("y"));
 		//Let's show them some mercy. 1/9 hit chance. I think that is enough.
+		//TODO tighter spread. This is even more useless than the Intermediate one.
 		var nx = RNG(x - 1, x + 1);
 		var ny = RNG((y - 1), (y + 1));
 		if (ship_class_acting == SHIP_CLASS_CV) {
@@ -726,7 +726,5 @@ function attackAllSeeing() {
 		} else {
 			lastHit = artilleryStrike(nx, ny);
 		}
-
-
 	}
 }

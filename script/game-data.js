@@ -147,3 +147,7 @@ var img_url = {
 		]
 	]
 }
+
+var sfx_url={
+	"gun_fire":"sound/sfx/gunfire.m4a"
+}
