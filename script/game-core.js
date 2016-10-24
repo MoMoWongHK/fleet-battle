@@ -83,7 +83,7 @@ var attack_miss_sound;
  */
 function readyGame() {
 	//load the sound first
-	if (SOUND_ENABLED){
+	if (SOUND_ENABLED) {
 		gun_fire_sound = new Audio(sfx_url.gun_fire);
 	}
 	//set up the main moniters
@@ -754,11 +754,11 @@ function airStrike(x, y) {
 	if (SOUND_ENABLED) {
 		//aircraft_sound.play();
 		//TODO add aircraft sound
-		setTimeout(function () {
-			onAttackLanded(x,y);
+		setTimeout(function() {
+			onAttackLanded(x, y);
 		}, gun_fire_sound.duration * 1000 + 800);
 	} else {
-		onAttackLanded(x,y);
+		onAttackLanded(x, y);
 	}
 }
 
@@ -766,16 +766,16 @@ function artilleryStrike(x, y) {
 	//TODO sound fx and animation
 	if (SOUND_ENABLED) {
 		gun_fire_sound.play();
-		setTimeout(function () {
-			onAttackLanded(x,y);
+		setTimeout(function() {
+			onAttackLanded(x, y);
 		}, gun_fire_sound.duration * 1000 + 800);
 	} else {
-		onAttackLanded(x,y);
+		onAttackLanded(x, y);
 	}
 }
 
 //determine if the attack hit and its consequences
-function onAttackLanded(x,y){
+function onAttackLanded(x, y) {
 	if (acting_player == PLAYER_1) {
 		var tGrid = document.getElementById("monitorRight").querySelector("[y='" + y + "'][x='" + x + "']");
 		if (tGrid.hasAttribute("hit_count")) {
@@ -849,7 +849,7 @@ function onAttackLanded(x,y){
 						}
 						tGrid.setAttribute("effectId", id);
 					}
-					if (player_1_attack_count>0){
+					if (player_1_attack_count > 0) {
 						beginTargeting();
 					} else {
 						nextPlayer();
@@ -921,7 +921,7 @@ function onAttackLanded(x,y){
 						Grid.removeEventListener('click', fire, false);
 					}
 				}
-				if (player_1_attack_count>0){
+				if (player_1_attack_count > 0) {
 					beginTargeting();
 				} else {
 					nextPlayer();
@@ -945,7 +945,7 @@ function onAttackLanded(x,y){
 			}
 			setTimeout(function() {
 				clearInterval(sid);
-				if (player_1_attack_count>0){
+				if (player_1_attack_count > 0) {
 					beginTargeting();
 				} else {
 					nextPlayer();
@@ -1024,7 +1024,8 @@ function onAttackLanded(x,y){
 						}
 						tGrid.setAttribute("effectId", id);
 					}
-					if (player_2_attack_count>0){
+					onAttackResult(true);
+					if (player_2_attack_count > 0) {
 						attackMain();
 					} else {
 						nextPlayer();
@@ -1082,13 +1083,13 @@ function onAttackLanded(x,y){
 
 					}
 				}
-				if (player_2_attack_count>0){
+				onAttackResult(true);
+				if (player_2_attack_count > 0) {
 					attackMain();
 				} else {
 					nextPlayer();
 				}
 			}
-			return true; //return for AI reference
 		} else {
 			var canvas = tGrid.firstElementChild;
 			var particles = [];
@@ -1106,13 +1107,13 @@ function onAttackLanded(x,y){
 			}
 			setTimeout(function() {
 				clearInterval(sid);
-				if (player_2_attack_count>0){
+				onAttackResult(false);
+				if (player_2_attack_count > 0) {
 					attackMain();
 				} else {
 					nextPlayer();
 				}
 			}, 3000);
-			return false;
 		}
 	}
 }
@@ -1162,7 +1163,6 @@ function showFire(canvas, particleListFire, particleListSmoke, hBearing) {
 		ctx.translate(canvas.width / 2, canvas.height / 2); //move to origin first so it rotate along the center
 		ctx.rotate(Math.PI / 2);
 		ctx.translate(-canvas.width / 2, -canvas.height / 2); //move it back
-
 	}
 	ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
 	for (var i = 0; i < particleListFire.length; i++) {
@@ -1240,7 +1240,6 @@ function showWaterSplash(canvas, particleListWater, hBearing) {
 		ctx.translate(canvas.width / 2, canvas.height / 2);
 		ctx.rotate(Math.PI / 2);
 		ctx.translate(-canvas.width / 2, -canvas.height / 2);
-
 	}
 	ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
 	for (var i = 0; i < particleListWater.length; i++) {
@@ -1400,7 +1399,6 @@ function shipDestroyed(map, x, y) {
 			} else {
 				return false;
 			}
-
 		}
 	} else if (bearing == SHIP_COURSE_HORIZONTAL) {
 		for (var i = 0; i < ship_size; i++) {
@@ -1416,11 +1414,8 @@ function shipDestroyed(map, x, y) {
 			} else {
 				return false;
 			}
-
 		}
 	}
-
-
 }
 
 function lockOnSector(evt) {
@@ -1503,13 +1498,14 @@ function nextPlayer() {
 		mainButton.removeEventListener('click', surrender, false);
 		mainButton.addEventListener('click', newGame, false);
 	} else if (acting_player == PLAYER_1) {
+		//TODO add INCOMING indicator when player2/AI is acting so player is not confused
 		acting_player = PLAYER_2;
 		if (game_mode == GAME_MODE_STANDARD) {
 			if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
 				player_1_acted = true;
 				player_2_attack_count = player_2_CV_count * 2;
 				if (player_2_attack_count > 0 && !player_2_acted) {
-						attackMain();
+					attackMain();
 				} else {
 					//well both acted. let's move to next stage.
 					startFleetCombat();
@@ -1525,7 +1521,7 @@ function nextPlayer() {
 
 						if (player_2_attack_count > 0) {
 							player_2_turn_counter = player_2_turn_counter + 1;
-								attackMain();
+							attackMain();
 						}
 					} else if (player_1_turn_counter < player_1_BB_count) {
 						//the opponent still have BBs yet.skip this turn directly.
@@ -1563,12 +1559,10 @@ function nextPlayer() {
 					} else if (player_2_turn_counter < player_2_CV_count + player_2_DD_count + player_2_CA_count + player_2_BB_count) {
 						ship_class_acting = SHIP_CLASS_CV;
 						player_2_attack_count = CV_ATTACK_COUNT[player_2_engagement_form];
-
 						if (player_2_attack_count > 0) {
 							player_2_turn_counter = player_2_turn_counter + 1;
-								attackMain();
+							attackMain();
 						}
-
 					} else if (player_1_turn_counter < player_1_CV_count + player_1_DD_count + player_1_CA_count + player_1_BB_count) {
 						//ditto
 						nextPlayer();
@@ -1591,7 +1585,7 @@ function nextPlayer() {
 					}
 
 					if (player_2_attack_count > 0) {
-							attackMain();
+						attackMain();
 					}
 					player_2_turn_counter = player_2_turn_counter + 1;
 					if (player_2_turn_counter > player_2_ship_count) {
@@ -1617,7 +1611,6 @@ function nextPlayer() {
 				} else {
 					startFleetCombat();
 				}
-
 			} else if (game_phase == GAME_PHASE_COMBAT) {
 				if (!player_1_first_act_complete) {
 					if (player_1_turn_counter >= player_1_ship_count) {
@@ -1626,7 +1619,6 @@ function nextPlayer() {
 					if (player_1_turn_counter < player_1_BB_count) {
 						ship_class_acting = SHIP_CLASS_BB;
 						player_1_attack_count = BB_ATTACK_COUNT[player_1_engagement_form];
-
 						if (player_1_attack_count > 0) {
 							player_1_turn_counter = player_1_turn_counter + 1;
 							beginTargeting();
@@ -1637,7 +1629,6 @@ function nextPlayer() {
 					} else if (player_1_turn_counter < player_1_CA_count + player_1_BB_count) {
 						ship_class_acting = SHIP_CLASS_CA;
 						player_1_attack_count = CA_ATTACK_COUNT[player_1_engagement_form];
-
 						if (player_1_attack_count > 0) {
 							player_1_turn_counter = player_1_turn_counter + 1;
 							beginTargeting();
@@ -1652,7 +1643,6 @@ function nextPlayer() {
 					} else if (player_1_turn_counter < player_1_DD_count + player_1_CA_count + player_1_BB_count) {
 						ship_class_acting = SHIP_CLASS_DD;
 						player_1_attack_count = DD_ATTACK_COUNT[player_1_engagement_form];
-
 						if (player_1_attack_count > 0) {
 							player_1_turn_counter = player_1_turn_counter + 1;
 							beginTargeting();
@@ -1667,12 +1657,10 @@ function nextPlayer() {
 					} else if (player_1_turn_counter < player_1_CV_count + player_1_DD_count + player_1_CA_count + player_1_BB_count) {
 						ship_class_acting = SHIP_CLASS_CV;
 						player_1_attack_count = CV_ATTACK_COUNT[player_1_engagement_form];
-
 						if (player_1_attack_count > 0) {
 							player_1_turn_counter = player_1_turn_counter + 1;
 							beginTargeting();
 						}
-
 					} else if (player_2_turn_counter < player_2_CV_count + player_2_DD_count + player_2_CA_count + player_2_BB_count) {
 						//ditto
 						nextPlayer();
@@ -1737,7 +1725,6 @@ function surrender(evt) {
 	} else {
 		//do nothing
 	}
-
 }
 
 function newGame(evt) {
@@ -1747,7 +1734,6 @@ function newGame(evt) {
 	} else {
 		//do nothing
 	}
-
 }
 
 

@@ -330,10 +330,10 @@ var lastHitCoorY;
 var lastHit = false;
 var lastLastHit = false; //lol
 var d = 0;
+var x;
+var y;
 
 function attackBasic() {
-	var x;
-	var y;
 	if (lastHit) {
 		if (!lastLastHit) {
 
@@ -404,9 +404,9 @@ function attackBasic() {
 		lastLastHit = lastHit; //backup
 		player_2_attack_count = player_2_attack_count - 1;
 		if (ship_class_acting == SHIP_CLASS_CV) {
-			lastHit = airStrike(x, y);
+			airStrike(x, y);
 		} else {
-			lastHit = artilleryStrike(x, y);
+			artilleryStrike(x, y);
 		}
 		if (lastHit) {
 			lastHitCoorY = y;
@@ -425,8 +425,6 @@ var lockedCoorY;
 var hitCount = 0;
 
 function attackIntermediate() {
-	var x;
-	var y;
 	if (target_locked) {
 		if (lastHit) {
 			if (!lastLastHit && hitCount < 2) {
@@ -572,7 +570,7 @@ function attackIntermediate() {
 					}
 				} else {
 					//probaly a battleship. try to hit it twice in every sector.
-					//which means we simply flip the dirction and son't touch the coordinates.
+					//which means we simply flip the dirction and don't touch the coordinates.
 					switch (d) {
 						case 0:
 							x = lastHitCoorX;
@@ -722,9 +720,50 @@ function attackAllSeeing() {
 		var ny = RNG((y - 1), (y + 1));
 		if (ship_class_acting == SHIP_CLASS_CV) {
 			lastHit = airStrike(nx, ny);
-
 		} else {
 			lastHit = artilleryStrike(nx, ny);
 		}
+	}
+}
+
+/**
+ * Extra code for getting attack result due to change in 59b23a4
+ * TODO can this be fixed?
+ */
+function onAttackResult(hit) {
+	lastHit = hit;
+	switch (AI_CONFIG) {
+		case AI_CONFIGURATION_BASIC:
+			if (lastHit) {
+				lastHitCoorY = y;
+				lastHitCoorX = x;
+			}
+			break;
+		case AI_CONFIGURATION_INTERMEDIATE:
+			if (lastHit) {
+				lastHitCoorY = y;
+				lastHitCoorX = x;
+				hitCount = hitCount + 1;
+				//lock on the target if hasn't
+				if (!target_locked) {
+					target_locked = true;
+					lockedCoorY = y;
+					lockedCoorX = x;
+				}
+				//or else if it is destroyed, unlock it.
+				if (shipDestroyed("monitorLeft", x, y)) {
+					target_locked = false;
+					hitCount = 0;
+				}
+			}
+			break;
+		case AI_CONFIGURATION_ADVANCED:
+			alert(string.game_config_error);
+			break;
+		case AI_CONFIGURATION_ALL_SEEING:
+			alert(string.game_config_error);
+			break;
+		default:
+			alert(string.game_config_error);
 	}
 }
