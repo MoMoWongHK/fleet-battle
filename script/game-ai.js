@@ -40,7 +40,9 @@ function shipPlacementMain() {
 			alert(string.game_config_error);
 			break;
 		case AI_CONFIGURATION_ALL_SEEING:
-			alert(string.game_config_error);
+			//for testing, we borrow code from Internediate.
+			//Won't matter anyway. You are going to be crushed.
+			shipPlacementIntermediate();
 			break;
 		default:
 			alert(string.game_config_error);
@@ -314,7 +316,7 @@ function attackMain() {
 			alert(string.game_config_error);
 			break;
 		case AI_CONFIGURATION_ALL_SEEING:
-			alert(string.game_config_error);
+			attackAllSeeing();
 			break;
 		default:
 			alert(string.game_config_error);
@@ -696,12 +698,25 @@ function attackAllSeeing() {
 		y = parseInt(grids[i].getAttribute("y"));
 		//Let's show them some mercy. 1/9 hit chance. I think that is enough.
 		//TODO tighter spread. This is even more useless than the Intermediate one.
-		var nx = RNG(x - 1, x + 1);
-		var ny = RNG((y - 1), (y + 1));
-		if (ship_class_acting == SHIP_CLASS_CV) {
-			lastHit = airStrike(nx, ny);
+		var nx;
+		var ny;
+		var s = RNG(0,1);
+		if(s = 1){
+			nx = RNG(x - 1, x);
 		} else {
-			lastHit = artilleryStrike(nx, ny);
+			nx = RNG(x, x + 1);
+		}
+		s = RNG(0,1);
+		if(s = 1){
+			ny = RNG((y), (y + 1));
+		} else {
+			ny = RNG((y - 1), (y));
+		}
+		player_2_attack_count = player_2_attack_count - 1;
+		if (ship_class_acting == SHIP_CLASS_CV) {
+			airStrike(nx, ny);
+		} else {
+			artilleryStrike(nx, ny);
 		}
 	}
 }
@@ -741,7 +756,7 @@ function onAttackResult(hit) {
 			alert(string.game_config_error);
 			break;
 		case AI_CONFIGURATION_ALL_SEEING:
-			alert(string.game_config_error);
+			//I don't need you to tell me if I hit. I always know
 			break;
 		default:
 			alert(string.game_config_error);
