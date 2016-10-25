@@ -408,10 +408,6 @@ function attackBasic() {
 		} else {
 			artilleryStrike(x, y);
 		}
-		if (lastHit) {
-			lastHitCoorY = y;
-			lastHitCoorX = x;
-		}
 	}
 
 }
@@ -674,25 +670,9 @@ function attackIntermediate() {
 		lastLastHit = lastHit; //backup
 		player_2_attack_count = player_2_attack_count - 1;
 		if (ship_class_acting == SHIP_CLASS_CV) {
-			lastHit = airStrike(x, y);
+			airStrike(x, y);
 		} else {
-			lastHit = artilleryStrike(x, y);
-		}
-		if (lastHit) {
-			lastHitCoorY = y;
-			lastHitCoorX = x;
-			hitCount = hitCount + 1;
-			//lock on the target if hasn't
-			if (!target_locked) {
-				target_locked = true;
-				lockedCoorY = y;
-				lockedCoorX = x;
-			}
-			//or else if it is destroyed, unlock it.
-			if (shipDestroyed("monitorLeft", x, y)) {
-				target_locked = false;
-				hitCount = 0;
-			}
+			artilleryStrike(x, y);
 		}
 	}
 }
