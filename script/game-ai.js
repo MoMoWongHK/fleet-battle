@@ -37,7 +37,7 @@ function shipPlacementMain() {
 			shipPlacementIntermediate();
 			break;
 		case AI_CONFIGURATION_ADVANCED:
-			alert(string.game_config_error);
+			onConfigError();
 			break;
 		case AI_CONFIGURATION_ALL_SEEING:
 			//for testing, we borrow code from Internediate.
@@ -45,7 +45,7 @@ function shipPlacementMain() {
 			shipPlacementIntermediate();
 			break;
 		default:
-			alert(string.game_config_error);
+			onConfigError();
 
 	}
 
@@ -313,13 +313,13 @@ function attackMain() {
 			attackIntermediate();
 			break;
 		case AI_CONFIGURATION_ADVANCED:
-			alert(string.game_config_error);
+			onConfigError();
 			break;
 		case AI_CONFIGURATION_ALL_SEEING:
 			attackAllSeeing();
 			break;
 		default:
-			alert(string.game_config_error);
+			onConfigError();
 
 	}
 }
@@ -753,12 +753,12 @@ function onAttackResult(hit) {
 			}
 			break;
 		case AI_CONFIGURATION_ADVANCED:
-			alert(string.game_config_error);
+			onConfigError();
 			break;
 		case AI_CONFIGURATION_ALL_SEEING:
-			//I don't need you to tell me if I hit. I always know
+			//I don't need you to tell me if I hit. I always know.
 			break;
 		default:
-			alert(string.game_config_error);
+			onConfigError();
 	}
 }
