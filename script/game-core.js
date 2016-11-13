@@ -1735,9 +1735,3 @@ function newGame(evt) {
 		//do nothing
 	}
 }
-
-
-window.onload = function() {
-	//TODO move start game functions to game-mode-select.js
-	readyGame();
-}
