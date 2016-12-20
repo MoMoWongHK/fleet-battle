@@ -65,6 +65,7 @@ p {
     color: red;
     font-weight: bold;
 }
+
 #upperPanel {
     text-align: center;
     width: 98%;
@@ -88,7 +89,6 @@ button{
     font-size: 1.1em;
     margin: auto;
     margin-top: 15px;
-    margin-bottom: 15px;
     display: inline-block;
 }
 #leftPanel,
@@ -107,6 +107,19 @@ button{
 .DataPanelContent {
     padding: 5px 5px 5px 5px;
 }
+.ActionPrompt{
+    color: #f5f5f5;
+    background-color: #e20014;
+    font-family: 'Stardos Stencil', cursive;
+    text-align: center;
+    font-size: 1.1em;
+    padding-right: 5px;
+    padding-left: 5px;
+    margin: auto;
+    margin-bottom: 15px;
+    display: inline-block;
+    visibility: hidden;
+ }
 .Counter {
     font-size: 1.4em;
     color: red;
@@ -204,4 +217,11 @@ button{
     margin: 0px;
     user-select: none;
     pointer-events: none;
+}
+
+.blink {
+    animation: blink 1.6s step-end infinite;
+}
+@keyframes blink {
+    67% { opacity: 0 }
 }

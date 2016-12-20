@@ -140,6 +140,7 @@ function readyGame() {
 	}
 
 	//set up the data Panel
+	//TODO random map size
 	document.getElementById("dataPanelLeft").style.height = GRID_SIZE * MAP_SIZE + 2 + "px";
 	document.getElementById("dataPanelRight").style.height = GRID_SIZE * MAP_SIZE + 2 + "px";
 
@@ -182,6 +183,8 @@ function readyGame() {
 		sIcon.setAttribute('src', img_url.ship_icons[player_1_ship_set][i]);
 		document.getElementById("dataPanelContentLeft").appendChild(sIcon);
 	}
+	document.getElementById("apLeft").innerHTML = string.action_prompt_enemy;
+
 	//right Panel
 	var label2 = document.createElement('p');
 	label2.innerHTML = string.ship_placement_remaining;
@@ -222,6 +225,8 @@ function readyGame() {
 		document.getElementById("dataPanelContentRight").appendChild(sIcon2);
 
 	}
+	document.getElementById("apRight").innerHTML = string.action_prompt_player;
+	//main button
 	var mainButton = document.getElementById("mainButton");
 	mainButton.innerHTML = string.assemble_fleet;
 	mainButton.addEventListener('click', startShipPlacement, false);
@@ -632,6 +637,7 @@ function aerialCombat() {
 	var first = RNG(PLAYER_1, PLAYER_2);
 	if (first == PLAYER_1) {
 		acting_player = PLAYER_1;
+		promptAction();
 		player_1_attack_count = player_1_CV_count * 2;
 		if (player_1_attack_count > 0) {
 			beginTargeting();
@@ -641,6 +647,7 @@ function aerialCombat() {
 		}
 	} else {
 		acting_player = PLAYER_2;
+		promptAction();
 		player_2_attack_count = player_2_CV_count * 2;
 		if (player_2_attack_count > 0) {
 			attackMain();
@@ -717,6 +724,7 @@ function startFleetCombat() {
  * allow the player to select a squre to fire on
  */
 function beginTargeting() {
+    promptAction();
 	document.getElementById("counterLeft").innerHTML = player_1_attack_count;
 	document.getElementById("counterLabelLeft").innerHTML = string.attack_remaining;
 	var grids = document.getElementById("monitorRight").getElementsByClassName("MonitorGrid");
@@ -1437,6 +1445,7 @@ function unLockOnSector(evt) {
 }
 
 function stopTargeting() {
+    hideActionPrompt();
 	document.getElementById("counterLeft").innerHTML = player_1_ship_count;
 	document.getElementById("counterLabelLeft").innerHTML = string.ship_placement_remaining;
 	var grids = document.getElementById("monitorRight").getElementsByClassName("MonitorGrid");
@@ -1445,6 +1454,25 @@ function stopTargeting() {
 		grids[i].removeEventListener('mouseover', lockOnSector, false);
 		//grids[i].removeEventListener('mouseout', unLockOnSector, false);
 	}
+}
+
+function promptAction() {
+	var ap;
+	if (acting_player == PLAYER_1) {
+		document.getElementById("apRight").style.visibility = "visible";
+    } else {
+		document.getElementById("apLeft").style.visibility = "visible";
+	}
+
+}
+
+function hideActionPrompt() {
+	if (acting_player == PLAYER_1) {
+		document.getElementById("apRight").style.visibility = "hidden";
+	} else {
+		document.getElementById("apLeft").style.visibility = "hidden";
+	}
+
 }
 //refredh the number of ship displayed for player
 function refreshPlayerPanel() {
@@ -1498,8 +1526,9 @@ function nextPlayer() {
 		mainButton.removeEventListener('click', surrender, false);
 		mainButton.addEventListener('click', newGame, false);
 	} else if (acting_player == PLAYER_1) {
-		//TODO add INCOMING indicator when player2/AI is acting so player is not confused
+		hideActionPrompt()
 		acting_player = PLAYER_2;
+        promptAction();
 		if (game_mode == GAME_MODE_STANDARD) {
 			if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
 				player_1_acted = true;
@@ -1601,6 +1630,7 @@ function nextPlayer() {
 			}
 		}
 	} else {
+		hideActionPrompt()
 		acting_player = PLAYER_1;
 		if (game_mode == GAME_MODE_STANDARD) {
 			if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {

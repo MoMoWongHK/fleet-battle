@@ -42,7 +42,9 @@ var string = {
 	"victory": "VICTORY!",
 	"defeat": "DEFEAT!",
 	"new_game":"Proceed into next battle",
-	"new_game_confirm":"Are you sure you want to start a new battle?"
+	"new_game_confirm":"Are you sure you want to start a new battle?",
+	"action_prompt_player":"Awaiting orders",
+	"action_prompt_enemy":"INCOMING"
 }
 
 
