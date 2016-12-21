@@ -118,6 +118,7 @@ button{
     margin: auto;
     margin-bottom: 15px;
     display: inline-block;
+    cursor:default;
     visibility: hidden;
  }
 .Counter {

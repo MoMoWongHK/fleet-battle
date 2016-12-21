@@ -683,10 +683,11 @@ function startFleetCombat() {
 			}
 		}
 	}
-	//show it
 	//TODO sound fx and animation
-	document.getElementById("FoELabel").innerHTML = string.form_of_engagement_label;
-	document.getElementById("FoE").innerHTML = string.form_of_engagement[player_1_engagement_form];
+	if (!FOG_OF_WAR){
+		document.getElementById("FoELabel").innerHTML = string.form_of_engagement_label;
+		document.getElementById("FoE").innerHTML = string.form_of_engagement[player_1_engagement_form];
+	}
 	player_1_acted = false;
 	player_2_acted = false;
 	//determine who will go first
