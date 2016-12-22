@@ -4,11 +4,15 @@
 //TODO maybe these changable settings can be moved to another file?
 var SOUND_ENABLED = false;
 //Switch for random map size
-var RANDOM_MAP_SIZE = false;
+var RANDOM_MAP_SIZE = true;
+//Maximum size for random map generation
+var RANDOM_MAP_SIZE_MAX = 20;
+//Maximum size for random map generation
+var RANDOM_MAP_SIZE_MIN = 10;
 //size of the game map (number of grids each side)
-var MAP_SIZE = 14;
+var DEFAULT_MAP_SIZE = 14;
 //size of a grid in px.
-var GRID_SIZE = 32;
+var DEFAULT_GRID_SIZE = 32;
 //maximium number of ship allowed
 var MAX_SHIP_COUNT_STANDARD = 6;
 //maximium  number of battleships allowed.

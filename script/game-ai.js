@@ -95,7 +95,7 @@ function shipPlacableAi(x, y, type, course) {
 	}
 	if (course == SHIP_COURSE_VERTICAL) {
 		//check if over edge of map
-		if ((x + ship_size) < MAP_SIZE && y < MAP_SIZE) {
+		if ((x + ship_size) < map_size && y < map_size) {
 			//check if another ship already exsist
 			for (var i = 0; i < ship_size; i++) {
 				if (document.getElementById("monitorRight").querySelector("[x='" + (x + i) + "'][y='" + y + "']").hasAttribute("placed")) {
@@ -107,7 +107,7 @@ function shipPlacableAi(x, y, type, course) {
 			return false;
 		}
 	} else if (course == SHIP_COURSE_HORIZONTAL) {
-		if ((y + ship_size) < MAP_SIZE && x < MAP_SIZE) {
+		if ((y + ship_size) < map_size && x < map_size) {
 			for (var i = 0; i < ship_size; i++) {
 				if (document.getElementById("monitorRight").querySelector("[y='" + (y + i) + "'][x='" + x + "']").hasAttribute("placed")) {
 					return false;
@@ -125,8 +125,8 @@ function shipPlacableAi(x, y, type, course) {
  * Ship placement code for the Basic AI
  */
 function shipPlacementBasic() {
-	var x = RNG(0, MAP_SIZE);
-	var y = RNG(0, MAP_SIZE);
+	var x = RNG(0, map_size);
+	var y = RNG(0, map_size);
 	var course = RNG(SHIP_COURSE_VERTICAL, SHIP_COURSE_HORIZONTAL);
 	var type = RNG(SHIP_CLASS_BB, SHIP_CLASS_DD);
 	if (shipPlacableAi(x, y, type, course)) {
@@ -208,20 +208,20 @@ function shipPlacementIntermediate() {
 	//try to make ship spawn more even
 	switch (q) {
 		case 0:
-			x = RNG(0, Math.round(MAP_SIZE / 2));
-			y = RNG(0, Math.round(MAP_SIZE / 2));
+			x = RNG(0, Math.round(map_size / 2));
+			y = RNG(0, Math.round(map_size / 2));
 			break;
 		case 1:
-			x = RNG(Math.round(MAP_SIZE / 2), MAP_SIZE);
-			y = RNG(0, Math.round(MAP_SIZE / 2));
+			x = RNG(Math.round(map_size / 2), map_size);
+			y = RNG(0, Math.round(map_size / 2));
 			break;
 		case 2:
-			x = RNG(0, Math.round(MAP_SIZE / 2));
-			y = RNG(Math.round(MAP_SIZE / 2), MAP_SIZE);
+			x = RNG(0, Math.round(map_size / 2));
+			y = RNG(Math.round(map_size / 2), map_size);
 			break;
 		case 3:
-			x = RNG(Math.round(MAP_SIZE / 2), MAP_SIZE);
-			y = RNG(Math.round(MAP_SIZE / 2), MAP_SIZE);
+			x = RNG(Math.round(map_size / 2), map_size);
+			y = RNG(Math.round(map_size / 2), map_size);
 			break;
 	}
 	var course = RNG(SHIP_COURSE_VERTICAL, SHIP_COURSE_HORIZONTAL);
@@ -391,8 +391,8 @@ function attackBasic() {
 
 	} else {
 		//give up and just shoot randomly
-		x = RNG(0, MAP_SIZE);
-		y = RNG(0, MAP_SIZE);
+		x = RNG(0, map_size);
+		y = RNG(0, map_size);
 	}
 
 	//see if available
@@ -651,16 +651,16 @@ function attackIntermediate() {
 		} else {
 			//TODO before v0.3.0: we can handle this better.
 			//@version 0.4.0: It's good enough. For now.
-			x = RNG(0, MAP_SIZE);
-			y = RNG(0, MAP_SIZE);
+			x = RNG(0, map_size);
+			y = RNG(0, map_size);
 		}
 
 
 
 	} else {
 		//just shoot randomly
-		x = RNG(0, MAP_SIZE);
-		y = RNG(0, MAP_SIZE);
+		x = RNG(0, map_size);
+		y = RNG(0, map_size);
 	}
 
 	//see if available
@@ -696,8 +696,7 @@ function attackAllSeeing() {
 	} else {
 		x = parseInt(grids[i].getAttribute("x"));
 		y = parseInt(grids[i].getAttribute("y"));
-		//Let's show them some mercy. 1/9 hit chance. I think that is enough.
-		//TODO tighter spread. This is even more useless than the Intermediate one.
+		//Let's show them some mercy. 1/4 hit chance. I think that is enough.
 		var nx;
 		var ny;
 		var s = RNG(0,1);

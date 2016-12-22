@@ -8,6 +8,9 @@ var GAME_PHASE_SHIP_PLACEMENT = 0;
 var GAME_PAHSE_AERIAL_COMBAT = 1;
 var GAME_PHASE_COMBAT = 2;
 
+var grid_size;
+var map_size;
+
 var SHIP_COURSE_VERTICAL = 0;
 var SHIP_COURSE_HORIZONTAL = 1;
 
@@ -88,27 +91,34 @@ function readyGame() {
 	}
 	//set up the main moniters
 	var monitors = document.querySelectorAll('.Monitor');
+	if (RANDOM_MAP_SIZE){
+		map_size = RNG(RANDOM_MAP_SIZE_MIN, RANDOM_MAP_SIZE_MAX);
+		grid_size = Math.floor(DEFAULT_GRID_SIZE*DEFAULT_MAP_SIZE/map_size);
+	} else {
+		map_size = DEFAULT_MAP_SIZE;
+		grid_size = DEFAULT_GRID_SIZE;
+	}
 	for (var i = 0; i < monitors.length; i++) {
 		//set the map size
 		//TODO ramdom map size generation
-		monitors[i].style.width = GRID_SIZE * MAP_SIZE + 2 + "px";
-		monitors[i].style.height = GRID_SIZE * MAP_SIZE + 2 + "px";
-		//create a grid of MAP_SIZE * MAP_SIZE
-		for (var j = 0; j < MAP_SIZE; j++) {
-			for (var k = 0; k < MAP_SIZE; k++) {
+		monitors[i].style.width = grid_size * map_size + 2 + "px";
+		monitors[i].style.height = grid_size * map_size + 2 + "px";
+		//create a grid of map_size * map_size
+		for (var j = 0; j < map_size; j++) {
+			for (var k = 0; k < map_size; k++) {
 				var grid = document.createElement('div');
-				grid.style.height = GRID_SIZE + 'px';
-				grid.style.width = GRID_SIZE + 'px';
+				grid.style.height = grid_size + 'px';
+				grid.style.width = grid_size + 'px';
 				grid.setAttribute('x', j);
 				grid.setAttribute('y', k);
 				grid.setAttribute('class', 'MonitorGrid');
-				var topPosition = j * GRID_SIZE;
-				var leftPosition = k * GRID_SIZE;
+				var topPosition = j * grid_size;
+				var leftPosition = k * grid_size;
 				grid.style.top = topPosition + 'px';
 				grid.style.left = leftPosition + 'px';
 				var grid_canvas = document.createElement('canvas');
-				grid_canvas.style.height = GRID_SIZE + 'px';
-				grid_canvas.style.width = GRID_SIZE + 'px';
+				grid_canvas.style.height = grid_size + 'px';
+				grid_canvas.style.width = grid_size + 'px';
 				grid_canvas.setAttribute('c-x', j);
 				grid_canvas.setAttribute('c-y', k);
 				grid_canvas.setAttribute('class', 'GridCanvas');
@@ -127,7 +137,7 @@ function readyGame() {
 	var game_mode_display = document.getElementById("gameMode");
 	game_mode_display.innerHTML = string.game_mode[game_mode];
 	switch (game_mode) {
-		case GAME_MODE_STANDARD:
+		case GAME_MODE_SKIRMISH:
 			var o = document.createElement('li');
 			o.innerHTML = string.game_objective_standard;
 			objective.appendChild(o);
@@ -141,8 +151,8 @@ function readyGame() {
 
 	//set up the data Panel
 	//TODO random map size
-	document.getElementById("dataPanelLeft").style.height = GRID_SIZE * MAP_SIZE + 2 + "px";
-	document.getElementById("dataPanelRight").style.height = GRID_SIZE * MAP_SIZE + 2 + "px";
+	document.getElementById("dataPanelLeft").style.height = grid_size * map_size + 2 + "px";
+	document.getElementById("dataPanelRight").style.height = grid_size * map_size + 2 + "px";
 
 	//left panel
 	var label = document.createElement('p');
@@ -307,7 +317,7 @@ function shipPlacable(x, y) {
 	}
 	if (ship_course_placing == SHIP_COURSE_VERTICAL) {
 		//check if over edge of map
-		if ((x + ship_size_placing) <= MAP_SIZE && y <= MAP_SIZE) {
+		if ((x + ship_size_placing) <= map_size && y <= map_size) {
 			//check if another ship already exsist
 			for (var i = 0; i < ship_size_placing; i++) {
 				if (document.querySelector("[x='" + (x + i) + "'][y='" + y + "']").hasAttribute("placed")) {
@@ -319,7 +329,7 @@ function shipPlacable(x, y) {
 			return false;
 		}
 	} else if (ship_course_placing == SHIP_COURSE_HORIZONTAL) {
-		if ((y + ship_size_placing) <= MAP_SIZE && x <= MAP_SIZE) {
+		if ((y + ship_size_placing) <= map_size && x <= map_size) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				if (document.querySelector("[y='" + (y + i) + "'][x='" + x + "']").hasAttribute("placed")) {
 					return false;
@@ -532,7 +542,7 @@ function stopPlayerShipPlacement() {
 		var button = document.getElementById("rbutton");
 		button.parentNode.removeChild(button);
 	}
-	if (game_mode == GAME_MODE_STANDARD && player_2_ship_count < MAX_SHIP_COUNT) {
+	if (game_mode == GAME_MODE_SKIRMISH && player_2_ship_count < MAX_SHIP_COUNT) {
 		shipPlacementMain();
 	}
 
@@ -1131,8 +1141,8 @@ function onAttackLanded(x, y) {
 //TODO maybe putting these into a seperate "game-graphic.js" file?
 function showSmoke(canvas, particleList, hBearing) {
 	var ctx = canvas.getContext("2d");
-	canvas.width = GRID_SIZE;
-	canvas.height = GRID_SIZE;
+	canvas.width = grid_size;
+	canvas.height = grid_size;
 	ctx.globalCompositeOperation = "source-over";
 	if (hBearing == true) {
 		//rotate the context
@@ -1141,7 +1151,7 @@ function showSmoke(canvas, particleList, hBearing) {
 		ctx.translate(-canvas.width / 2, -canvas.height / 2);
 
 	}
-	ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
+	ctx.clearRect(0, 0, grid_size, grid_size);
 	for (var i = 0; i < particleList.length; i++) {
 		var p = particleList[i];
 		ctx.beginPath();
@@ -1164,8 +1174,8 @@ function showSmoke(canvas, particleList, hBearing) {
 
 function showFire(canvas, particleListFire, particleListSmoke, hBearing) {
 	var ctx = canvas.getContext("2d");
-	canvas.width = GRID_SIZE;
-	canvas.height = GRID_SIZE;
+	canvas.width = grid_size;
+	canvas.height = grid_size;
 	ctx.globalCompositeOperation = "source-over";
 	if (hBearing == true) {
 		//rotate the context
@@ -1173,7 +1183,7 @@ function showFire(canvas, particleListFire, particleListSmoke, hBearing) {
 		ctx.rotate(Math.PI / 2);
 		ctx.translate(-canvas.width / 2, -canvas.height / 2); //move it back
 	}
-	ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
+	ctx.clearRect(0, 0, grid_size, grid_size);
 	for (var i = 0; i < particleListFire.length; i++) {
 		var p = particleListFire[i];
 		ctx.beginPath();
@@ -1216,10 +1226,10 @@ function showFire(canvas, particleListFire, particleListSmoke, hBearing) {
 
 function showExplosion(canvas, particleListFire) {
 	var ctx = canvas.getContext("2d");
-	canvas.width = GRID_SIZE;
-	canvas.height = GRID_SIZE;
+	canvas.width = grid_size;
+	canvas.height = grid_size;
 	ctx.globalCompositeOperation = "lighter";
-	ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
+	ctx.clearRect(0, 0, grid_size, grid_size);
 	for (var i = 0; i < particleListFire.length; i++) {
 		var p = particleListFire[i];
 		ctx.beginPath();
@@ -1241,8 +1251,8 @@ function showExplosion(canvas, particleListFire) {
 
 function showWaterSplash(canvas, particleListWater, hBearing) {
 	var ctx = canvas.getContext("2d");
-	canvas.width = GRID_SIZE;
-	canvas.height = GRID_SIZE;
+	canvas.width = grid_size;
+	canvas.height = grid_size;
 	ctx.globalCompositeOperation = "source-over";
 	if (hBearing == true) {
 		//rotate the context
@@ -1250,7 +1260,7 @@ function showWaterSplash(canvas, particleListWater, hBearing) {
 		ctx.rotate(Math.PI / 2);
 		ctx.translate(-canvas.width / 2, -canvas.height / 2);
 	}
-	ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
+	ctx.clearRect(0, 0, grid_size, grid_size);
 	for (var i = 0; i < particleListWater.length; i++) {
 		var p = particleListWater[i];
 		ctx.beginPath();
@@ -1269,8 +1279,8 @@ function smokeParticle() {
 		y: -2 + Math.random() * 2
 	};
 	this.location = {
-		x: GRID_SIZE / 2,
-		y: GRID_SIZE / 2
+		x: grid_size / 2,
+		y: grid_size / 2
 	};
 	this.radius = 9;
 	this.life = 18 + Math.random() * 5;
@@ -1287,8 +1297,8 @@ function fireParticle() {
 		y: -0.5 + Math.random() * 0.5
 	};
 	this.location = {
-		x: GRID_SIZE / 2,
-		y: GRID_SIZE / 2
+		x: grid_size / 2,
+		y: grid_size / 2
 	};
 	this.radius = 8;
 	this.life = 8 + Math.random() * 3;
@@ -1316,8 +1326,8 @@ function explosionParticle() {
 		y: -0.5 + Math.random() * 1
 	};
 	this.location = {
-		x: GRID_SIZE / 2,
-		y: GRID_SIZE / 2
+		x: grid_size / 2,
+		y: grid_size / 2
 	};
 	this.radius = 8;
 	this.life = 15 + Math.random() * 5;
@@ -1351,8 +1361,8 @@ function waterParticle() {
 	};
 	this.gravityPull = -0.2;
 	this.location = {
-		x: GRID_SIZE / 2 - 1.5 + Math.random() * 3,
-		y: GRID_SIZE - 1
+		x: grid_size / 2 - 1.5 + Math.random() * 3,
+		y: grid_size - 1
 	};
 	this.radius = 1;
 	this.color = {
@@ -1364,7 +1374,7 @@ function waterParticle() {
 
 function clearCanvas(canvas) {
 	var ctx = canvas.getContext("2d");
-	ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
+	ctx.clearRect(0, 0, grid_size, grid_size);
 }
 
 //given a coordinate, check if the ship is destroyed.
@@ -1530,7 +1540,7 @@ function nextPlayer() {
 		hideActionPrompt()
 		acting_player = PLAYER_2;
         promptAction();
-		if (game_mode == GAME_MODE_STANDARD) {
+		if (game_mode == GAME_MODE_SKIRMISH) {
 			if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
 				player_1_acted = true;
 				player_2_attack_count = player_2_CV_count * 2;
@@ -1633,7 +1643,7 @@ function nextPlayer() {
 	} else {
 		hideActionPrompt()
 		acting_player = PLAYER_1;
-		if (game_mode == GAME_MODE_STANDARD) {
+		if (game_mode == GAME_MODE_SKIRMISH) {
 			if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
 				player_2_acted = true;
 				player_1_attack_count = player_1_CV_count * 2;
