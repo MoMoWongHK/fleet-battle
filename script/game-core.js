@@ -240,6 +240,9 @@ function readyGame() {
 	var mainButton = document.getElementById("mainButton");
 	mainButton.innerHTML = string.assemble_fleet;
 	mainButton.addEventListener('click', startShipPlacement, false);
+	//show all stuff
+	document.getElementById("content").style.visibility = "visible";
+	document.getElementById('settingBox').style.display= "none";
 
 
 }

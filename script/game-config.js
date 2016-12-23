@@ -4,7 +4,7 @@
 //TODO maybe these changable settings can be moved to another file?
 var SOUND_ENABLED = false;
 //Switch for random map size
-var RANDOM_MAP_SIZE = true;
+var RANDOM_MAP_SIZE = false;
 //Maximum size for random map generation
 var RANDOM_MAP_SIZE_MAX = 20;
 //Maximum size for random map generation

@@ -16,7 +16,21 @@
 		</title>
 	</head>
 	<body>
-		<main class="content">
+		<div id="settingBox" class="modal">
+			<!-- Modal content -->
+			<div class="modal-content">
+				<h1>Fleet Battle</h1>
+				<div>
+					<strong>Difficulty:</strong>
+					<input type="radio" name="diff" id="diff-easy"> Easy
+					<input type="radio" name="diff" id="diff-normal" checked> Normal
+				</div>
+				<input type="checkbox" name="random_map" id="randomMap">Random sized map<br>
+				<button id="gameSetButton">Ready</button>
+
+			</div>
+		</div>
+		<main class="content" id="content">
 			<div class="wrapper">
 				<h1 id="gameTitle">Fleet Battle</h1>
 				<h2 id="subTitle"></h2>
@@ -106,7 +120,7 @@
 	</body>
 	<script src="script/game-data.js"></script>
 	<script src="script/game-utils.js"></script>
-	<script src="script/game-mode-select.js"></script>
+	<script src="script/game-initialize.js"></script>
 	<script src="script/game-ai.js"></script>
 	<script src="script/game-config.js"></script>
 	<script src="script/game-core.js"></script>
