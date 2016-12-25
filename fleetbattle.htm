@@ -4,6 +4,7 @@
 		<meta charset="UTF-8">
 		<!-- CSS Style Sheet Here -->
 		<link href='style/common.css' rel='stylesheet' type='text/css'>
+		<link href='style/setting-box.css' rel='stylesheet' type='text/css'>
 		<link href="https://fonts.googleapis.com/css?family=Tienne|Iceberg|Stardos+Stencil" rel="stylesheet">
 		<style>
 			/*Embedded Style Here */
@@ -19,13 +20,32 @@
 		<div id="settingBox" class="modal">
 			<!-- Modal content -->
 			<div class="modal-content">
+				<!-- TODO any better alternatives?-->
 				<h1>Fleet Battle</h1>
-				<div>
-					<strong>Difficulty:</strong>
-					<input type="radio" name="diff" id="diff-easy"> Easy
-					<input type="radio" name="diff" id="diff-normal" checked> Normal
+				<div class="SettingPanel">
+					<div style="display: table-row; ">
+						<div class="SettingOption"><strong>Scenario:</strong></div>
+						<div class="SettingOption">
+							<select>
+								<option selected>Skirmish</option>
+							</select>
+						</div>
+					</div>
+					<div style="display: table-row; ">
+						<div class="SettingOption"><strong>Difficulty:</strong></div>
+						<div class="SettingOption">
+							<input type="radio" name="diff" id="diff-easy"> Easy
+							<input type="radio" name="diff" id="diff-normal" checked> Normal
+							<input type="radio" name="diff" id="diff-hard" disabled> Hard
+							<input type="radio" name="diff" id="diff-insane" disabled> Insane
+						</div>
+					</div>
+					<div style="display: table-row;">
+						<div class="SettingOption"><input type="checkbox" name="random_map" id="randomMap">Random sized map<br></div>
+					</div>
 				</div>
-				<input type="checkbox" name="random_map" id="randomMap">Random sized map<br>
+
+
 				<button id="gameSetButton">Ready</button>
 
 			</div>
