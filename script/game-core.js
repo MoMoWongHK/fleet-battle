@@ -443,7 +443,7 @@ function placeShip(evt) {
 			case SHIP_CLASS_BB:
 				player_1_BB_count = player_1_BB_count + 1;
 				if (player_1_BB_count >= MAX_BB_COUNT) {
-					var ships = document.querySelectorAll('.ShipIconsSelectable');
+					var ships = document.querySelectorAll('.ShipIcons');
 					var classes = ships[ship_class_placing].getAttribute('class');
 					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
 					ships[ship_class_placing].setAttribute('class', classes);
@@ -461,7 +461,7 @@ function placeShip(evt) {
 			case SHIP_CLASS_CV:
 				player_1_CV_count = player_1_CV_count + 1;
 				if (player_1_CV_count >= MAX_CV_COUNT) {
-					var ships = document.querySelectorAll('.ShipIconsSelectable');
+					var ships = document.querySelectorAll('.ShipIcons');
 					var classes = ships[ship_class_placing].getAttribute('class');
 					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
 					ships[ship_class_placing].setAttribute('class', classes);
@@ -478,7 +478,7 @@ function placeShip(evt) {
 			case SHIP_CLASS_CA:
 				player_1_CA_count = player_1_CA_count + 1;
 				if (player_1_CA_count >= MAX_CA_COUNT) {
-					var ships = document.querySelectorAll('.ShipIconsSelectable');
+					var ships = document.querySelectorAll('.ShipIcons');
 					var classes = ships[ship_class_placing].getAttribute('class');
 					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
 					ships[ship_class_placing].setAttribute('class', classes);
@@ -496,7 +496,7 @@ function placeShip(evt) {
 			case SHIP_CLASS_DD:
 				player_1_DD_count = player_1_DD_count + 1;
 				if (player_1_DD_count >= MAX_DD_COUNT) {
-					var ships = document.querySelectorAll('.ShipIconsSelectable');
+					var ships = document.querySelectorAll('.ShipIcons');
 					var classes = ships[ship_class_placing].getAttribute('class');
 					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
 					ships[ship_class_placing].setAttribute('class', classes);
