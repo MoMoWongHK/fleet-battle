@@ -2,7 +2,7 @@
 //string resources
 var string = {
 	"game_config_error": "Game not properly configured. Check your configuration file.",
-	"game_mode_label":"Game Mode :",
+	"game_mode_label":"Scenario :",
 	"game_mode":[
 		"Skirmish",
 		"Dash",

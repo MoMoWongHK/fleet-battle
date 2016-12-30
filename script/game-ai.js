@@ -29,7 +29,7 @@ var AI_CONFIGURATION_ALL_SEEING = 3;
  */
 function shipPlacementMain() {
 	//TODO switch for different method of ai
-	switch (AI_CONFIG) {
+	switch (ai_config) {
 		case AI_CONFIGURATION_BASIC:
 			shipPlacementBasic();
 			break;
@@ -305,7 +305,7 @@ function shipPlacementIntermediate() {
  */
 function attackMain() {
 	//TODO switch for different method of ai
-	switch (AI_CONFIG) {
+	switch (ai_config) {
 		case AI_CONFIGURATION_BASIC:
 			attackBasic();
 			break;
@@ -726,7 +726,7 @@ function attackAllSeeing() {
  */
 function onAttackResult(hit) {
 	lastHit = hit;
-	switch (AI_CONFIG) {
+	switch (ai_config) {
 		case AI_CONFIGURATION_BASIC:
 			if (lastHit) {
 				lastHitCoorY = y;

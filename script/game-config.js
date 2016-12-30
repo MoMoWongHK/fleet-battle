@@ -28,7 +28,7 @@ var MAX_DD_COUNT_STANDARD = 6;
 var FOG_OF_WAR = true;
 
 //type of ai used
-var AI_CONFIG = AI_CONFIGURATION_INTERMEDIATE;
+var ai_config = AI_CONFIGURATION_INTERMEDIATE;
 
 //attack count for bb, under different situation
 var BB_ATTACK_COUNT = [

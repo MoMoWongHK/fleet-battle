@@ -10,9 +10,9 @@ function showStartGameSetting(){
 	box.style.display = "block";
 
 	if(document.getElementById('diff-easy').checked) {
-		AI_CONFIG = AI_CONFIGURATION_BASIC;
+		ai_config = AI_CONFIGURATION_BASIC;
 	}else if(document.getElementById('diff-normal').checked) {
-		AI_CONFIG = AI_CONFIGURATION_INTERMEDIATE;
+		ai_config = AI_CONFIGURATION_INTERMEDIATE;
 	}
 
 	if(document.getElementById('randomMap').checked) {
