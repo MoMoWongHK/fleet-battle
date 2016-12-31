@@ -3,6 +3,8 @@ html {
     min-height: 100%;
     background: url("../img/background/ocean-horizon-LQ.jpg");
     background-size: 100% 100%;
+    user-select: none;
+    cursor:default;
 }
 h1 {
     /* not supported right now
@@ -30,7 +32,6 @@ body {
     flex: 1;
     margin-bottom: 70px;
     visibility: hidden;
-    cursor:default;
 }
 .wrapper {
     display: inline-block;
