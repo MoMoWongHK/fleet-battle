@@ -5,7 +5,7 @@ var string = {
 	"game_mode_label":"Scenario :",
 	"game_mode":[
 		"Skirmish",
-		"Dash",
+		"Classic",
 		"Interception",
 		"Raid"	
 	],
