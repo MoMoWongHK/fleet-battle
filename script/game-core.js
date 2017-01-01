@@ -778,6 +778,7 @@ function startFleetCombat() {
 		}
 		if (player_2_attack_count > 0) {
 			player_2_turn_counter = player_2_turn_counter + 1;
+			promptAction();
 			attackMain();
 		} else {
 			nextPlayer();
