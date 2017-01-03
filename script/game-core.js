@@ -1005,7 +1005,7 @@ function onAttackLanded(x, y) {
 		} else {
 			var canvas = tGrid.firstElementChild;
 			var particles = [];
-			for (var i = 0; i < 230; i++) {
+			for (var i = 0; i < 340; i++) {
 				particles.push(new waterParticle());
 			}
 			if (tGrid.classList.contains("ShipsTileHorizontal")) {
@@ -1167,7 +1167,7 @@ function onAttackLanded(x, y) {
 		} else {
 			var canvas = tGrid.firstElementChild;
 			var particles = [];
-			for (var i = 0; i < 230; i++) {
+			for (var i = 0; i < 340; i++) {
 				particles.push(new waterParticle());
 			}
 			if (tGrid.classList.contains("ShipsTileHorizontal")) {
@@ -1411,12 +1411,12 @@ function explosionParticle() {
 
 function waterParticle() {
 	this.speed = {
-		x: -0.25 + Math.random() * 0.5,
-		y: -2.5 + Math.random() * 3
+		x: (-0.25 + Math.random() * 0.5)/DEFAULT_GRID_SIZE*grid_size,
+		y: (-2.5 + Math.random() * 3)/DEFAULT_GRID_SIZE*grid_size
 	};
 	this.gravityPull = -0.2;
 	this.location = {
-		x: grid_size / 2 - 1.5 + Math.random() * 3,
+		x: grid_size / 2 - 1.5 + Math.random() * (3/DEFAULT_GRID_SIZE*grid_size),
 		y: grid_size - 1
 	};
 	this.radius = 1;
