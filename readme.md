@@ -10,7 +10,6 @@ A turn based tactical naval board game inspired by the classic board game [*Batt
  * It matters. It matters a lot.
 - Air Power!
  * An aircraft carrier makes the difference.
-
 - And More!
 
 ##The Game
@@ -33,4 +32,4 @@ Why wasting time here to read this readme while you can try out the game for you
 
 
 ##License
-*Fleet Battle* is licensed under the *MPL(Mozilla Public License) 2.0*.
+*Fleet Battle* is licensed under the [*MPL(Mozilla Public License) 2.0*](https://www.mozilla.org/en-US/MPL/2.0/).
