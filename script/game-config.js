@@ -23,6 +23,14 @@ var MAX_CV_COUNT_STANDARD = 3;
 var MAX_CA_COUNT_STANDARD = 6;
 //maximium number of destroyers allowed.
 var MAX_DD_COUNT_STANDARD = 6;
+//maximium number of turns allowed in intercept mode
+var MAX_TURN_INTERCEPT_DEFAULT= 12;
+//maximium number of turns allowed in intercept mode, minimum of random value.
+var MAX_TURN_INTERCEPT_MIN = 8;
+//maximium number of turns allowed in intercept mode, maximum of random value.
+var MAX_TURN_INTERCEPT_MAX = 8;
+//whether random time length in intercept_mode is active.
+var RANDOM_TIME_INTERCEPT = true;
 
 //Whether the fog of war is active(you can see the enemy ship)
 var FOG_OF_WAR = true;

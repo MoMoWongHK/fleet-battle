@@ -46,6 +46,8 @@ var PLAYER_2 = 1;
 
 var player_1_first_act_complete = false;
 var player_2_first_act_complete = false;
+var total_turn_counter = 0;
+var max_turn_intercept;
 
 //game stats field for each player
 var player_1_ship_set = 0;
@@ -101,6 +103,13 @@ function readyGame() {
 		} else {
 			map_size = DEFAULT_MAP_SIZE;
 			grid_size = DEFAULT_GRID_SIZE;
+		}
+	}
+	if (game_mode == GAME_MODE_INTERCEPT){
+		if (RANDOM_TIME_INTERCEPT){
+			max_turn_intercept = RNG(MAX_TURN_INTERCEPT_MIN, MAX_TURN_INTERCEPT_MAX)
+		} else {
+			max_turn_intercept = MAX_TURN_INTERCEPT_DEFAULT;
 		}
 	}
 	for (var i = 0; i < monitors.length; i++) {
@@ -164,7 +173,6 @@ function readyGame() {
 	}
 
 	//set up the data Panel
-	//TODO random map size
 	document.getElementById("dataPanelLeft").style.height = grid_size * map_size + 2 + "px";
 	document.getElementById("dataPanelRight").style.height = grid_size * map_size + 2 + "px";
 
@@ -1693,6 +1701,7 @@ function nextPlayer() {
 						if (player_2_acted && player_1_acted) {
 							player_2_turn_counter = 0;
 							player_1_turn_counter = 0;
+							total_turn_counter = total_turn_counter+1;
 							player_2_acted = false;
 							player_1_acted = false;
 						}
@@ -1802,6 +1811,7 @@ function nextPlayer() {
 						if (player_2_acted && player_1_acted) {
 							player_2_turn_counter = 0;
 							player_1_turn_counter = 0;
+							total_turn_counter = total_turn_counter +1;
 							player_2_acted = false;
 							player_1_acted = false;
 						}
@@ -1837,6 +1847,11 @@ function gameEnded() {
 	} else if (player_2_ship_count <= 0) {
 		alert(string.victory);
 		return true;
+	} else if (game_mode == GAME_MODE_INTERCEPT){
+		if (total_turn_counter >= max_turn_intercept){
+            alert(string.defeat);
+            return true;
+		}
 	} else {
 		return false;
 	}
