@@ -23,9 +23,8 @@ var string = {
 	"start_battle": "Start Battle!",
 	"no_ship_prompt": "You cannot enter a battle with a ghost fleet!",
 	"surrender": "Surrender your ships",
-	"game_objective": "Objective : ",
-	"game_mode_standard": "Skirmish",
-	"game_objective_standard": [
+	"game_objective_label": "Objective : ",
+	"game_objective": [
 		"Destroy all enemy vessels"
 	],
 	"game_stage_aerial": "AERIAL COMBAT",
@@ -37,6 +36,7 @@ var string = {
 		"T - Advantage",
 		"T - Disadvantage"
 	],
+	"turn_counter_label":"Time Remaining: ",
 	"attack_remaining": "Attack Remaining",
 	"surrender_confirm": "Are you sure you want to surrender your ship? You will be treated as defeated!",
 	"victory": "VICTORY!",

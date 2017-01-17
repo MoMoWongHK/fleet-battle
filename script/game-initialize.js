@@ -34,7 +34,7 @@ function onSelectedModeChanged() {
 	var o = document.getElementById("modeSelect");
 	switch (parseInt(o.options[o.selectedIndex].value)) {
 		case GAME_MODE_SKIRMISH:
-			game_mode = GAME_MODE_SKIRMISH;
+			game_mode = GAME_MODE_INTERCEPT;
 			document.getElementById('randomMap').disabled = false;
 			break;
 		case GAME_MODE_CLASSIC:

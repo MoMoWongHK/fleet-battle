@@ -143,7 +143,7 @@ function readyGame() {
 		}
 	}
 	//upper panel
-	document.getElementById("objective").innerHTML = string.game_objective;
+	document.getElementById("objective").innerHTML = string.game_objective_label;
 	var objective = document.getElementById("objectiveList");
 	var game_mode_label = document.getElementById("gameModeLabel");
 	game_mode_label.innerHTML = string.game_mode_label;
@@ -151,8 +151,9 @@ function readyGame() {
 	game_mode_display.innerHTML = string.game_mode[game_mode];
 	switch (game_mode) {
 		case GAME_MODE_SKIRMISH:
+		case GAME_MODE_INTERCEPT:
 			var o = document.createElement('li');
-			o.innerHTML = string.game_objective_standard;
+			o.innerHTML = string.game_objective;
 			objective.appendChild(o);
 			max_ship_count = MAX_SHIP_COUNT_STANDARD;
 			max_cv_count = MAX_CV_COUNT_STANDARD;
@@ -162,13 +163,13 @@ function readyGame() {
 			break;
 		case GAME_MODE_CLASSIC:
 			var o = document.createElement('li');
-			o.innerHTML = string.game_objective_standard;
+			o.innerHTML = string.game_objective;
 			objective.appendChild(o);
-			max_ship_count = 10;
-			max_cv_count = 1;
-			max_bb_count = 2;
-			max_ca_count = 3;
-			max_dd_count = 4;
+			max_ship_count = MAX_SHIP_COUNT_CLASSIC;
+			max_cv_count = MAX_CV_COUNT_CLASSIC;
+			max_bb_count = MAX_BB_COUNT_CLASSIC;
+			max_ca_count = MAX_CA_COUNT_CLASSIC;
+			max_dd_count = MAX_DD_COUNT_CLASSIC;
 			break;
 	}
 
@@ -661,6 +662,34 @@ function startGame() {
 				}
 				aerialCombat();
 				break;
+			case GAME_MODE_INTERCEPT:
+				//ditto
+				if (player_1_BB_count >= Math.round(player_1_ship_count / 2)) {
+					player_1_fleet_speed = FLEET_SPEED_SLOW;
+				} else {
+					player_1_fleet_speed = FLEET_SPEED_FAST;
+				}
+				if (player_2_BB_count >= Math.round(player_2_ship_count / 2)) {
+					player_2_fleet_speed = FLEET_SPEED_SLOW;
+				} else {
+					player_2_fleet_speed = FLEET_SPEED_FAST;
+				}
+				//course
+				if (player_1_fleet_course >= Math.round(player_1_ship_count / 2)) {
+					player_1_fleet_course = SHIP_COURSE_HORIZONTAL;
+				} else {
+					player_1_fleet_course = SHIP_COURSE_VERTICAL;
+				}
+				if (player_2_fleet_course >= Math.round(player_2_ship_count / 2)) {
+					player_2_fleet_course = SHIP_COURSE_HORIZONTAL;
+				} else {
+					player_2_fleet_course = SHIP_COURSE_VERTICAL;
+				}
+				document.getElementById("TurnCounterField").style.visibility = "visible";
+				document.getElementById("TurnCounterLabel").innerHTML = string.turn_counter_label;
+				document.getElementById("TurnCounter").innerHTML = (max_turn_intercept - total_turn_counter);
+				aerialCombat();
+				break;
 			case GAME_MODE_CLASSIC:
 				//DO NOTHING
 				//no aerial combat, too.
@@ -707,6 +736,7 @@ function startFleetCombat() {
 	document.getElementById("stage").innerHTML = string.game_stage_artillery;
 	switch (game_mode) {
 		case GAME_MODE_SKIRMISH:
+		case GAME_MODE_INTERCEPT:
 			//first decide the engagement form
 			if (player_1_fleet_course == player_2_fleet_course) {
 				player_1_engagement_form = RNG(ENGAGEMENT_FORM_PARALLEL, ENGAGEMENT_FORM_HEADON);
@@ -748,6 +778,7 @@ function startFleetCombat() {
 		acting_player = PLAYER_1;
 		switch (game_mode) {
 			case GAME_MODE_SKIRMISH:
+			case GAME_MODE_INTERCEPT:
 				//let's see what type of ships we have.
 				if (player_1_turn_counter <= player_1_BB_count) {
 					ship_class_acting = SHIP_CLASS_BB;
@@ -758,6 +789,7 @@ function startFleetCombat() {
 				if (player_1_ship_count > 0) {
 					player_1_attack_count = 1;
 				}
+				break;
 		}
 		if (player_1_attack_count > 0) {
 			player_1_turn_counter = player_1_turn_counter + 1;
@@ -1608,6 +1640,7 @@ function nextPlayer() {
 		promptAction();
 		switch (game_mode) {
 			case GAME_MODE_SKIRMISH:
+			case GAME_MODE_INTERCEPT:
 				if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
 					player_1_acted = true;
 					player_2_attack_count = player_2_CV_count * 2;
@@ -1702,6 +1735,9 @@ function nextPlayer() {
 							player_2_turn_counter = 0;
 							player_1_turn_counter = 0;
 							total_turn_counter = total_turn_counter+1;
+							if (game_mode == GAME_MODE_INTERCEPT) {
+								updateTurnCounter();
+							}
 							player_2_acted = false;
 							player_1_acted = false;
 						}
@@ -1726,6 +1762,7 @@ function nextPlayer() {
 		acting_player = PLAYER_1;
 		switch (game_mode) {
 			case GAME_MODE_SKIRMISH:
+			case GAME_MODE_INTERCEPT:
 				if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
 					player_2_acted = true;
 					player_1_attack_count = player_1_CV_count * 2;
@@ -1812,6 +1849,9 @@ function nextPlayer() {
 							player_2_turn_counter = 0;
 							player_1_turn_counter = 0;
 							total_turn_counter = total_turn_counter +1;
+							if (game_mode == GAME_MODE_INTERCEPT) {
+								updateTurnCounter();
+							}
 							player_2_acted = false;
 							player_1_acted = false;
 						}
@@ -1836,6 +1876,10 @@ function nextPlayer() {
 				break;
 		}
 	}
+}
+
+function updateTurnCounter() {
+	document.getElementById("TurnCounter").innerHTML = (max_turn_intercept - total_turn_counter);
 }
 
 function gameEnded() {

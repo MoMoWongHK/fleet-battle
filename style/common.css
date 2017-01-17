@@ -222,6 +222,10 @@ button{
     pointer-events: none;
 }
 
+.OptionalContent{
+    visibility:collapse;
+}
+
 .blink {
     animation: blink 1.6s step-end infinite;
 }

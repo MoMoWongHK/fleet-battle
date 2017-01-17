@@ -13,24 +13,43 @@ var RANDOM_MAP_SIZE_MIN = 10;
 var DEFAULT_MAP_SIZE = 14;
 //size of a grid in px.
 var DEFAULT_GRID_SIZE = 32;
-//maximium number of ship allowed
+//maximum number of ship allowed
+/**
+ * Standard mode settings
+ */
 var MAX_SHIP_COUNT_STANDARD = 6;
-//maximium  number of battleships allowed.
+//maximum  number of battleships allowed.
 var MAX_BB_COUNT_STANDARD = 4;
-//maximium number of aircraft carrriers allowed.
+//maximum number of aircraft carrriers allowed.
 var MAX_CV_COUNT_STANDARD = 3;
-//maximium number of crusiers allowed.
+//maximum number of crusiers allowed.
 var MAX_CA_COUNT_STANDARD = 6;
-//maximium number of destroyers allowed.
+//maximum number of destroyers allowed.
 var MAX_DD_COUNT_STANDARD = 6;
-//maximium number of turns allowed in intercept mode
-var MAX_TURN_INTERCEPT_DEFAULT= 12;
-//maximium number of turns allowed in intercept mode, minimum of random value.
-var MAX_TURN_INTERCEPT_MIN = 8;
-//maximium number of turns allowed in intercept mode, maximum of random value.
-var MAX_TURN_INTERCEPT_MAX = 8;
+//maximum number of turns allowed in intercept mode
+/**
+ * Clasiic mode setting
+ */
+var MAX_SHIP_COUNT_CLASSIC = 10;
+//maximum  number of battleships allowed.
+var MAX_BB_COUNT_CLASSIC = 1;
+//maximum number of aircraft carrriers allowed.
+var MAX_CV_COUNT_CLASSIC = 2;
+//maximum number of crusiers allowed.
+var MAX_CA_COUNT_CLASSIC = 3;
+//maximum number of destroyers allowed.
+var MAX_DD_COUNT_CLASSIC = 4;
+//maximum number of turns allowed in intercept mode
+
+var MAX_TURN_INTERCEPT_DEFAULT= 8;
+//maximum number of turns allowed in intercept mode, minimum of random value.
+var MAX_TURN_INTERCEPT_MIN = 6;
+//maximum number of turns allowed in intercept mode, maximum of random value.
+var MAX_TURN_INTERCEPT_MAX =12;
 //whether random time length in intercept_mode is active.
 var RANDOM_TIME_INTERCEPT = true;
+
+
 
 //Whether the fog of war is active(you can see the enemy ship)
 var FOG_OF_WAR = true;
