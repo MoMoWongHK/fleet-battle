@@ -1630,6 +1630,7 @@ function nextPlayer() {
 	if (gameEnded()) {
 		refreshPlayerPanel();
 		refreshEnemyPanel();
+		hideActionPrompt();
 		var mainButton = document.getElementById("mainButton");
 		mainButton.innerHTML = string.new_game;
 		mainButton.removeEventListener('click', surrender, false);
@@ -1886,16 +1887,18 @@ function gameEnded() {
 	//see if any one fleet lose all their ships
 	if (player_1_ship_count <= 0) {
 		//TODO use HTML5 dialog instead of alert
-		alert(string.defeat);
+		//TODO maybe using graphics to display the dialog?
+		alert(string.defeat+"\n"+string.defeat_description_standard);
 		return true;
 	} else if (player_2_ship_count <= 0) {
-		alert(string.victory);
+		alert(string.victory+"\n"+string.victory_description_standard);
 		return true;
 	} else if (game_mode == GAME_MODE_INTERCEPT){
 		if (total_turn_counter >= max_turn_intercept){
-            alert(string.defeat);
-            return true;
+			alert(string.defeat+"\n"+string.defeat_description_intercept);
+			return true;
 		}
+		//TODO Destruction of marked target
 	} else {
 		return false;
 	}
