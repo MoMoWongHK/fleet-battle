@@ -387,13 +387,13 @@ function shipPlacementAdvanced() {
 		if (player_2_ship_count >= max_ship_count) {
 			//done!
 		} else {
-			shipPlacementIntermediate();
+			shipPlacementAdvanced();
 		}
 	} else {
 		if (player_2_ship_count >= max_ship_count) {
 			//done!
 		} else {
-			shipPlacementIntermediate();
+			shipPlacementAdvanced();
 		}
 	}
 }
@@ -414,7 +414,7 @@ function attackMain() {
 			attackIntermediate();
 			break;
 		case AI_CONFIGURATION_ADVANCED:
-			onConfigError();
+			attackAdvanced();
 			break;
 		case AI_CONFIGURATION_ALL_SEEING:
 			attackAllSeeing();
