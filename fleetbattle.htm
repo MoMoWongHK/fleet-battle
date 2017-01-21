@@ -5,7 +5,8 @@
 		<!-- CSS Style Sheet Here -->
 		<link href='style/common.css' rel='stylesheet' type='text/css'>
 		<link href='style/setting-box.css' rel='stylesheet' type='text/css'>
-		<link href="https://fonts.googleapis.com/css?family=Tienne|Iceberg|Stardos+Stencil" rel="stylesheet">
+		<link href='style/endgame-box.css' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/css?family=Tienne|Iceberg|Stardos+Stencil|Crimson+Text" rel="stylesheet">
 		<style>
 			/*Embedded Style Here */
 		</style>
@@ -17,9 +18,9 @@
 		</title>
 	</head>
 	<body>
-		<div id="settingBox" class="modal">
+		<div id="settingBox" class="modal-start">
 			<!-- Modal content -->
-			<div class="modal-content">
+			<div class="modal-content-start">
 				<!-- TODO any better alternatives?-->
 				<h1>Fleet Battle</h1>
 				<div class="SettingPanel">
@@ -47,10 +48,15 @@
 						</div>
 					</div>
 				</div>
-
-
 				<button id="gameSetButton">Ready</button>
-
+			</div>
+		</div>
+		<div id="endGameBox" class="modal-end">
+			<!-- Modal content -->
+			<div class="modal-content-end">
+				<!-- TODO any better alternatives?-->
+				<h1 id="EndingTitle"></h1>
+				<p id="EndingDescription"></p>
 			</div>
 		</div>
 		<main class="content" id="content">

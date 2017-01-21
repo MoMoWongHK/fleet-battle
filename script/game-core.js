@@ -26,6 +26,7 @@ var SHIP_CLASS_BB = 0;
 var SHIP_CLASS_CV = 1;
 var SHIP_CLASS_CA = 2;
 var SHIP_CLASS_DD = 3;
+var SHIP_CLASS_AP = 4;
 
 var max_ship_count;
 var max_bb_count;
@@ -1886,22 +1887,36 @@ function updateTurnCounter() {
 function gameEnded() {
 	//see if any one fleet lose all their ships
 	if (player_1_ship_count <= 0) {
-		//TODO use HTML5 dialog instead of alert
 		//TODO maybe using graphics to display the dialog?
-		alert(string.defeat+"\n"+string.defeat_description_standard);
+		showEndGameDialog(string.defeat, string.defeat_description_standard);
 		return true;
 	} else if (player_2_ship_count <= 0) {
-		alert(string.victory+"\n"+string.victory_description_standard);
+		showEndGameDialog(string.victory, string.victory_description_standard);
 		return true;
 	} else if (game_mode == GAME_MODE_INTERCEPT){
 		if (total_turn_counter >= max_turn_intercept){
-			alert(string.defeat+"\n"+string.defeat_description_intercept);
+			showEndGameDialog(string.defeat, string.defeat_description_intercept);
 			return true;
 		}
 		//TODO Destruction of marked target
 	} else {
 		return false;
 	}
+}
+
+function showEndGameDialog(title, description){
+
+	document.getElementById('EndingTitle').innerHTML = title;
+	document.getElementById('EndingDescription').innerHTML = description;
+	document.getElementById('endGameBox').style.display = "block";
+	setTimeout(function () {
+		window.onclick = function(event) {
+			document.getElementById('endGameBox').style.display = "none";
+
+		}
+	}, 3000);
+
+
 }
 
 function surrender(evt) {

@@ -1,4 +1,4 @@
-.modal {
+.modal-start {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 999; /* Sit on top */
@@ -12,7 +12,7 @@
 }
 
 /* Modal Content/Box */
-.modal-content {
+.modal-content-start {
     background-image: url("../img/background/old-paper-1957.png");
     background-size: 100% 100%;
     font-family: 'Tienne', serif;

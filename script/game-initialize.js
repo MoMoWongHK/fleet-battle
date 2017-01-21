@@ -53,4 +53,4 @@ function onSelectedModeChanged() {
 window.onload = function() {
 	//TODO add mode selection and other start game settings
 	showStartGameSetting();
-}
+};
