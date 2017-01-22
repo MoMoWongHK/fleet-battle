@@ -766,7 +766,7 @@ function attackIntermediate() {
 
 	//see if available
 	var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + y + "'][x='" + x + "']");
-	if (tGrid == null || tGrid.hasAttribute("sunk")) {
+	if (tGrid == null || tGrid.hasAttribute("sunk")|| (!target_locked && tGrid.hasAttribute("hit"))) {
 		//if no, do it again
 		attackIntermediate();
 	} else {
@@ -1065,7 +1065,7 @@ function attackAdvanced() {
 
 	//see if available
 	var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + y + "'][x='" + x + "']");
-	if (tGrid == null || tGrid.hasAttribute("sunk")) {
+	if (tGrid == null || tGrid.hasAttribute("sunk")|| (!target_locked && tGrid.hasAttribute("hit"))) {
 		//if no, do it again
 		attackIntermediate();
 	} else {
