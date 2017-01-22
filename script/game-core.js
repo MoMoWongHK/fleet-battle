@@ -855,12 +855,12 @@ function fire(evt) {
 	} else if (acting_player == PLAYER_2) {
 		player_2_attack_count = player_2_attack_count - 1;
 	}
+	stopTargeting();
 	if (ship_class_acting == SHIP_CLASS_CV) {
 		airStrike(targetX, targetY);
 	} else {
 		artilleryStrike(targetX, targetY);
 	}
-	stopTargeting();
 }
 
 function airStrike(x, y) {
@@ -1725,10 +1725,6 @@ function nextPlayer() {
 							ship_class_acting = SHIP_CLASS_CV;
 							player_2_attack_count = CV_ATTACK_COUNT[player_2_engagement_form];
 						}
-
-						if (player_2_attack_count > 0) {
-							attackMain();
-						}
 						player_2_turn_counter = player_2_turn_counter + 1;
 						if (player_2_turn_counter > player_2_ship_count) {
 							player_2_acted = true;
@@ -1742,6 +1738,11 @@ function nextPlayer() {
 							}
 							player_2_acted = false;
 							player_1_acted = false;
+						}
+						if (player_2_attack_count > 0) {
+							attackMain();
+						} else {
+							nextPlayer();
 						}
 					}
 				}
