@@ -58,25 +58,25 @@ var ship_size;
 
 function shipPlacableAi(x, y, type, course) {
 	if (type == SHIP_CLASS_BB) {
-		if (player_2_BB_count >= max_bb_count) {
+		if (player_2_ships_count[SHIP_CLASS_BB] >= max_bb_count) {
 			//stop the meaningless struggle
 			return false;
 		}
 	}
 	if (type == SHIP_CLASS_CV) {
-		if (player_2_CV_count >= max_cv_count) {
+		if (player_2_ships_count[SHIP_CLASS_CV] >= max_cv_count) {
 			//stop the meaningless struggle
 			return false;
 		}
 	}
 	if (type == SHIP_CLASS_CA) {
-		if (player_2_CA_count >= max_ca_count) {
+		if (player_2_ships_count[SHIP_CLASS_CA] >= max_ca_count) {
 			//stop the meaningless struggle
 			return false;
 		}
 	}
 	if (type == SHIP_CLASS_DD) {
-		if (player_2_DD_count >= max_dd_count) {
+		if (player_2_ships_count[SHIP_CLASS_DD] >= max_dd_count) {
 			//stop the meaningless struggle
 			return false;
 		}
@@ -165,29 +165,28 @@ function shipPlacementBasic() {
 			}
 		}
 		//add the counter
-		player_2_ship_count = player_2_ship_count + 1;
 		player_2_fleet_course = player_2_fleet_course + course;
 		switch (type) {
 			case SHIP_CLASS_BB:
-				player_2_BB_count = player_2_BB_count + 1;
+				player_2_ships_count[SHIP_CLASS_BB] = player_2_ships_count[SHIP_CLASS_BB] + 1;
 				break;
 			case SHIP_CLASS_CV:
-				player_2_CV_count = player_2_CV_count + 1;
+				player_2_ships_count[SHIP_CLASS_CV] = player_2_ships_count[SHIP_CLASS_CV] + 1;
 				break;
 			case SHIP_CLASS_CA:
-				player_2_CA_count = player_2_CA_count + 1;
+				player_2_ships_count[SHIP_CLASS_CA] = player_2_ships_count[SHIP_CLASS_CA] + 1;
 				break;
 			case SHIP_CLASS_DD:
-				player_2_DD_count = player_2_DD_count + 1;
+				player_2_ships_count[SHIP_CLASS_DD] = player_2_ships_count[SHIP_CLASS_DD] + 1;
 				break;
 		}
-		if (player_2_ship_count >= max_ship_count) {
+		if (getPlayerShipCount(PLAYER_2) >= max_ship_count) {
 			//done!
 		} else {
 			shipPlacementBasic();
 		}
 	} else {
-		if (player_2_ship_count >= max_ship_count) {
+		if (getPlayerShipCount(PLAYER_2) >= max_ship_count) {
 			//done!
 		} else {
 			shipPlacementBasic();
@@ -261,33 +260,32 @@ function shipPlacementIntermediate() {
 			}
 		}
 		//add the counter
-		player_2_ship_count = player_2_ship_count + 1;
 		player_2_fleet_course = player_2_fleet_course + course;
 		switch (type) {
 			case SHIP_CLASS_BB:
-				player_2_BB_count = player_2_BB_count + 1;
+				player_2_ships_count[SHIP_CLASS_BB] = player_2_ships_count[SHIP_CLASS_BB] + 1;
 				break;
 			case SHIP_CLASS_CV:
-				player_2_CV_count = player_2_CV_count + 1;
+				player_2_ships_count[SHIP_CLASS_CV] = player_2_ships_count[SHIP_CLASS_CV] + 1;
 				break;
 			case SHIP_CLASS_CA:
-				player_2_CA_count = player_2_CA_count + 1;
+				player_2_ships_count[SHIP_CLASS_CA] = player_2_ships_count[SHIP_CLASS_CA] + 1;
 				break;
 			case SHIP_CLASS_DD:
-				player_2_DD_count = player_2_DD_count + 1;
+				player_2_ships_count[SHIP_CLASS_DD] = player_2_ships_count[SHIP_CLASS_DD] + 1;
 				break;
 		}
 		q = q + 1;
 		if (q > 3) {
 			q = 0;
 		}
-		if (player_2_ship_count >= max_ship_count) {
+		if (getPlayerShipCount(PLAYER_2) >= max_ship_count) {
 			//done!
 		} else {
 			shipPlacementIntermediate();
 		}
 	} else {
-		if (player_2_ship_count >= max_ship_count) {
+		if (getPlayerShipCount(PLAYER_2) >= max_ship_count) {
 			//done!
 		} else {
 			shipPlacementIntermediate();
@@ -322,9 +320,9 @@ function shipPlacementAdvanced() {
 	var course = RNG(SHIP_COURSE_VERTICAL, SHIP_COURSE_HORIZONTAL);
 	var type;
 	//optimzed fleet composition
-	if (player_2_CV_count < max_cv_count){
+	if (player_2_ships_count[SHIP_CLASS_CV] < max_cv_count){
 		type = SHIP_CLASS_CV;
-	} else if (player_2_BB_count < max_bb_count && player_2_BB_count < Math.round(max_ship_count/2)){
+	} else if (player_2_ships_count[SHIP_CLASS_BB] < max_bb_count && player_2_ships_count[SHIP_CLASS_BB] < Math.round(max_ship_count/2)){
 		type = SHIP_CLASS_BB;
 	} else {
 		type = RNG(SHIP_CLASS_CA, SHIP_CLASS_DD);
@@ -364,33 +362,32 @@ function shipPlacementAdvanced() {
 			}
 		}
 		//add the counter
-		player_2_ship_count = player_2_ship_count + 1;
 		player_2_fleet_course = player_2_fleet_course + course;
 		switch (type) {
 			case SHIP_CLASS_BB:
-				player_2_BB_count = player_2_BB_count + 1;
+				player_2_ships_count[SHIP_CLASS_BB] = player_2_ships_count[SHIP_CLASS_BB] + 1;
 				break;
 			case SHIP_CLASS_CV:
-				player_2_CV_count = player_2_CV_count + 1;
+				player_2_ships_count[SHIP_CLASS_CV] = player_2_ships_count[SHIP_CLASS_CV] + 1;
 				break;
 			case SHIP_CLASS_CA:
-				player_2_CA_count = player_2_CA_count + 1;
+				player_2_ships_count[SHIP_CLASS_CA] = player_2_ships_count[SHIP_CLASS_CA] + 1;
 				break;
 			case SHIP_CLASS_DD:
-				player_2_DD_count = player_2_DD_count + 1;
+				player_2_ships_count[SHIP_CLASS_DD] = player_2_ships_count[SHIP_CLASS_DD] + 1;
 				break;
 		}
 		q = q + 1;
 		if (q > 3) {
 			q = 0;
 		}
-		if (player_2_ship_count >= max_ship_count) {
+		if (getPlayerShipCount(PLAYER_2) >= max_ship_count) {
 			//done!
 		} else {
 			shipPlacementAdvanced();
 		}
 	} else {
-		if (player_2_ship_count >= max_ship_count) {
+		if (getPlayerShipCount(PLAYER_2) >= max_ship_count) {
 			//done!
 		} else {
 			shipPlacementAdvanced();
