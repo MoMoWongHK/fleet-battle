@@ -683,6 +683,19 @@ function startGame() {
 				} else {
 					player_2_fleet_course = SHIP_COURSE_VERTICAL;
 				}
+				if (SPECIFIC_CLASS_INTERCEPT){
+					if (player_2_ships_count[SHIP_CLASS_CV]>0&&player_2_ships_count[SHIP_CLASS_BB]>0){
+						ship_class_target_intercept = RNG(SHIP_CLASS_BB, SHIP_CLASS_CV);
+
+					} else if(player_2_ships_count[SHIP_CLASS_BB]>0){
+						ship_class_target_intercept = SHIP_CLASS_BB;
+					} else if (player_2_ships_count[SHIP_CLASS_CV]){
+						ship_class_target_intercept = SHIP_CLASS_CV;
+					} else {
+						//nothing of interest.
+						SPECIFIC_CLASS_INTERCEPT = false;//kill'em all.
+					}
+				}
 				document.getElementById("TurnCounterField").style.visibility = "visible";
 				document.getElementById("TurnCounterLabel").innerHTML = string.turn_counter_label;
 				document.getElementById("TurnCounter").innerHTML = (max_turn_intercept - total_turn_counter);
@@ -1896,6 +1909,12 @@ function gameEnded() {
 		if (total_turn_counter >= max_turn_intercept){
 			showEndGameDialog(string.defeat, string.defeat_description_intercept);
 			return true;
+		}
+		if (SPECIFIC_CLASS_INTERCEPT){
+			if (player_2_ships_count[ship_class_target_intercept]<=0){
+				showEndGameDialog(string.victory, string.victory_description_intercept);
+				return true;
+			}
 		}
 		//TODO Destruction of marked target
 	} else {

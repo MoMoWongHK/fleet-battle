@@ -48,6 +48,8 @@ var MAX_TURN_INTERCEPT_MIN = 6;
 var MAX_TURN_INTERCEPT_MAX =12;
 //whether random time length in intercept_mode is active.
 var RANDOM_TIME_INTERCEPT = true;
+//whether specific classes will be designated as target in intercept mode
+var SPECIFIC_CLASS_INTERCEPT = true;
 
 
 
