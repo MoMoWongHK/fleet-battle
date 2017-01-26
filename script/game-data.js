@@ -24,9 +24,10 @@ var string = {
 	"no_ship_prompt": "You cannot enter a battle with a ghost fleet!",
 	"surrender": "Surrender your ships",
 	"game_objective_label": "Objective : ",
-	"game_objective": [
-		"Destroy all enemy vessels"
-	],
+	"game_objective_loading": "Waiting for briefing",
+	"game_objective_standard": "Destroy all enemy vessels",
+	"game_objective_intercept_bb": "Destroy enemy battleships",
+	"game_objective_intercept_cv": "Destroy enemy aircraft carriers",
 	"game_stage_aerial": "AERIAL COMBAT",
 	"game_stage_artillery": "FLEET ACTION",
 	"form_of_engagement_label": "Form of Engagement",

@@ -146,7 +146,7 @@ function readyGame() {
 		case GAME_MODE_SKIRMISH:
 		case GAME_MODE_INTERCEPT:
 			var o = document.createElement('li');
-			o.innerHTML = string.game_objective;
+			o.innerHTML = string.game_objective_loading;
 			objective.appendChild(o);
 			max_ship_count = MAX_SHIP_COUNT_STANDARD;
 			max_cv_count = MAX_CV_COUNT_STANDARD;
@@ -156,7 +156,7 @@ function readyGame() {
 			break;
 		case GAME_MODE_CLASSIC:
 			var o = document.createElement('li');
-			o.innerHTML = string.game_objective;
+			o.innerHTML = string.game_objective_standard;
 			objective.appendChild(o);
 			max_ship_count = MAX_SHIP_COUNT_CLASSIC;
 			max_cv_count = MAX_CV_COUNT_CLASSIC;
@@ -658,6 +658,11 @@ function startGame() {
 				} else {
 					player_2_fleet_course = SHIP_COURSE_VERTICAL;
 				}
+				var objective = document.getElementById("objectiveList");
+				var o = document.createElement('li');
+				o.innerHTML = string.game_objective_standard;
+				objective.innerHTML = "";
+				objective.appendChild(o);
 				aerialCombat();
 				break;
 			case GAME_MODE_INTERCEPT:
@@ -696,6 +701,20 @@ function startGame() {
 						SPECIFIC_CLASS_INTERCEPT = false;//kill'em all.
 					}
 				}
+				var objective = document.getElementById("objectiveList");
+				var o = document.createElement('li');
+				if (SPECIFIC_CLASS_INTERCEPT){
+					if (ship_class_target_intercept == SHIP_CLASS_BB){
+						o.innerHTML = string.game_objective_intercept_bb;
+					} else {
+						o.innerHTML = string.game_objective_intercept_cv;
+					}
+				} else {
+					o.innerHTML = string.game_objective_standard;
+				}
+
+				objective.innerHTML = "";
+				objective.appendChild(o);
 				document.getElementById("TurnCounterField").style.visibility = "visible";
 				document.getElementById("TurnCounterLabel").innerHTML = string.turn_counter_label;
 				document.getElementById("TurnCounter").innerHTML = (max_turn_intercept - total_turn_counter);
