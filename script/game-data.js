@@ -7,7 +7,7 @@ var string = {
 		"Skirmish",
 		"Classic",
 		"Interception",
-		"Raid"	
+		"Breakthrough"
 	],
 	"current_stage": "Current Stage",
 	"ship_placement_remaining": "Remaining ship",
@@ -28,6 +28,10 @@ var string = {
 	"game_objective_standard": "Destroy all enemy vessels",
 	"game_objective_intercept_bb": "Destroy enemy battleships",
 	"game_objective_intercept_cv": "Destroy enemy aircraft carriers",
+	"game_objective_breakthrough_bb": "Protect your battleships to break through enemy resistance",
+	"game_objective_breakthrough_cv": "Protect your aircraft carriers to break through enemy resistance",
+	"game_objective_breakthrough": "Break through enemy resistance",
+	"game_objective_convoy": "Escort the transport ships to their destination",
 	"game_stage_aerial": "AERIAL COMBAT",
 	"game_stage_artillery": "FLEET ACTION",
 	"form_of_engagement_label": "Form of Engagement",
@@ -43,9 +47,11 @@ var string = {
 	"victory": "VICTORY",
 	"victory_description_standard": "All enemy vessels destroyed!",
 	"victory_description_intercept": "Target vessel destroyed!",
+	"victory_description_breakthrough": "You have arrived at your destination.",
 	"defeat": "DEFEAT",
 	"defeat_description_standard": "Your fleet was annihilated.",
 	"defeat_description_intercept": "The enemy had reached their destination.",
+	"defeat_description_breakthrough": "You failed to protect your ships.",
 	"new_game":"Proceed into next battle",
 	"new_game_confirm":"Are you sure you want to start a new battle?",
 	"action_prompt_player":"Awaiting Orders",
@@ -62,19 +68,22 @@ var img_url = {
 		["img/ships/jp/BB.png",
 			"img/ships/jp/CV.png",
 			"img/ships/jp/CA.png",
-			"img/ships/jp/DD.png"
+			"img/ships/jp/DD.png",
+			"img/ships/jp/AP.svg"
 		],
 
 		["img/ships/us/BB.png",
 			"img/ships/us/CV.png",
 			"img/ships/us/CA.png",
-			"img/ships/us/DD.png"
+			"img/ships/us/DD.png",
+			"img/ships/us/AP.svg"
 		],
 
 		["img/ships/uk/BB.png",
 			"img/ships/uk/CV.png",
 			"img/ships/uk/CA.png",
-			"img/ships/uk/DD.png"
+			"img/ships/uk/DD.png",
+			"img/ships/uk/AP.svg"
 		]
 
 
@@ -106,19 +115,19 @@ var img_url = {
 				"img/tiles/CV/sector_1_normal.png",
 				"img/tiles/CV/sector_2_normal.png",
 				"img/tiles/CV/sector_3_normal.png",
-				"img/tiles/CV/sector_4_normal.png",
+				"img/tiles/CV/sector_4_normal.png"
 			],
 			[
 				"img/tiles/CV/sector_1_hit.png",
 				"img/tiles/CV/sector_2_hit.png",
 				"img/tiles/CV/sector_3_hit.png",
-				"img/tiles/CV/sector_4_hit.png",
+				"img/tiles/CV/sector_4_hit.png"
 			],
 			[
 				"img/tiles/CV/sector_1_sunk.png",
 				"img/tiles/CV/sector_2_sunk.png",
 				"img/tiles/CV/sector_3_sunk.png",
-				"img/tiles/CV/sector_4_sunk.png",
+				"img/tiles/CV/sector_4_sunk.png"
 			]
 		],
 		[

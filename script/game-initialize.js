@@ -3,6 +3,7 @@ var GAME_MODE_SKIRMISH = 0;
 var GAME_MODE_CLASSIC = 1;
 var GAME_MODE_INTERCEPT = 2;
 var GAME_MODE_BREAKTHROUGH = 3;
+var GAME_MODE_CONVOY = 4;
 
 function showStartGameSetting() {
 	var box = document.getElementById('settingBox');
@@ -39,6 +40,10 @@ function onSelectedModeChanged() {
 			break;
 		case GAME_MODE_INTERCEPT:
 			game_mode = GAME_MODE_INTERCEPT;
+			document.getElementById('randomMap').disabled = false;
+			break;
+		case GAME_MODE_BREAKTHROUGH:
+			game_mode = GAME_MODE_BREAKTHROUGH;
 			document.getElementById('randomMap').disabled = false;
 			break;
 		case GAME_MODE_CLASSIC:

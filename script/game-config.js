@@ -47,9 +47,9 @@ var MAX_TURN_INTERCEPT_MIN = 6;
 //maximum number of turns allowed in intercept mode, maximum of random value.
 var MAX_TURN_INTERCEPT_MAX =12;
 //whether random time length in intercept_mode is active.
-var RANDOM_TIME_INTERCEPT = true;
+var RANDOM_TIME_INTERCEPT_BREAKTHROUGH = true;
 //whether specific classes will be designated as target in intercept mode
-var SPECIFIC_CLASS_INTERCEPT = true;
+var SPECIFIC_CLASS_INTERCEPT_BREAKTHROUGH = true;
 
 
 
