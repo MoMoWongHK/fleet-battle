@@ -1,5 +1,5 @@
 /**
- * File for codes that are reaposible for defining and controlling the actions of  the ai opponent.
+ * File for codes that are responsible for defining and controlling the actions of  the ai opponent.
  */
 //list of ai
 /**
@@ -24,7 +24,7 @@ var AI_CONFIGURATION_ALL_SEEING = 3;
 /**
  * Codes for computer ship placing
  */
-/**  
+/**
  * Main switch of code for different AI levels configured.
  */
 function shipPlacementMain() {
@@ -320,9 +320,9 @@ function shipPlacementAdvanced() {
 	var course = RNG(SHIP_COURSE_VERTICAL, SHIP_COURSE_HORIZONTAL);
 	var type;
 	//optimzed fleet composition
-	if (player_2_ships_count[SHIP_CLASS_CV] < max_cv_count){
+	if (player_2_ships_count[SHIP_CLASS_CV] < max_cv_count) {
 		type = SHIP_CLASS_CV;
-	} else if (player_2_ships_count[SHIP_CLASS_BB] < max_bb_count && player_2_ships_count[SHIP_CLASS_BB] < Math.round(max_ship_count/2)){
+	} else if (player_2_ships_count[SHIP_CLASS_BB] < max_bb_count && player_2_ships_count[SHIP_CLASS_BB] < Math.round(max_ship_count / 2)) {
 		type = SHIP_CLASS_BB;
 	} else {
 		type = RNG(SHIP_CLASS_CA, SHIP_CLASS_DD);
@@ -398,7 +398,7 @@ function shipPlacementAdvanced() {
 /**
  * Codes for computer ship targeting
  */
-/**  
+/**
  * Main switch of code for different AI levels configured.
  */
 function attackMain() {
@@ -524,7 +524,7 @@ function attackIntermediate() {
 	if (target_locked) {
 		if (lastHit) {
 			if (!lastLastHit && hitCount < 2) {
-				//try to move around last hit point and hit the remainng section
+				//try to move around last hit point and hit the remaining section
 				d = RNG(0, 3);
 
 			} else {
@@ -665,8 +665,8 @@ function attackIntermediate() {
 							break;
 					}
 				} else {
-					//probaly a battleship. try to hit it twice in every sector.
-					//which means we simply flip the dirction and don't touch the coordinates.
+					//probably a battleship. try to hit it twice in every sector.
+					//which means we simply flip the direction and don't touch the coordinates.
 					switch (d) {
 						case 0:
 							x = lastHitCoorX;
@@ -754,7 +754,6 @@ function attackIntermediate() {
 		}
 
 
-
 	} else {
 		//just shoot randomly
 		x = RNG(0, map_size);
@@ -763,7 +762,7 @@ function attackIntermediate() {
 
 	//see if available
 	var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + y + "'][x='" + x + "']");
-	if (tGrid == null || tGrid.hasAttribute("sunk")|| (!target_locked && tGrid.hasAttribute("hit"))) {
+	if (tGrid == null || tGrid.hasAttribute("sunk") || (!target_locked && tGrid.hasAttribute("hit"))) {
 		//if no, do it again
 		attackIntermediate();
 	} else {
@@ -1033,7 +1032,6 @@ function attackAdvanced() {
 		}
 
 
-
 	} else {
 		//cycle between the areas
 		switch (q) {
@@ -1062,7 +1060,7 @@ function attackAdvanced() {
 
 	//see if available
 	var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + y + "'][x='" + x + "']");
-	if (tGrid == null || tGrid.hasAttribute("sunk")|| (!target_locked && tGrid.hasAttribute("hit"))) {
+	if (tGrid == null || tGrid.hasAttribute("sunk") || (!target_locked && tGrid.hasAttribute("hit"))) {
 		//if no, do it again
 		attackIntermediate();
 	} else {
@@ -1096,14 +1094,14 @@ function attackAllSeeing() {
 		//Let's show them some mercy. 1/4 hit chance. I think that is enough.
 		var nx;
 		var ny;
-		var s = RNG(0,1);
-		if(s = 1){
+		var s = RNG(0, 1);
+		if (s = 1) {
 			nx = RNG(x - 1, x);
 		} else {
 			nx = RNG(x, x + 1);
 		}
-		s = RNG(0,1);
-		if(s = 1){
+		s = RNG(0, 1);
+		if (s = 1) {
 			ny = RNG((y), (y + 1));
 		} else {
 			ny = RNG((y - 1), (y));

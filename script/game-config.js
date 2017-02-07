@@ -50,7 +50,8 @@ var MAX_TURN_INTERCEPT_MAX =12;
 var RANDOM_TIME_INTERCEPT_BREAKTHROUGH = true;
 //whether specific classes will be designated as target in intercept mode
 var SPECIFIC_CLASS_INTERCEPT_BREAKTHROUGH = true;
-
+//Transport ship count in convoy mode
+var AP_COUNT_CONVOY = 3;
 
 
 //Whether the fog of war is active(you can see the enemy ship)

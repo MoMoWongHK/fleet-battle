@@ -49,11 +49,11 @@ var PLAYER_2 = 1;
 var player_1_first_act_complete = false;
 var player_2_first_act_complete = false;
 var total_turn_counter = 0;
-var max_turn_intercept;
+var max_turn_intercept_breakthrough;
 
 //game stats field for each player
 var player_1_ship_set = 0;
-var player_1_ships_count = [0,0,0,0,0];
+var player_1_ships_count = [0, 0, 0, 0, 0];
 var player_1_fleet_course = 0;
 var player_1_fleet_speed;
 var player_1_engagement_form; //Form Of Engagement
@@ -62,7 +62,7 @@ var player_1_turn_counter = 0;
 var player_1_acted = false;
 
 var player_2_ship_set = 0;
-var player_2_ships_count = [0,0,0,0,0];
+var player_2_ships_count = [0, 0, 0, 0, 0];
 var player_2_fleet_course = 0;
 var player_2_fleet_speed;
 var player_2_engagement_form;
@@ -98,11 +98,11 @@ function readyGame() {
 			grid_size = DEFAULT_GRID_SIZE;
 		}
 	}
-	if (game_mode == GAME_MODE_INTERCEPT || game_mode == GAME_MODE_BREAKTHROUGH){
-		if (RANDOM_TIME_INTERCEPT_BREAKTHROUGH){
-			max_turn_intercept = RNG(MAX_TURN_INTERCEPT_MIN, MAX_TURN_INTERCEPT_MAX)
+	if (game_mode == GAME_MODE_INTERCEPT || game_mode == GAME_MODE_BREAKTHROUGH||game_mode==GAME_MODE_CONVOY) {
+		if (RANDOM_TIME_INTERCEPT_BREAKTHROUGH) {
+			max_turn_intercept_breakthrough = RNG(MAX_TURN_INTERCEPT_MIN, MAX_TURN_INTERCEPT_MAX)
 		} else {
-			max_turn_intercept = MAX_TURN_INTERCEPT_DEFAULT;
+			max_turn_intercept_breakthrough = MAX_TURN_INTERCEPT_DEFAULT;
 		}
 	}
 	for (var i = 0; i < monitors.length; i++) {
@@ -165,6 +165,17 @@ function readyGame() {
 			max_ca_count = MAX_CA_COUNT_CLASSIC;
 			max_dd_count = MAX_DD_COUNT_CLASSIC;
 			break;
+		case GAME_MODE_CONVOY:
+			var o = document.createElement('li');
+			o.innerHTML = string.game_objective_loading;
+			objective.appendChild(o);
+			max_ship_count = MAX_SHIP_COUNT_STANDARD;
+			max_cv_count = MAX_CV_COUNT_STANDARD;
+			max_bb_count = MAX_BB_COUNT_STANDARD;
+			max_ca_count = MAX_CA_COUNT_STANDARD;
+			max_dd_count = MAX_DD_COUNT_STANDARD;
+			max_ap_count = AP_COUNT_CONVOY;
+			break;
 	}
 
 	//set up the data Panel
@@ -186,30 +197,67 @@ function readyGame() {
 	//determine the ship iocn set to be used by each player
 	var shipset = RNG(0, 2);
 	player_1_ship_set = shipset;
-	for (var i = 0; i < string.ship_classes.length; i++) {
-		var sLabel = document.createElement('p');
-		sLabel.setAttribute('class', 'ShipClassLabel');
-		sLabel.innerHTML = string.ship_classes[i];
-		document.getElementById("dataPanelContentLeft").appendChild(sLabel);
-		var sIcon = document.createElement('img');
-		var classes;
-		switch (i) {
-			case SHIP_CLASS_BB:
-			case SHIP_CLASS_CV:
-				classes = 'ShipIcons';
-				break;
-			case SHIP_CLASS_CA:
-				classes = 'ShipIcons ShipIconsCA';
-				break;
-			case SHIP_CLASS_DD:
-				classes = 'ShipIcons ShipIconsDD';
-				break;
-		}
-		sIcon.setAttribute('class', classes);
-		sIcon.setAttribute('id', i);
-		sIcon.setAttribute('src', img_url.ship_icons[player_1_ship_set][i]);
-		document.getElementById("dataPanelContentLeft").appendChild(sIcon);
+	switch (game_mode) {
+		case GAME_MODE_SKIRMISH:
+		case GAME_MODE_INTERCEPT:
+		case GAME_MODE_BREAKTHROUGH:
+		case GAME_MODE_CLASSIC:
+			for (var i = 0; i <= SHIP_CLASS_DD; i++) {
+				var sLabel = document.createElement('p');
+				sLabel.setAttribute('class', 'ShipClassLabel');
+				sLabel.innerHTML = string.ship_classes[i];
+				document.getElementById("dataPanelContentLeft").appendChild(sLabel);
+				var sIcon = document.createElement('img');
+				var classes;
+				switch (i) {
+					case SHIP_CLASS_BB:
+					case SHIP_CLASS_CV:
+						classes = 'ShipIcons';
+						break;
+					case SHIP_CLASS_CA:
+						classes = 'ShipIcons ShipIconsCA';
+						break;
+					case SHIP_CLASS_DD:
+						classes = 'ShipIcons ShipIconsDD';
+						break;
+				}
+				sIcon.setAttribute('class', classes);
+				sIcon.setAttribute('id', i);
+				sIcon.setAttribute('src', img_url.ship_icons[player_1_ship_set][i]);
+				document.getElementById("dataPanelContentLeft").appendChild(sIcon);
+			}
+			break;
+		case GAME_MODE_CONVOY:
+			for (var i = 0; i <= SHIP_CLASS_AP; i++) {
+				var sLabel = document.createElement('p');
+				sLabel.setAttribute('class', 'ShipClassLabel');
+				sLabel.innerHTML = string.ship_classes[i];
+				document.getElementById("dataPanelContentLeft").appendChild(sLabel);
+				var sIcon = document.createElement('img');
+				var classes;
+				switch (i) {
+					case SHIP_CLASS_BB:
+					case SHIP_CLASS_CV:
+						classes = 'ShipIcons';
+						break;
+					case SHIP_CLASS_CA:
+						classes = 'ShipIcons ShipIconsCA';
+						break;
+					case SHIP_CLASS_DD:
+						classes = 'ShipIcons ShipIconsDD';
+						break;
+					case SHIP_CLASS_AP:
+						classes = 'ShipIcons ShipIconsCA';
+						break;
+				}
+				sIcon.setAttribute('class', classes);
+				sIcon.setAttribute('id', i);
+				sIcon.setAttribute('src', img_url.ship_icons[player_1_ship_set][i]);
+				document.getElementById("dataPanelContentLeft").appendChild(sIcon);
+			}
+			break;
 	}
+
 	document.getElementById("apLeft").innerHTML = string.action_prompt_enemy;
 
 	//right Panel
@@ -228,7 +276,7 @@ function readyGame() {
 		var shipset = RNG(0, 2);
 		player_2_ship_set = shipset;
 	}
-	for (var i = 0; i < string.ship_classes.length; i++) {
+	for (var i = 0; i <= SHIP_CLASS_DD; i++) {
 		var sLabel2 = document.createElement('p');
 		sLabel2.setAttribute('class', 'ShipClassLabel');
 		sLabel2.innerHTML = string.ship_classes[i];
@@ -323,12 +371,13 @@ function onShipIconSelected(evt) {
  * Check if a ship is placable in the given coordinate
  */
 function shipPlacable(x, y) {
-	 switch (ship_class_placing) {
+	switch (ship_class_placing) {
 		case SHIP_CLASS_BB:
 		case SHIP_CLASS_CV:
 			ship_size_placing = 4;
 			break;
 		case SHIP_CLASS_CA:
+		case SHIP_CLASS_AP:
 			ship_size_placing = 3;
 			break;
 		case SHIP_CLASS_DD:
@@ -526,9 +575,47 @@ function placeShip(evt) {
 					document.getElementById("rbutton").style.display = 'none';
 				}
 				break;
+			case SHIP_CLASS_AP:
+				player_1_ships_count[SHIP_CLASS_AP] = player_1_ships_count[SHIP_CLASS_AP] + 1;
+				if (player_1_ships_count[SHIP_CLASS_AP] >= max_ap_count) {
+					var ships = document.querySelectorAll('.ShipIcons');
+					var classes = ships[ship_class_placing].getAttribute('class');
+					classes = classes.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
+					ships[ship_class_placing].setAttribute('class', classes);
+					ships[ship_class_placing].removeEventListener("click", onShipIconSelected, false);
+					var grids = document.getElementById("monitorLeft").getElementsByClassName("MonitorGrid");
+					for (var i = 0; i < grids.length; i++) {
+						grids[i].removeEventListener('click', placeShip, false);
+						grids[i].removeEventListener('mouseover', projectShip, false);
+						grids[i].removeEventListener('mouseout', unProjectShip, false);
+					}
+					document.getElementById("rbutton").style.display = 'none';
+				}
+				break;
 		}
 		if (getPlayerShipCount(PLAYER_1) >= max_ship_count) {
 			stopPlayerShipPlacement();
+		}
+		//enforce total number of transports
+		if (game_mode == GAME_MODE_CONVOY) {
+			if ((max_ship_count - getPlayerShipCount(PLAYER_1)) <= (max_ap_count - player_1_ships_count[SHIP_CLASS_AP]) && getPlayerShipCount(PLAYER_1) < max_ship_count&& ship_class_placing!=SHIP_CLASS_AP) {
+				var allShips = document.querySelectorAll('.ShipIcons');
+				for (var n = 0; n < allShips.length; n++) {
+					if (n != SHIP_CLASS_AP) {
+						var c = allShips[n].getAttribute('class');
+						c = c.replace(' ShipIconsSelectable', ' ShipIconsUnSelectable');
+						allShips[n].setAttribute('class', c);
+						allShips[n].removeEventListener("click", onShipIconSelected, false);
+						var grids = document.getElementById("monitorLeft").getElementsByClassName("MonitorGrid");
+						for (var m = 0; m < grids.length; m++) {
+							grids[m].removeEventListener('click', placeShip, false);
+							grids[m].removeEventListener('mouseover', projectShip, false);
+							grids[m].removeEventListener('mouseout', unProjectShip, false);
+						}
+						document.getElementById("rbutton").style.display = 'none';
+					}
+				}
+			}
 		}
 	}
 
@@ -568,10 +655,14 @@ function stopPlayerShipPlacement() {
 }
 
 function getPlayerShipCount(player) {
-	if (player ==  PLAYER_1) {
-		return player_1_ships_count.reduce(function(a, b) { return a + b; }, 0);
+	if (player == PLAYER_1) {
+		return player_1_ships_count.reduce(function (a, b) {
+			return a + b;
+		}, 0);
 	} else {
-		return player_2_ships_count.reduce(function(a, b) { return a + b; }, 0);
+		return player_2_ships_count.reduce(function (a, b) {
+			return a + b;
+		}, 0);
 	}
 }
 
@@ -579,6 +670,8 @@ function startGame() {
 	if (getPlayerShipCount(PLAYER_1) <= 0) {
 		//TODO change this to html overl;ay dialog
 		alert(string.no_ship_prompt);
+	} else if (game_mode == GAME_MODE_CONVOY && player_1_ships_count[SHIP_CLASS_AP] < max_ap_count) {
+		alert(string.no_ap_prompt);
 	} else {
 		stopPlayerShipPlacement(); //just in case
 		var mainButton = document.getElementById("mainButton");
@@ -588,20 +681,7 @@ function startGame() {
 		//display info for both players
 		var labels = document.getElementById("dataPanelContentLeft").querySelectorAll('.ShipClassLabel');
 		for (var i = 0; i < labels.length; i++) {
-			switch (i) {
-				case SHIP_CLASS_BB:
-					labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_ships_count[SHIP_CLASS_BB];
-					break;
-				case SHIP_CLASS_CV:
-					labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_ships_count[SHIP_CLASS_CV];
-					break;
-				case SHIP_CLASS_CA:
-					labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_ships_count[SHIP_CLASS_CA];
-					break;
-				case SHIP_CLASS_DD:
-					labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_ships_count[SHIP_CLASS_DD];
-					break;
-			}
+			labels[i].innerHTML = labels[i].innerHTML + " : " + player_1_ships_count[i];
 		}
 		document.getElementById("counterLeft").innerHTML = getPlayerShipCount(PLAYER_1);
 		//player 2
@@ -613,20 +693,7 @@ function startGame() {
 		if (!FOG_OF_WAR) {
 			//show number of enemy ships by class
 			for (var i = 0; i < labels.length; i++) {
-				switch (i) {
-					case SHIP_CLASS_BB:
-						labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_ships_count[SHIP_CLASS_BB];
-						break;
-					case SHIP_CLASS_CV:
-						labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_ships_count[SHIP_CLASS_CV];
-						break;
-					case SHIP_CLASS_CA:
-						labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_ships_count[SHIP_CLASS_CA];
-						break;
-					case SHIP_CLASS_DD:
-						labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_ships_count[SHIP_CLASS_DD];
-						break;
-				}
+				labels[i].innerHTML = labels[i].innerHTML + " : " + player_2_ships_count[i];
 			}
 		} else {
 			for (var i = 0; i < labels.length; i++) {
@@ -689,13 +756,13 @@ function startGame() {
 				} else {
 					player_2_fleet_course = SHIP_COURSE_VERTICAL;
 				}
-				if (SPECIFIC_CLASS_INTERCEPT_BREAKTHROUGH){
-					if (player_2_ships_count[SHIP_CLASS_CV]>0&&player_2_ships_count[SHIP_CLASS_BB]>0){
+				if (SPECIFIC_CLASS_INTERCEPT_BREAKTHROUGH) {
+					if (player_2_ships_count[SHIP_CLASS_CV] > 0 && player_2_ships_count[SHIP_CLASS_BB] > 0) {
 						ship_class_target = RNG(SHIP_CLASS_BB, SHIP_CLASS_CV);
 
-					} else if(player_2_ships_count[SHIP_CLASS_BB]>0){
+					} else if (player_2_ships_count[SHIP_CLASS_BB] > 0) {
 						ship_class_target = SHIP_CLASS_BB;
-					} else if (player_2_ships_count[SHIP_CLASS_CV]>0){
+					} else if (player_2_ships_count[SHIP_CLASS_CV] > 0) {
 						ship_class_target = SHIP_CLASS_CV;
 					} else {
 						//nothing of interest.
@@ -704,8 +771,8 @@ function startGame() {
 				}
 				var objective = document.getElementById("objectiveList");
 				var o = document.createElement('li');
-				if (SPECIFIC_CLASS_INTERCEPT_BREAKTHROUGH){
-					if (ship_class_target == SHIP_CLASS_BB){
+				if (SPECIFIC_CLASS_INTERCEPT_BREAKTHROUGH) {
+					if (ship_class_target == SHIP_CLASS_BB) {
 						o.innerHTML = string.game_objective_intercept_bb;
 					} else {
 						o.innerHTML = string.game_objective_intercept_cv;
@@ -718,7 +785,7 @@ function startGame() {
 				objective.appendChild(o);
 				document.getElementById("TurnCounterField").style.visibility = "visible";
 				document.getElementById("TurnCounterLabel").innerHTML = string.turn_counter_label;
-				document.getElementById("TurnCounter").innerHTML = (max_turn_intercept - total_turn_counter);
+				document.getElementById("TurnCounter").innerHTML = (max_turn_intercept_breakthrough - total_turn_counter);
 				aerialCombat();
 				break;
 			case GAME_MODE_BREAKTHROUGH:
@@ -744,13 +811,13 @@ function startGame() {
 				} else {
 					player_2_fleet_course = SHIP_COURSE_VERTICAL;
 				}
-				if (SPECIFIC_CLASS_INTERCEPT_BREAKTHROUGH){
-					if (player_1_ships_count[SHIP_CLASS_CV]>0&&player_1_ships_count[SHIP_CLASS_BB]>0){
+				if (SPECIFIC_CLASS_INTERCEPT_BREAKTHROUGH) {
+					if (player_1_ships_count[SHIP_CLASS_CV] > 0 && player_1_ships_count[SHIP_CLASS_BB] > 0) {
 						ship_class_target = RNG(SHIP_CLASS_BB, SHIP_CLASS_CV);
 
-					} else if(player_1_ships_count[SHIP_CLASS_BB]>0){
+					} else if (player_1_ships_count[SHIP_CLASS_BB] > 0) {
 						ship_class_target = SHIP_CLASS_BB;
-					} else if (player_1_ships_count[SHIP_CLASS_CV]>0){
+					} else if (player_1_ships_count[SHIP_CLASS_CV] > 0) {
 						ship_class_target = SHIP_CLASS_CV;
 					} else {
 						//nothing of interest.
@@ -759,8 +826,8 @@ function startGame() {
 				}
 				var objective = document.getElementById("objectiveList");
 				var o = document.createElement('li');
-				if (SPECIFIC_CLASS_INTERCEPT_BREAKTHROUGH){
-					if (ship_class_target == SHIP_CLASS_BB){
+				if (SPECIFIC_CLASS_INTERCEPT_BREAKTHROUGH) {
+					if (ship_class_target == SHIP_CLASS_BB) {
 						o.innerHTML = string.game_objective_breakthrough_bb;
 					} else {
 						o.innerHTML = string.game_objective_breakthrough_cv
@@ -773,7 +840,40 @@ function startGame() {
 				objective.appendChild(o);
 				document.getElementById("TurnCounterField").style.visibility = "visible";
 				document.getElementById("TurnCounterLabel").innerHTML = string.turn_counter_label;
-				document.getElementById("TurnCounter").innerHTML = (max_turn_intercept - total_turn_counter);
+				document.getElementById("TurnCounter").innerHTML = (max_turn_intercept_breakthrough - total_turn_counter);
+				aerialCombat();
+				break;
+			case GAME_MODE_CONVOY:
+				//ditto
+				if (player_1_ships_count[SHIP_CLASS_BB] >= Math.round(getPlayerShipCount(PLAYER_1) / 2)) {
+					player_1_fleet_speed = FLEET_SPEED_SLOW;
+				} else {
+					player_1_fleet_speed = FLEET_SPEED_FAST;
+				}
+				if (player_2_ships_count[SHIP_CLASS_BB] >= Math.round(getPlayerShipCount(PLAYER_2) / 2)) {
+					player_2_fleet_speed = FLEET_SPEED_SLOW;
+				} else {
+					player_2_fleet_speed = FLEET_SPEED_FAST;
+				}
+				//course
+				if (player_1_fleet_course >= Math.round(getPlayerShipCount(PLAYER_1) / 2)) {
+					player_1_fleet_course = SHIP_COURSE_HORIZONTAL;
+				} else {
+					player_1_fleet_course = SHIP_COURSE_VERTICAL;
+				}
+				if (player_2_fleet_course >= Math.round(getPlayerShipCount(PLAYER_2) / 2)) {
+					player_2_fleet_course = SHIP_COURSE_HORIZONTAL;
+				} else {
+					player_2_fleet_course = SHIP_COURSE_VERTICAL;
+				}
+				var objective = document.getElementById("objectiveList");
+				var o = document.createElement('li');
+				o.innerHTML = string.game_objective_convoy;
+				objective.innerHTML = "";
+				objective.appendChild(o);
+				document.getElementById("TurnCounterField").style.visibility = "visible";
+				document.getElementById("TurnCounterLabel").innerHTML = string.turn_counter_label;
+				document.getElementById("TurnCounter").innerHTML = (max_turn_intercept_breakthrough - total_turn_counter);
 				aerialCombat();
 				break;
 			case GAME_MODE_CLASSIC:
@@ -823,6 +923,8 @@ function startFleetCombat() {
 	switch (game_mode) {
 		case GAME_MODE_SKIRMISH:
 		case GAME_MODE_INTERCEPT:
+		case GAME_MODE_BREAKTHROUGH:
+		case GAME_MODE_CONVOY:
 			//first decide the engagement form
 			if (player_1_fleet_course == player_2_fleet_course) {
 				player_1_engagement_form = RNG(ENGAGEMENT_FORM_PARALLEL, ENGAGEMENT_FORM_HEADON);
@@ -1534,12 +1636,12 @@ function explosionParticle() {
 
 function waterParticle() {
 	this.speed = {
-		x: (-0.25 + Math.random() * 0.5)/DEFAULT_GRID_SIZE*grid_size,
-		y: (-2.5 + Math.random() * 3)/DEFAULT_GRID_SIZE*grid_size
+		x: (-0.25 + Math.random() * 0.5) / DEFAULT_GRID_SIZE * grid_size,
+		y: (-2.5 + Math.random() * 3) / DEFAULT_GRID_SIZE * grid_size
 	};
 	this.gravityPull = -0.2;
 	this.location = {
-		x: grid_size / 2 - 1.5 + Math.random() * (3/DEFAULT_GRID_SIZE*grid_size),
+		x: grid_size / 2 - 1.5 + Math.random() * (3 / DEFAULT_GRID_SIZE * grid_size),
 		y: grid_size - 1
 	};
 	this.radius = 1;
@@ -1726,6 +1828,8 @@ function nextPlayer() {
 		switch (game_mode) {
 			case GAME_MODE_SKIRMISH:
 			case GAME_MODE_INTERCEPT:
+			case GAME_MODE_CONVOY:
+			case GAME_MODE_BREAKTHROUGH:
 				if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
 					player_1_acted = true;
 					player_2_attack_count = player_2_ships_count[SHIP_CLASS_CV] * 2;
@@ -1809,14 +1913,14 @@ function nextPlayer() {
 							player_2_attack_count = CV_ATTACK_COUNT[player_2_engagement_form];
 						}
 						player_2_turn_counter = player_2_turn_counter + 1;
-						if (player_2_turn_counter > getPlayerShipCount(PLAYER_2)) {
+						if (player_2_turn_counter > getPlayerShipCount(PLAYER_2) - player_2_ships_count[SHIP_CLASS_AP]) {
 							player_2_acted = true;
 						}
 						if (player_2_acted && player_1_acted) {
 							player_2_turn_counter = 0;
 							player_1_turn_counter = 0;
-							total_turn_counter = total_turn_counter+1;
-							if (game_mode == GAME_MODE_INTERCEPT) {
+							total_turn_counter = total_turn_counter + 1;
+							if (game_mode == GAME_MODE_INTERCEPT || game_mode == GAME_MODE_CONVOY || game_mode == GAME_MODE_BREAKTHROUGH) {
 								updateTurnCounter();
 							}
 							player_2_acted = false;
@@ -1849,6 +1953,8 @@ function nextPlayer() {
 		switch (game_mode) {
 			case GAME_MODE_SKIRMISH:
 			case GAME_MODE_INTERCEPT:
+			case GAME_MODE_CONVOY:
+			case GAME_MODE_BREAKTHROUGH:
 				if (game_phase == GAME_PAHSE_AERIAL_COMBAT) {
 					player_2_acted = true;
 					player_1_attack_count = player_1_ships_count[SHIP_CLASS_CV] * 2;
@@ -1859,7 +1965,7 @@ function nextPlayer() {
 					}
 				} else if (game_phase == GAME_PHASE_COMBAT) {
 					if (!player_1_first_act_complete) {
-						if (player_1_turn_counter >= getPlayerShipCount(PLAYER_1)) {
+						if (player_1_turn_counter >= getPlayerShipCount(PLAYER_1) - player_1_ships_count[SHIP_CLASS_AP]) {
 							player_1_first_act_complete = true;
 						}
 						if (player_1_turn_counter < player_1_ships_count[SHIP_CLASS_BB]) {
@@ -1928,14 +2034,14 @@ function nextPlayer() {
 							player_1_attack_count = CV_ATTACK_COUNT[player_1_engagement_form];
 						}
 						player_1_turn_counter = player_1_turn_counter + 1;
-						if (player_1_turn_counter > getPlayerShipCount(PLAYER_1)) {
+						if (player_1_turn_counter > getPlayerShipCount(PLAYER_1) - player_1_ships_count[SHIP_CLASS_AP]) {
 							player_1_acted = true;
 						}
 						if (player_2_acted && player_1_acted) {
 							player_2_turn_counter = 0;
 							player_1_turn_counter = 0;
-							total_turn_counter = total_turn_counter +1;
-							if (game_mode == GAME_MODE_INTERCEPT) {
+							total_turn_counter = total_turn_counter + 1;
+							if (game_mode == GAME_MODE_INTERCEPT || game_mode == GAME_MODE_CONVOY || game_mode == GAME_MODE_BREAKTHROUGH) {
 								updateTurnCounter();
 							}
 							player_2_acted = false;
@@ -1950,7 +2056,7 @@ function nextPlayer() {
 				}
 				break;
 			case GAME_MODE_CLASSIC:
-				if (getPlayerShipCount(PLAYER_1) > 0){
+				if (getPlayerShipCount(PLAYER_1) > 0) {
 					player_1_attack_count = 1;
 				}
 				if (player_1_attack_count > 0) {
@@ -1965,7 +2071,7 @@ function nextPlayer() {
 }
 
 function updateTurnCounter() {
-	document.getElementById("TurnCounter").innerHTML = (max_turn_intercept - total_turn_counter);
+	document.getElementById("TurnCounter").innerHTML = (max_turn_intercept_breakthrough - total_turn_counter);
 }
 
 function gameEnded() {
@@ -1977,28 +2083,36 @@ function gameEnded() {
 	} else if (getPlayerShipCount(PLAYER_2) <= 0) {
 		showEndGameDialog(string.victory, string.victory_description_standard);
 		return true;
-	} else if (game_mode == GAME_MODE_INTERCEPT){
-		if (total_turn_counter >= max_turn_intercept){
+	} else if (game_mode == GAME_MODE_INTERCEPT) {
+		if (total_turn_counter >= max_turn_intercept_breakthrough) {
 			showEndGameDialog(string.defeat, string.defeat_description_intercept);
 			return true;
 		}
-		if (SPECIFIC_CLASS_INTERCEPT_BREAKTHROUGH){
-			if (player_2_ships_count[ship_class_target]<=0){
+		if (SPECIFIC_CLASS_INTERCEPT_BREAKTHROUGH) {
+			if (player_2_ships_count[ship_class_target] <= 0) {
 				showEndGameDialog(string.victory, string.victory_description_intercept);
 				return true;
 			}
 		}
-		//TODO Destruction of marked target
-	} else if (game_mode == GAME_MODE_BREAKTHROUGH){
-		if (total_turn_counter >= max_turn_intercept){
+	} else if (game_mode == GAME_MODE_BREAKTHROUGH) {
+		if (total_turn_counter >= max_turn_intercept_breakthrough) {
 			showEndGameDialog(string.victory, string.victory_description_breakthrough);
 			return true;
 		}
-		if (SPECIFIC_CLASS_INTERCEPT_BREAKTHROUGH){
-			if (player_1_ships_count[ship_class_target]<=0){
+		if (SPECIFIC_CLASS_INTERCEPT_BREAKTHROUGH) {
+			if (player_1_ships_count[ship_class_target] <= 0) {
 				showEndGameDialog(string.defeat, string.defeat_description_breakthrough);
 				return true;
 			}
+		}
+	} else if (game_mode == GAME_MODE_CONVOY) {
+		if (total_turn_counter >= max_turn_intercept_breakthrough) {
+			showEndGameDialog(string.victory, string.victory_description_convoy);
+			return true;
+		}
+		if (player_1_ships_count[SHIP_CLASS_AP] <= 0) {
+			showEndGameDialog(string.defeat, string.defeat_description_convoy);
+			return true;
 		}
 		//TODO Destruction of marked target
 	} else {
@@ -2006,13 +2120,13 @@ function gameEnded() {
 	}
 }
 
-function showEndGameDialog(title, description){
+function showEndGameDialog(title, description) {
 
 	document.getElementById('EndingTitle').innerHTML = title;
 	document.getElementById('EndingDescription').innerHTML = description;
 	document.getElementById('endGameBox').style.display = "block";
 	setTimeout(function () {
-		window.onclick = function(event) {
+		window.onclick = function (event) {
 			document.getElementById('endGameBox').style.display = "none";
 
 		}
@@ -2025,7 +2139,7 @@ function surrender(evt) {
 	//TODO replace confirm with html 5 dialog
 	if (confirm(string.surrender_confirm)) {
 		//scuttle all ships to trigger lose effect
-		for (var i =0; i < player_1_ships_count.length;i++ ){
+		for (var i = 0; i < player_1_ships_count.length; i++) {
 			player_1_ships_count[i] = 0;
 		}
 		nextPlayer();

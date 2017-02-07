@@ -46,6 +46,10 @@ function onSelectedModeChanged() {
 			game_mode = GAME_MODE_BREAKTHROUGH;
 			document.getElementById('randomMap').disabled = false;
 			break;
+		case GAME_MODE_CONVOY:
+			game_mode = GAME_MODE_CONVOY;
+			document.getElementById('randomMap').disabled = false;
+			break;
 		case GAME_MODE_CLASSIC:
 			game_mode = GAME_MODE_CLASSIC;
 			document.getElementById('randomMap').disabled = true;

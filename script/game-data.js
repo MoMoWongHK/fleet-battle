@@ -2,12 +2,13 @@
 //string resources
 var string = {
 	"game_config_error": "Game not properly configured. Check your configuration file.",
-	"game_mode_label":"Scenario :",
-	"game_mode":[
+	"game_mode_label": "Scenario :",
+	"game_mode": [
 		"Skirmish",
 		"Classic",
 		"Interception",
-		"Breakthrough"
+		"Breakthrough",
+		"Convoy"
 	],
 	"current_stage": "Current Stage",
 	"ship_placement_remaining": "Remaining ship",
@@ -15,13 +16,15 @@ var string = {
 		"Battleship",
 		"Aircraft Carrier",
 		"Cruiser",
-		"Destroyer"
+		"Destroyer",
+		"Transport"
 	],
 	"pending": "Pending...",
 	"rotate": "Rotate ship",
 	"assemble_fleet": "Assemble Fleet",
 	"start_battle": "Start Battle!",
 	"no_ship_prompt": "You cannot enter a battle with a ghost fleet!",
+	"no_ap_prompt": "You must bring all transport ships whith you!",
 	"surrender": "Surrender your ships",
 	"game_objective_label": "Objective : ",
 	"game_objective_loading": "Waiting for briefing",
@@ -41,22 +44,24 @@ var string = {
 		"T - Advantage",
 		"T - Disadvantage"
 	],
-	"turn_counter_label":"Time Remaining: ",
+	"turn_counter_label": "Time Remaining: ",
 	"attack_remaining": "Attack Remaining",
 	"surrender_confirm": "Are you sure you want to surrender your ship? You will be treated as defeated!",
 	"victory": "VICTORY",
 	"victory_description_standard": "All enemy vessels destroyed!",
 	"victory_description_intercept": "Target vessel destroyed!",
 	"victory_description_breakthrough": "You have arrived at your destination.",
+	"victory_description_convoy": "The transport ships have arrived at their destination.",
 	"defeat": "DEFEAT",
 	"defeat_description_standard": "Your fleet was annihilated.",
 	"defeat_description_intercept": "The enemy had reached their destination.",
 	"defeat_description_breakthrough": "You failed to protect your ships.",
-	"new_game":"Proceed into next battle",
-	"new_game_confirm":"Are you sure you want to start a new battle?",
-	"action_prompt_player":"Awaiting Orders",
-	"action_prompt_enemy":"INCOMING",
-	"ready":"Ready"
+	"defeat_description_convoy": "The transport ships are destroyed.",
+	"new_game": "Proceed into next battle",
+	"new_game_confirm": "Are you sure you want to start a new battle?",
+	"action_prompt_player": "Awaiting Orders",
+	"action_prompt_enemy": "INCOMING",
+	"ready": "Ready"
 }
 
 
@@ -85,7 +90,6 @@ var img_url = {
 			"img/ships/uk/DD.png",
 			"img/ships/uk/AP.svg"
 		]
-
 
 
 	],
@@ -161,10 +165,27 @@ var img_url = {
 				"img/tiles/DD/sector_2_sunk.png"
 			]
 
+		],
+		[
+			[
+				"img/tiles/AP/sector_1_normal.png",
+				"img/tiles/AP/sector_2_normal.png",
+				"img/tiles/AP/sector_3_normal.png"
+			],
+			[
+				"img/tiles/AP/sector_1_hit.png",
+				"img/tiles/AP/sector_2_hit.png",
+				"img/tiles/AP/sector_3_hit.png"
+			],
+			[
+				"img/tiles/AP/sector_1_sunk.png",
+				"img/tiles/AP/sector_2_sunk.png",
+				"img/tiles/AP/sector_3_sunk.png"
+			]
 		]
 	]
 }
 
-var sfx_url={
-	"gun_fire":"sound/sfx/gunfire.m4a"
+var sfx_url = {
+	"gun_fire": "sound/sfx/gunfire.m4a"
 }
