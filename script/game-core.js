@@ -183,6 +183,10 @@ function readyGame() {
 	document.getElementById("dataPanelRight").style.height = grid_size * map_size + 2 + "px";
 
 	//left panel
+	var rButton = document.getElementById('rbutton');
+	rButton.innerHTML = string.rotate;
+	//rButton.setAttribute('class', 'Button');
+	rButton.style.display = 'none';
 	var label = document.createElement('p');
 	label.innerHTML = string.ship_placement_remaining;
 	label.setAttribute('id', 'counterLabelLeft');
@@ -332,13 +336,7 @@ function startShipPlacement() {
 		var t = i;
 		ships[i].addEventListener("click", onShipIconSelected, false);
 	}
-	var rButton = document.createElement('button');
-	rButton.innerHTML = string.rotate;
-	rButton.setAttribute('id', 'rbutton');
-	//rButton.setAttribute('class', 'Button');
-	document.getElementById("dataPanelContentLeft").appendChild(rButton);
-	document.getElementById("rbutton").style.display = 'none';
-	document.getElementById("rbutton").addEventListener('click', function () {
+	document.getElementById('rbutton').addEventListener('click', function () {
 		if (ship_course_placing == SHIP_COURSE_VERTICAL) {
 			ship_course_placing = SHIP_COURSE_HORIZONTAL;
 		} else {
@@ -362,8 +360,7 @@ function onShipIconSelected(evt) {
 		grids[i].addEventListener('mouseover', projectShip, false);
 		grids[i].addEventListener('mouseout', unProjectShip, false);
 	}
-	document.getElementById("rbutton").style.display = 'inline-block';
-	document.getElementById("rbutton").style.margin = '5px 60px 5px 60px';
+	document.getElementById("rbutton").style.display = 'inline';
 
 }
 
@@ -387,7 +384,7 @@ function shipPlacable(x, y) {
 	if (ship_course_placing == SHIP_COURSE_VERTICAL) {
 		//check if over edge of map
 		if ((x + ship_size_placing) <= map_size && y <= map_size) {
-			//check if another ship already exsist
+			//check if another ship already exist
 			for (var i = 0; i < ship_size_placing; i++) {
 				if (document.querySelector("[x='" + (x + i) + "'][y='" + y + "']").hasAttribute("placed")) {
 					return false;
