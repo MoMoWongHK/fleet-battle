@@ -359,7 +359,11 @@ function onShipIconSelected(evt) {
 		grids[i].addEventListener('click', placeShip, false);
 		grids[i].addEventListener('mouseover', projectShip, false);
 		grids[i].addEventListener('mouseout', unProjectShip, false);
+		grids[i].addEventListener('contextmenu', changeShipCourse, false);
 	}
+	window.oncontextmenu = function () {
+		return false;
+	};
 	document.getElementById("rbutton").style.display = 'inline';
 
 }
@@ -455,6 +459,16 @@ function unProjectShip(evt) {
 	}
 }
 
+function changeShipCourse(evt) {
+	unProjectShip(evt);
+	if (ship_course_placing == SHIP_COURSE_VERTICAL) {
+		ship_course_placing = SHIP_COURSE_HORIZONTAL;
+	} else {
+		ship_course_placing = SHIP_COURSE_VERTICAL;
+	}
+	projectShip(evt);
+}
+
 function placeShip(evt) {
 	var targetGrid = evt.target;
 	var targetX = parseInt(targetGrid.getAttribute('x'));
@@ -516,6 +530,7 @@ function placeShip(evt) {
 						grids[i].removeEventListener('click', placeShip, false);
 						grids[i].removeEventListener('mouseover', projectShip, false);
 						grids[i].removeEventListener('mouseout', unProjectShip, false);
+						grids[i].removeEventListener('contextmenu', changeShipCourse, false);
 					}
 					document.getElementById("rbutton").style.display = 'none';
 				}
@@ -533,6 +548,7 @@ function placeShip(evt) {
 						grids[i].removeEventListener('click', placeShip, false);
 						grids[i].removeEventListener('mouseover', projectShip, false);
 						grids[i].removeEventListener('mouseout', unProjectShip, false);
+						grids[i].removeEventListener('contextmenu', changeShipCourse, false);
 					}
 					document.getElementById("rbutton").style.display = 'none';
 				}
@@ -550,6 +566,7 @@ function placeShip(evt) {
 						grids[i].removeEventListener('click', placeShip, false);
 						grids[i].removeEventListener('mouseover', projectShip, false);
 						grids[i].removeEventListener('mouseout', unProjectShip, false);
+						grids[i].removeEventListener('contextmenu', changeShipCourse, false);
 					}
 					document.getElementById("rbutton").style.display = 'none';
 				}
@@ -568,6 +585,7 @@ function placeShip(evt) {
 						grids[i].removeEventListener('click', placeShip, false);
 						grids[i].removeEventListener('mouseover', projectShip, false);
 						grids[i].removeEventListener('mouseout', unProjectShip, false);
+						grids[i].removeEventListener('contextmenu', changeShipCourse, false);
 					}
 					document.getElementById("rbutton").style.display = 'none';
 				}
@@ -585,6 +603,7 @@ function placeShip(evt) {
 						grids[i].removeEventListener('click', placeShip, false);
 						grids[i].removeEventListener('mouseover', projectShip, false);
 						grids[i].removeEventListener('mouseout', unProjectShip, false);
+						grids[i].removeEventListener('contextmenu', changeShipCourse, false);
 					}
 					document.getElementById("rbutton").style.display = 'none';
 				}
@@ -608,6 +627,7 @@ function placeShip(evt) {
 							grids[m].removeEventListener('click', placeShip, false);
 							grids[m].removeEventListener('mouseover', projectShip, false);
 							grids[m].removeEventListener('mouseout', unProjectShip, false);
+							grids[i].removeEventListener('contextmenu', changeShipCourse, false);
 						}
 						document.getElementById("rbutton").style.display = 'none';
 					}
@@ -619,11 +639,14 @@ function placeShip(evt) {
 }
 
 /**
- * end the ship plcing and promt ai to place ship if possible
+ * end the ship placing and prompt ai to place ship if possible
  */
 function stopPlayerShipPlacement() {
 	//disable ship selector
 	var ships = document.querySelectorAll('.ShipIcons');
+	window.oncontextmenu = function () {
+		return true;
+	};
 	for (var i = 0; i < ships.length; i++) {
 		var t = i;
 		ships[i].removeEventListener("click", onShipIconSelected, false);
