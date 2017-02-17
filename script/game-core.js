@@ -369,9 +369,9 @@ function onShipIconSelected(evt) {
 }
 
 /**
- * Check if a ship is placable in the given coordinate
+ * Check if a ship can be placed in the given coordinate
  */
-function shipPlacable(x, y) {
+function shipPlaceable(x, y) {
 	switch (ship_class_placing) {
 		case SHIP_CLASS_BB:
 		case SHIP_CLASS_CV:
@@ -420,7 +420,7 @@ function projectShip(evt) {
 	var targetGrid = evt.target;
 	var targetX = parseInt(targetGrid.getAttribute('x'));
 	var targetY = parseInt(targetGrid.getAttribute('y'));
-	if (shipPlacable(targetX, targetY)) {
+	if (shipPlaceable(targetX, targetY)) {
 		if (ship_course_placing == SHIP_COURSE_VERTICAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
@@ -443,7 +443,7 @@ function unProjectShip(evt) {
 	var targetGrid = evt.target;
 	var targetX = parseInt(targetGrid.getAttribute('x'));
 	var targetY = parseInt(targetGrid.getAttribute('y'));
-	if (shipPlacable(targetX, targetY)) {
+	if (shipPlaceable(targetX, targetY)) {
 		if (ship_course_placing == SHIP_COURSE_VERTICAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
@@ -473,7 +473,7 @@ function placeShip(evt) {
 	var targetGrid = evt.target;
 	var targetX = parseInt(targetGrid.getAttribute('x'));
 	var targetY = parseInt(targetGrid.getAttribute('y'));
-	if (shipPlacable(targetX, targetY)) {
+	if (shipPlaceable(targetX, targetY)) {
 		if (ship_course_placing == SHIP_COURSE_VERTICAL) {
 			for (var i = 0; i < ship_size_placing; i++) {
 				var tGrid = document.querySelector("[x='" + (targetX + i) + "'][y='" + targetY + "']");
@@ -514,7 +514,6 @@ function placeShip(evt) {
 		player_1_fleet_course = player_1_fleet_course + ship_course_placing;
 		document.getElementById("counterLeft").innerHTML = parseInt(counter_text_left.innerHTML) - 1;
 		//check for ship class limit
-		//TODO use an array to replace all the ship counts?
 		switch (ship_class_placing) {
 			case SHIP_CLASS_BB:
 				player_1_ships_count[SHIP_CLASS_BB] = player_1_ships_count[SHIP_CLASS_BB] + 1;
@@ -1071,7 +1070,7 @@ function fire(evt) {
 }
 
 function airStrike(x, y) {
-	//TODO sound fx and animation
+	//TODO sound fx
 	if (SOUND_ENABLED) {
 		//aircraft_sound.play();
 		//TODO add aircraft sound
@@ -1084,7 +1083,7 @@ function airStrike(x, y) {
 }
 
 function artilleryStrike(x, y) {
-	//TODO sound fx and animation
+	//TODO sound fx
 	if (SOUND_ENABLED) {
 		gun_fire_sound.play();
 		setTimeout(function () {
@@ -1116,7 +1115,7 @@ function onAttackLanded(x, y) {
 				var effectId = parseInt(tGrid.getAttribute("effectId"));
 				clearInterval(effectId);
 			}
-			//show expolsion effect
+			//show explosion effect
 			var canvas = tGrid.firstElementChild;
 			var particles = [];
 			for (var i = 0; i < 8; i++) {
@@ -1290,7 +1289,7 @@ function onAttackLanded(x, y) {
 				var effectId = parseInt(tGrid.getAttribute("effectId"));
 				clearInterval(effectId);
 			}
-			//show expolsion effect
+			//show explosion effect
 			var canvas = tGrid.firstElementChild;
 			var particles = [];
 			for (var i = 0; i < 8; i++) {
@@ -1438,7 +1437,7 @@ function onAttackLanded(x, y) {
 }
 
 //effects when a ship is hit
-//TODO maybe putting these into a seperate "game-graphic.js" file?
+//TODO maybe putting these into a separate "game-graphic.js" file?
 function showSmoke(canvas, particleList, hBearing) {
 	var ctx = canvas.getContext("2d");
 	canvas.width = grid_size;

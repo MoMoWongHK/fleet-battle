@@ -7,11 +7,11 @@
  */
 var AI_CONFIGURATION_BASIC = 0;
 /**
- * a better ai (in progress)
+ * a better ai (mostly done)
  */
 var AI_CONFIGURATION_INTERMEDIATE = 1;
 /**
- * an even better ai (not yet exist)
+ * an even better ai (in progress)
  */
 var AI_CONFIGURATION_ADVANCED = 2;
 /**
@@ -40,9 +40,9 @@ function shipPlacementMain() {
 			shipPlacementAdvanced();
 			break;
 		case AI_CONFIGURATION_ALL_SEEING:
-			//for testing, we borrow code from Internediate.
+			//for testing, we borrow code from Advanced
 			//Won't matter anyway. You are going to be crushed.
-			shipPlacementIntermediate();
+			shipPlacementAdvanced();
 			break;
 		default:
 			onConfigError();
@@ -437,7 +437,7 @@ function attackBasic() {
 	if (lastHit) {
 		if (!lastLastHit) {
 
-			//try to move around last hit point and hit the remainng section
+			//try to move around last hit point and hit the remaining section
 			d = RNG(0, 3);
 
 		} else {

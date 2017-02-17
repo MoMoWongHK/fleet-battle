@@ -26,9 +26,8 @@ var MAX_CV_COUNT_STANDARD = 3;
 var MAX_CA_COUNT_STANDARD = 6;
 //maximum number of destroyers allowed.
 var MAX_DD_COUNT_STANDARD = 6;
-//maximum number of turns allowed in intercept mode
 /**
- * Clasiic mode setting
+ * Classic mode setting
  */
 var MAX_SHIP_COUNT_CLASSIC = 10;
 //maximum  number of battleships allowed.
@@ -39,8 +38,10 @@ var MAX_CV_COUNT_CLASSIC = 2;
 var MAX_CA_COUNT_CLASSIC = 3;
 //maximum number of destroyers allowed.
 var MAX_DD_COUNT_CLASSIC = 4;
+/**
+ * Intercept, breakthrough and convoy mode setting
+ */
 //maximum number of turns allowed in intercept mode
-
 var MAX_TURN_INTERCEPT_DEFAULT= 8;
 //maximum number of turns allowed in intercept mode, minimum of random value.
 var MAX_TURN_INTERCEPT_MIN = 6;
