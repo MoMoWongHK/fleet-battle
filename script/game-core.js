@@ -83,6 +83,8 @@ function readyGame() {
 	//load the sound first
 	if (SOUND_ENABLED) {
 		gun_fire_sound = new Audio(sfx_url.gun_fire);
+		plane_attack_sound = new Audio(sfx_url.plane_attack);
+		attack_hit_sound = new Audio(sfx_url.explosion);
 	}
 	//set up the main moniters
 	var monitors = document.querySelectorAll('.Monitor');
@@ -1070,20 +1072,17 @@ function fire(evt) {
 }
 
 function airStrike(x, y) {
-	//TODO sound fx
 	if (SOUND_ENABLED) {
-		//aircraft_sound.play();
-		//TODO add aircraft sound
+		plane_attack_sound.play();
 		setTimeout(function () {
 			onAttackLanded(x, y);
-		}, gun_fire_sound.duration * 1000 + 800);
+		}, plane_attack_sound.duration * 1000 + 800);
 	} else {
 		onAttackLanded(x, y);
 	}
 }
 
 function artilleryStrike(x, y) {
-	//TODO sound fx
 	if (SOUND_ENABLED) {
 		gun_fire_sound.play();
 		setTimeout(function () {
@@ -1169,13 +1168,16 @@ function onAttackLanded(x, y) {
 						}
 						tGrid.setAttribute("effectId", id);
 					}
-					if (player_1_attack_count > 0) {
-						beginTargeting();
-					} else {
-						nextPlayer();
-					}
 				}
 			}, 1200);
+			attack_hit_sound.play();
+			setTimeout(function () {
+				if (player_1_attack_count > 0) {
+					beginTargeting();
+				} else {
+					nextPlayer();
+				}
+			}, attack_hit_sound.duration * 1000 + 800);
 			//see if we sunk it
 			if (shipDestroyed("monitorRight", x, y)) {
 				//TODO add instant win determiner
@@ -1344,13 +1346,16 @@ function onAttackLanded(x, y) {
 						tGrid.setAttribute("effectId", id);
 					}
 					onAttackResult(true);
-					if (player_2_attack_count > 0) {
-						attackMain();
-					} else {
-						nextPlayer();
-					}
 				}
 			}, 1200);
+			attack_hit_sound.play();
+			setTimeout(function () {
+				if (player_2_attack_count > 0) {
+					attackMain();
+				} else {
+					nextPlayer();
+				}
+			}, attack_hit_sound.duration * 1000 + 800);
 			//see if we sunk it
 			if (shipDestroyed("monitorLeft", x, y)) {
 				var tx = parseInt(tGrid.getAttribute("head-x"));
