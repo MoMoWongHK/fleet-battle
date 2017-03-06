@@ -18,13 +18,14 @@
     font-family: 'Tienne', serif;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-    width: 55%; /* Could be more or less, depending on screen size */
+    width: 65%; /* Could be more or less, depending on screen size */
     box-shadow: 5px 5px 2px #444444;
 }
 
 .SettingPanel {
     display: table;
-    padding: 0% 25% 0% 25%;
+    width:80%;
+    padding: 0% 20% 0% 20%;
     text-align: left;
 }
 
@@ -44,5 +45,9 @@ select{
 #gameSetButton{
     font-size: 1.1em;
     margin: 5px 0 5px 0;
+    display: inline-block;
+}
+
+label {
     display: inline-block;
 }
