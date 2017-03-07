@@ -189,5 +189,6 @@ var img_url = {
 var sfx_url = {
 	"gun_fire": "sound/sfx/gunfire.ogg",
 	"explosion": "sound/sfx/explosion.ogg",
-	"plane_attack":"sound/sfx/plane.ogg"
+	"plane_attack":"sound/sfx/plane.ogg",
+	"explosion_water":"sound/sfx/explosion-water.ogg"
 }

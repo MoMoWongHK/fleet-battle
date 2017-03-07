@@ -85,6 +85,7 @@ function readyGame() {
 		gun_fire_sound = new Audio(sfx_url.gun_fire);
 		plane_attack_sound = new Audio(sfx_url.plane_attack);
 		attack_hit_sound = new Audio(sfx_url.explosion);
+		attack_miss_sound = new Audio(sfx_url.explosion_water);
 	}
 	//set up the main moniters
 	var monitors = document.querySelectorAll('.Monitor');
@@ -1264,6 +1265,7 @@ function onAttackLanded(x, y) {
 					showWaterSplash(canvas, particles, false);
 				}, 60);
 			}
+			attack_miss_sound.play();
 			setTimeout(function () {
 				clearInterval(sid);
 				if (player_1_attack_count > 0) {
@@ -1271,7 +1273,7 @@ function onAttackLanded(x, y) {
 				} else {
 					nextPlayer();
 				}
-			}, 3000);
+			}, attack_miss_sound.duration * 1000 + 800);
 		}
 	} else if (acting_player == PLAYER_2) {
 		var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + y + "'][x='" + x + "']");
@@ -1428,6 +1430,7 @@ function onAttackLanded(x, y) {
 					showWaterSplash(canvas, particles, false);
 				}, 60);
 			}
+			attack_miss_sound.play();
 			setTimeout(function () {
 				clearInterval(sid);
 				onAttackResult(false);
@@ -1436,7 +1439,7 @@ function onAttackLanded(x, y) {
 				} else {
 					nextPlayer();
 				}
-			}, 3000);
+			}, attack_miss_sound.duration * 1000 + 800);
 		}
 	}
 }
