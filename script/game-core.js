@@ -75,6 +75,7 @@ var gun_fire_sound;
 var plane_attack_sound;
 var attack_hit_sound;
 var attack_miss_sound;
+var attack_hit_sound_distant;
 
 /**
  * Set up the basic ui for the game
@@ -86,6 +87,7 @@ function readyGame() {
 		plane_attack_sound = new Audio(sfx_url.plane_attack);
 		attack_hit_sound = new Audio(sfx_url.explosion);
 		attack_miss_sound = new Audio(sfx_url.explosion_water);
+		attack_hit_sound_distant = new Audio(sfx_url.explosion_distant);
 	}
 	//set up the main moniters
 	var monitors = document.querySelectorAll('.Monitor');
@@ -1084,7 +1086,7 @@ function airStrike(x, y) {
 }
 
 function artilleryStrike(x, y) {
-	if (SOUND_ENABLED) {
+	if (SOUND_ENABLED && acting_player == PLAYER_1) {
 		gun_fire_sound.play();
 		setTimeout(function () {
 			onAttackLanded(x, y);
@@ -1171,14 +1173,14 @@ function onAttackLanded(x, y) {
 					}
 				}
 			}, 1200);
-			attack_hit_sound.play();
+			attack_hit_sound_distant.play();
 			setTimeout(function () {
 				if (player_1_attack_count > 0) {
 					beginTargeting();
 				} else {
 					nextPlayer();
 				}
-			}, attack_hit_sound.duration * 1000 + 800);
+			}, attack_hit_sound_distant.duration * 1000 + 800);
 			//see if we sunk it
 			if (shipDestroyed("monitorRight", x, y)) {
 				//TODO add instant win determiner
