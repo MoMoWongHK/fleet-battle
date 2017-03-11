@@ -103,7 +103,7 @@ function readyGame() {
 			grid_size = DEFAULT_GRID_SIZE;
 		}
 	}
-	if (game_mode == GAME_MODE_INTERCEPT || game_mode == GAME_MODE_BREAKTHROUGH||game_mode==GAME_MODE_CONVOY) {
+	if (game_mode == GAME_MODE_INTERCEPT || game_mode == GAME_MODE_BREAKTHROUGH || game_mode == GAME_MODE_CONVOY) {
 		if (RANDOM_TIME_INTERCEPT_BREAKTHROUGH) {
 			max_turn_intercept_breakthrough = RNG(MAX_TURN_INTERCEPT_MIN, MAX_TURN_INTERCEPT_MAX)
 		} else {
@@ -618,7 +618,7 @@ function placeShip(evt) {
 		}
 		//enforce total number of transports
 		if (game_mode == GAME_MODE_CONVOY) {
-			if ((max_ship_count - getPlayerShipCount(PLAYER_1)) <= (max_ap_count - player_1_ships_count[SHIP_CLASS_AP]) && getPlayerShipCount(PLAYER_1) < max_ship_count&& ship_class_placing!=SHIP_CLASS_AP) {
+			if ((max_ship_count - getPlayerShipCount(PLAYER_1)) <= (max_ap_count - player_1_ships_count[SHIP_CLASS_AP]) && getPlayerShipCount(PLAYER_1) < max_ship_count && ship_class_placing != SHIP_CLASS_AP) {
 				var allShips = document.querySelectorAll('.ShipIcons');
 				for (var n = 0; n < allShips.length; n++) {
 					if (n != SHIP_CLASS_AP) {
@@ -1173,14 +1173,7 @@ function onAttackLanded(x, y) {
 					}
 				}
 			}, 1200);
-			attack_hit_sound_distant.play();
-			setTimeout(function () {
-				if (player_1_attack_count > 0) {
-					beginTargeting();
-				} else {
-					nextPlayer();
-				}
-			}, attack_hit_sound_distant.duration * 1000 + 800);
+
 			//see if we sunk it
 			if (shipDestroyed("monitorRight", x, y)) {
 				//TODO add instant win determiner
@@ -1245,13 +1238,25 @@ function onAttackLanded(x, y) {
 						Grid.removeEventListener('click', fire, false);
 					}
 				}
-				if (player_1_attack_count > 0) {
-					beginTargeting();
-				} else {
-					nextPlayer();
-				}
 			}
-
+			if (SOUND_ENABLED) {
+				attack_hit_sound_distant.play();
+				setTimeout(function () {
+					if (player_1_attack_count > 0) {
+						beginTargeting();
+					} else {
+						nextPlayer();
+					}
+				}, attack_hit_sound_distant.duration * 1000 + 800);
+			} else {
+				setTimeout(function () {
+					if (player_1_attack_count > 0) {
+						beginTargeting();
+					} else {
+						nextPlayer();
+					}
+				}, 1200);
+			}
 		} else {
 			var canvas = tGrid.firstElementChild;
 			var particles = [];
@@ -1267,15 +1272,26 @@ function onAttackLanded(x, y) {
 					showWaterSplash(canvas, particles, false);
 				}, 60);
 			}
-			attack_miss_sound.play();
-			setTimeout(function () {
-				clearInterval(sid);
-				if (player_1_attack_count > 0) {
-					beginTargeting();
-				} else {
-					nextPlayer();
-				}
-			}, attack_miss_sound.duration * 1000 + 800);
+			if (SOUND_ENABLED) {
+				attack_miss_sound.play();
+				setTimeout(function () {
+					clearInterval(sid);
+					if (player_1_attack_count > 0) {
+						beginTargeting();
+					} else {
+						nextPlayer();
+					}
+				}, attack_miss_sound.duration * 1000 + 800);
+			} else {
+				setTimeout(function () {
+					clearInterval(sid);
+					if (player_1_attack_count > 0) {
+						beginTargeting();
+					} else {
+						nextPlayer();
+					}
+				}, 3000);
+			}
 		}
 	} else if (acting_player == PLAYER_2) {
 		var tGrid = document.getElementById("monitorLeft").querySelector("[y='" + y + "'][x='" + x + "']");
@@ -1349,17 +1365,9 @@ function onAttackLanded(x, y) {
 						}
 						tGrid.setAttribute("effectId", id);
 					}
-					onAttackResult(true);
+
 				}
 			}, 1200);
-			attack_hit_sound.play();
-			setTimeout(function () {
-				if (player_2_attack_count > 0) {
-					attackMain();
-				} else {
-					nextPlayer();
-				}
-			}, attack_hit_sound.duration * 1000 + 800);
 			//see if we sunk it
 			if (shipDestroyed("monitorLeft", x, y)) {
 				var tx = parseInt(tGrid.getAttribute("head-x"));
@@ -1410,12 +1418,26 @@ function onAttackLanded(x, y) {
 
 					}
 				}
-				onAttackResult(true);
-				if (player_2_attack_count > 0) {
-					attackMain();
-				} else {
-					nextPlayer();
-				}
+			}
+			onAttackResult(true);
+			if (SOUND_ENABLED) {
+				attack_hit_sound.play();
+				setTimeout(function () {
+					if (player_2_attack_count > 0) {
+						attackMain();
+					} else {
+						nextPlayer();
+					}
+				}, attack_hit_sound.duration * 1000 + 800);
+			} else {
+				setTimeout(function () {
+					clearInterval(sid);
+					if (player_2_attack_count > 0) {
+						attackMain();
+					} else {
+						nextPlayer();
+					}
+				}, 1200);
 			}
 		} else {
 			var canvas = tGrid.firstElementChild;
@@ -1432,16 +1454,28 @@ function onAttackLanded(x, y) {
 					showWaterSplash(canvas, particles, false);
 				}, 60);
 			}
-			attack_miss_sound.play();
-			setTimeout(function () {
-				clearInterval(sid);
-				onAttackResult(false);
-				if (player_2_attack_count > 0) {
-					attackMain();
-				} else {
-					nextPlayer();
-				}
-			}, attack_miss_sound.duration * 1000 + 800);
+			onAttackResult(false);
+			if (SOUND_ENABLED) {
+				attack_miss_sound.play();
+				setTimeout(function () {
+					clearInterval(sid);
+					if (player_2_attack_count > 0) {
+						attackMain();
+					} else {
+						nextPlayer();
+					}
+				}, attack_miss_sound.duration * 1000 + 800);
+			} else {
+				setTimeout(function () {
+					clearInterval(sid);
+					if (player_2_attack_count > 0) {
+						attackMain();
+					} else {
+						nextPlayer();
+					}
+				}, 3000);
+			}
+
 		}
 	}
 }

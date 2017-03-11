@@ -27,6 +27,11 @@ function showStartGameSetting() {
 		} else {
 			RANDOM_MAP_SIZE = false;
 		}
+		if (document.getElementById('sound').checked) {
+			SOUND_ENABLED = true;
+		} else {
+			SOUND_ENABLED = false;
+		}
 		readyGame();
 	}, false);
 }

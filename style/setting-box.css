@@ -23,10 +23,17 @@
 }
 
 .SettingPanel {
+    /*TODO fixed layout*/
     display: table;
     width:80%;
+    /*TODO Auto padding, auto margin*/
     padding: 0% 20% 0% 20%;
     text-align: left;
+}
+
+.individualOption{
+    padding: 0% 20% 0% 20%;
+    text-align: justify;
 }
 
 .SettingOption {
