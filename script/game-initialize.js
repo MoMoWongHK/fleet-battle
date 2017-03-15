@@ -7,7 +7,6 @@ var GAME_MODE_CONVOY = 4;
 
 function showStartGameSetting() {
 	var box = document.getElementById('settingBox');
-	box.style.display = "block";
 
 	document.getElementById("modeSelect").onchange = function() {
 		onSelectedModeChanged();

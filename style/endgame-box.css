@@ -1,23 +1,14 @@
-.modal-end {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 999; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0, 0, 0); /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+#endGameBox{
+    display: none;
 }
-
 .modal-content-end {
     background-image: url("../img/background/old-paper-1957.png");
     background-size: 100% 100%;
     font-family: 'Crimson Text', serif;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin-left:auto;
+    margin-right: auto;
     padding: 20px;
-    width: 40%; /* Could be more or less, depending on screen size */
+    width: 40%;
     box-shadow: 5px 5px 2px #444444;
 }
 

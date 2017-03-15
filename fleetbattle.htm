@@ -18,50 +18,52 @@
 		</title>
 	</head>
 	<body>
-		<div id="settingBox" class="modal-start">
-			<!-- Modal content -->
-			<div class="modal-content-start">
-				<!-- TODO any better alternatives?-->
-				<h1>Fleet Battle</h1>
-				<div class="SettingPanel">
-					<div style="display: table-row; ">
-						<div class="SettingOption"><strong>Scenario:</strong></div>
-						<div class="SettingOption">
-							<select id="modeSelect">
-								<!--TODO generate this dynamically? -->
-								<option selected value="0">Skirmish</option>
-								<option value="1">Classic</option>
-								<option value="2">Interception</option>
-								<option value="3">Breakthrough</option>
-								<option value="4">Convoy</option>
-							</select>
+		<div id="settingBox" class="modal">
+			<div class="modal-box">
+				<div class="modal-content-start">
+					<!-- TODO any better alternatives?-->
+					<h1>Fleet Battle</h1>
+					<div class="SettingPanel">
+						<div style="display: table-row; ">
+							<div class="SettingOption"><strong>Scenario:</strong></div>
+							<div class="SettingOption">
+								<select id="modeSelect">
+									<!--TODO generate this dynamically? -->
+									<option selected value="0">Skirmish</option>
+									<option value="1">Classic</option>
+									<option value="2">Interception</option>
+									<option value="3">Breakthrough</option>
+									<option value="4">Convoy</option>
+								</select>
+							</div>
+						</div>
+						<div style="display: table-row; ">
+							<div class="SettingOption"><strong>Enemy Strength(Difficulty):</strong>
+							</div>
+							<div class="SettingOption">
+								<label><input type="radio" name="diff" id="diff-easy"> Inferior</label>
+								<label><input type="radio" name="diff" id="diff-normal" checked> Equivalent</label>
+								<label><input type="radio" name="diff" id="diff-hard" disabled> Superior</label>
+								<label><input type="radio" name="diff" id="diff-insane" disabled> Overwhelming</label>
+							</div>
 						</div>
 					</div>
-					<div style="display: table-row; ">
-						<div class="SettingOption"><strong>Enemy Strength(Difficulty):</strong>
-						</div>
-						<div class="SettingOption">
-							<label><input type="radio" name="diff" id="diff-easy"> Inferior</label>
-							<label><input type="radio" name="diff" id="diff-normal" checked> Equivalent</label>
-							<label><input type="radio" name="diff" id="diff-hard" disabled> Superior</label>
-							<label><input type="radio" name="diff" id="diff-insane" disabled> Overwhelming</label>
-						</div>
+					<div class="individualOption">
+						<label><input type="checkbox" name="sound" id="sound" checked>Sound Enabled</label>
+						<label><input type="checkbox" name="random_map" id="randomMap">Random sized map</label><br>
 					</div>
-				</div>
-				<div class="individualOption">
-					<label><input type="checkbox" name="sound" id="sound" checked>Sound Enabled</label>
-					<label><input type="checkbox" name="random_map" id="randomMap">Random sized map</label><br>
-				</div>
 
-				<button id="gameSetButton">Ready</button>
+					<button id="gameSetButton">Ready</button>
+				</div>
 			</div>
 		</div>
-		<div id="endGameBox" class="modal-end">
-			<!-- Modal content -->
-			<div class="modal-content-end">
-				<!-- TODO any better alternatives?-->
-				<h1 id="EndingTitle"></h1>
-				<p id="EndingDescription"></p>
+		<div id="endGameBox" class="modal">
+			<div class="modal-box">
+				<div class="modal-content-end">
+					<!-- TODO any better alternatives?-->
+					<h1 id="EndingTitle"></h1>
+					<p id="EndingDescription"></p>
+				</div>
 			</div>
 		</div>
 		<main class="content" id="content">

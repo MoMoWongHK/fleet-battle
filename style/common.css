@@ -19,7 +19,7 @@ h1 {
    -webkit-text-fill-color: transparent;*/
 }
 body {
-    margin: 0% 8% 0% 8%;
+    margin: 0 8vw 0 8vw;
     text-align: center;
     background-image: url("../img/background/painted-metal.jpg");
     background-size: 100% 100%;
@@ -39,10 +39,13 @@ body {
 footer {
     position: absolute;
     margin-top: 10px;
-    left: 15%;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
     bottom: 15px;
     height: 70px;
-    width: 69%;
+    width: 65vw;
     display: inline-block;
     padding-bottom: 10px;
     padding-top: 8px;
@@ -59,8 +62,8 @@ p {
     margin: 5px 5px 5px 5px;
 }
 .Panel {
-    padding: 0% 0% 0% 0%;
-    margin: 0 15px 20px 15px;
+    padding: 0 0 0 0;
+    margin: 0 auto 20px auto;
     width: auto;
     display: inline-block;
 }
@@ -75,7 +78,11 @@ p {
     font-family: 'Tienne', serif;
 }
 #objectivePanel {
-    padding: 20px 30% 0% 30%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 30%;
+    padding-right: 30%;
+    padding-top: 20px;
     background-image: url("../img/background/old-paper-1957.png");
     box-shadow: 5px 5px 2px #444444;
     background-size: 100% 100%;
@@ -94,12 +101,14 @@ button{
     margin-top: 15px;
     display: inline-block;
 }
+
 #leftPanel,
-#rightPanel {
-    display: table-cell;
-    padding-bottom: 30px;
-}
-@media screen and (max-width: 1800px) {
+ #rightPanel {
+     display: table-cell;
+     padding-bottom: 30px;
+ }
+
+@media only screen and (max-width: 1800px) {
     #leftPanel,
     #rightPanel {
         display: inline-block;
@@ -107,6 +116,7 @@ button{
         margin-bottom: 5px;
     }
 }
+
 .DataPanelContent {
     padding: 5px 5px 5px 5px;
 }
@@ -186,7 +196,6 @@ button{
 }
 .Monitor {
     position: relative;
-    margin: 0 0 0 0;
     margin: 0 15px 0 15px;
     background-color: #0000b3;
     border: solid 2px;
@@ -196,7 +205,7 @@ button{
     vertical-align: top;
     background-size: contain;
     display: inline-block;
-    margin: 0px;
+    margin: 0;
     border: solid 1px grey;
     user-select: none;
 }

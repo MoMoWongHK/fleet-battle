@@ -2187,7 +2187,7 @@ function showEndGameDialog(title, description) {
 
 	document.getElementById('EndingTitle').innerHTML = title;
 	document.getElementById('EndingDescription').innerHTML = description;
-	document.getElementById('endGameBox').style.display = "block";
+	document.getElementById('endGameBox').style.display = "table";
 	setTimeout(function () {
 		window.onclick = function (event) {
 			document.getElementById('endGameBox').style.display = "none";
