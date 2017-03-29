@@ -1,0 +1,27 @@
+.modal-confirm {
+    display: none;
+    position: fixed; /* Stay in place */
+    z-index: 999; /* Sit on very very top */
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-confirm-box {
+    display: table-cell;
+}
+
+.modal-confirm-content{
+    background-image: url("../img/background/old-paper-1957.png");
+    background-size: 100% 100%;
+    font-family: 'Tienne', serif;
+    margin-left:auto;
+    margin-right: auto;
+    padding: 20px;
+    width: 65%;
+    box-shadow: 5px 5px 2px #444444;
+}

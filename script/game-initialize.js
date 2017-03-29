@@ -8,13 +8,13 @@ var GAME_MODE_CONVOY = 4;
 function showStartGameSetting() {
 	var box = document.getElementById('settingBox');
 
-	document.getElementById("modeSelect").onchange = function() {
+	document.getElementById("modeSelect").onchange = function () {
 		onSelectedModeChanged();
 	};
 
 	var readyButton = document.getElementById("gameSetButton");
 	readyButton.innerHTML = string.ready;
-	readyButton.addEventListener('click', function() {
+	readyButton.addEventListener('click', function () {
 		if (document.getElementById('diff-easy').checked) {
 			ai_config = AI_CONFIGURATION_BASIC;
 		} else if (document.getElementById('diff-normal').checked) {
@@ -62,8 +62,25 @@ function onSelectedModeChanged() {
 
 }
 
+function openTutorial() {
+	window.open("https://github.com/tonY1883/fleet-battle/wiki/Basic-Tutorial", '_blank');
+}
 
-window.onload = function() {
-	//TODO add mode selection and other start game settings
+
+window.onload = function () {
+	if (localStorage.getItem("isPlaying") !== null) {
+		// do nothing and proceed
+	} else {
+		localStorage.setItem("isPlaying", "yes");
+		//why can't I just use confirm()?Why?
+		document.getElementById("tutorialBox").style.display = "table";
+		document.getElementById("yes-btn").addEventListener('click', function () {
+			openTutorial();
+			document.getElementById("tutorialBox").style.display = "none";
+		}, false);
+		document.getElementById("no-btn").addEventListener('click', function () {
+			document.getElementById("tutorialBox").style.display = "none";
+		}, false);
+	}
 	showStartGameSetting();
 };

@@ -7,6 +7,7 @@
 		<link href='style/common.css' rel='stylesheet' type='text/css'>
 		<link href='style/setting-box.css' rel='stylesheet' type='text/css'>
 		<link href='style/endgame-box.css' rel='stylesheet' type='text/css'>
+		<link href='style/modal_confirm.css' rel='stylesheet' type='text/css'>
 		<link href="https://fonts.googleapis.com/css?family=Tienne|Iceberg|Stardos+Stencil|Crimson+Text" rel="stylesheet">
 		<style>
 			/*Embedded Style Here */
@@ -19,6 +20,20 @@
 		</title>
 	</head>
 	<body>
+		<div id="tutorialBox" class="modal-confirm">
+			<div class="modal-confirm-box">
+				<div class="modal-confirm-content">
+					<p>Greetings commander.<br>It seems that this is the first time you get hold of a fleet.<br>Would you like to read the manual first?
+					</p>
+					<div style="display: table;;margin: auto">
+						<div style="display:table-row;margin-left: 0;margin-right: 0">
+							<button id="yes-btn" style="display:table-cell">Of course.</button>
+							<button id="no-btn" style="display:table-cell">No, thanks.</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div id="settingBox" class="modal">
 			<div class="modal-box">
 				<div class="modal-content-start">
@@ -161,7 +176,7 @@
 			Version 0.8.0<br>
 			© 2017 Yip Chung Nin<br>
 			Source code, guides and other materials are available on
-			<a href="https://github.com/tonY1883/fleet-battle"><img class="ImgLink" src="img/GitHub_Logo.png"></a>
+			<a href="https://github.com/tonY1883/fleet-battle" target="_blank"><img class="ImgLink" src="img/GitHub_Logo.png"></a>
 		</footer>
 	</body>
 	<script src="script/game-data.js"></script>
