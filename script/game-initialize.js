@@ -68,6 +68,10 @@ function openTutorial() {
 
 
 window.onload = function () {
+	if(screen.width < 750){
+		window.location = "mobile.htm";
+		return
+	}
 	if (localStorage.getItem("isPlaying") !== null) {
 		// do nothing and proceed
 	} else {
