@@ -72,19 +72,25 @@ window.onload = function () {
 		window.location = "mobile.htm";
 		return
 	}
+	document.getElementById("title").innerHTML = string.game_title;
+	document.getElementById("version-code").innerHTML = string.version_code;
+	document.getElementById("github-link").innerHTML = string.github_link_text;
 	if (localStorage.getItem("isPlaying") !== null) {
 		// do nothing and proceed
 	} else {
 		localStorage.setItem("isPlaying", "yes");
 		//why can't I just use confirm()?Why?
-		document.getElementById("tutorialBox").style.display = "table";
+		document.getElementById("confirm-text").innerHTML = string.tutorial_confirm;
+		document.getElementById("yes-btn").innerHTML = string.tutorial_confirm_yes;
 		document.getElementById("yes-btn").addEventListener('click', function () {
 			openTutorial();
 			document.getElementById("tutorialBox").style.display = "none";
 		}, false);
+		document.getElementById("no-btn").innerHTML = string.tutorial_confirm_no;
 		document.getElementById("no-btn").addEventListener('click', function () {
 			document.getElementById("tutorialBox").style.display = "none";
 		}, false);
+		document.getElementById("tutorialBox").style.display = "table";
 	}
 	showStartGameSetting();
 };

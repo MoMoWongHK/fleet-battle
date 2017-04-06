@@ -23,12 +23,11 @@
 		<div id="tutorialBox" class="modal-confirm">
 			<div class="modal-confirm-box">
 				<div class="modal-confirm-content">
-					<p>Greetings commander.<br>It seems that this is the first time you get hold of a fleet.<br>Would you like to read the manual first?
-					</p>
+					<p id="confirm-text"></p>
 					<div style="display: table;;margin: auto">
 						<div style="display:table-row;margin-left: 0;margin-right: 0">
-							<button id="yes-btn" style="display:table-cell">Of course.</button>
-							<button id="no-btn" style="display:table-cell">No, thanks.</button>
+							<button id="yes-btn" style="display:table-cell"></button>
+							<button id="no-btn" style="display:table-cell"></button>
 						</div>
 					</div>
 				</div>
@@ -38,7 +37,7 @@
 			<div class="modal-box">
 				<div class="modal-content-start">
 					<!-- TODO any better alternatives?-->
-					<h1>Fleet Battle</h1>
+					<h1 id="title"></h1>
 					<div class="SettingPanel">
 						<div style="display: table-row; ">
 							<div class="SettingOption"><strong>Scenario:</strong></div>
@@ -173,9 +172,9 @@
 			</div>
 		</main>
 		<footer>
-			Version 0.8.0<br>
+			<span id="version-code"></span><br>
 			© 2017 Yip Chung Nin<br>
-			Source code, guides and other materials are available on
+			<span id="github-link"></span>
 			<a href="https://github.com/tonY1883/fleet-battle" target="_blank"><img class="ImgLink" src="img/GitHub_Logo.png"></a>
 		</footer>
 	</body>
