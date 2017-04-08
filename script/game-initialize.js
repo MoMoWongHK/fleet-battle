@@ -7,6 +7,12 @@ var GAME_MODE_CONVOY = 4;
 
 function showStartGameSetting() {
 	var box = document.getElementById('settingBox');
+	for ( i = 0; i < string.game_mode.length; i ++ ) {
+		var option = document.createElement( 'option' );
+		option.value = i;
+		option.text = string.game_mode[i];
+		document.getElementById("modeSelect").add( option );
+	}
 
 	document.getElementById("modeSelect").onchange = function () {
 		onSelectedModeChanged();
