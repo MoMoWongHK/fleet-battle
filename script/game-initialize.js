@@ -79,6 +79,7 @@ window.onload = function () {
 		return
 	}
 	document.getElementById("title").innerHTML = string.game_title;
+	document.title = string.game_title;
 	document.getElementById("version-code").innerHTML = string.version_code;
 	document.getElementById("github-link").innerHTML = string.github_link_text;
 	if (localStorage.getItem("isPlaying") !== null) {

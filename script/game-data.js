@@ -10,7 +10,7 @@ var string = {
 		"Breakthrough",
 		"Convoy"
 	],
-	"current_stage": "Current Stage",
+	"currenlt_stage": "Current Stage",
 	"ship_placement_remaining": "Remaining ship",
 	"ship_classes": [
 		"Battleship",
@@ -67,7 +67,7 @@ var string = {
 	"tutorial_confirm_no":"No, thanks.",
 	"version_code":"Version 0.8.0",
 	"github_link_text":"Source code, guides and other materials are available on",
-	"game_title":"Fleet Battle"
+	"game_title":"Warships: Line of Battle"
 };
 
 
