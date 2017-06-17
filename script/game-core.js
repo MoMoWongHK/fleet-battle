@@ -89,6 +89,7 @@ function readyGame() {
 		attack_miss_sound = new Audio(sfx_url.explosion_water);
 		attack_hit_sound_distant = new Audio(sfx_url.explosion_distant);
 	}
+	document.getElementById("gameTitle").innerHTML = string.game_title;
 	//set up the main moniters
 	var monitors = document.querySelectorAll('.Monitor');
 	if (game_mode == GAME_MODE_CLASSIC) {
