@@ -62,12 +62,12 @@ var string = {
 	"action_prompt_player": "Awaiting Orders",
 	"action_prompt_enemy": "INCOMING",
 	"ready": "Ready",
-	"tutorial_confirm":"Greetings commander.<br>It seems that this is the first time you get hold of a fleet.<br>Would you like to read the manual first?",
-	"tutorial_confirm_yes":"Of course.",
-	"tutorial_confirm_no":"No, thanks.",
-	"version_code":"Version 0.8.0",
-	"github_link_text":"Source code, guides and other materials are available on",
-	"game_title":"Warships: Line of Battle"
+	"tutorial_confirm": "Greetings commander.<br>It seems that this is the first time you get hold of a fleet.<br>Would you like to read the manual first?",
+	"tutorial_confirm_yes": "Of course.",
+	"tutorial_confirm_no": "No, thanks.",
+	"version_code": "Version 0.8.0",
+	"github_link_text": "Source code, guides and other materials are available on",
+	"game_title": "Warships: Line of Battle"
 };
 
 
@@ -95,6 +95,12 @@ var img_url = {
 			"img/ships/uk/CA.png",
 			"img/ships/uk/DD.png",
 			"img/ships/uk/AP.svg"
+		],
+		["img/ships/de/BB.png",
+			"img/ships/de/CV.png",
+			"img/ships/de/CA.png",
+			"img/ships/de/DD.png",
+			"img/ships/de/AP.svg"
 		]
 
 
@@ -195,7 +201,7 @@ var img_url = {
 var sfx_url = {
 	"gun_fire": "sound/sfx/gunfire.ogg",
 	"explosion": "sound/sfx/explosion.ogg",
-	"plane_attack":"sound/sfx/plane.ogg",
-	"explosion_water":"sound/sfx/explosion-water.ogg",
-	"explosion_distant":"sound/sfx/explosion-distant.ogg"
+	"plane_attack": "sound/sfx/plane.ogg",
+	"explosion_water": "sound/sfx/explosion-water.ogg",
+	"explosion_distant": "sound/sfx/explosion-distant.ogg"
 };

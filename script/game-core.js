@@ -205,7 +205,7 @@ function readyGame() {
 	counter_text_left = counter;
 	document.getElementById("dataPanelContentLeft").appendChild(counter);
 	//determine the ship iocn set to be used by each player
-	var shipset = RNG(0, 2);
+	var shipset = RNG(0, 3);
 	player_1_ship_set = shipset;
 	switch (game_mode) {
 		case GAME_MODE_SKIRMISH:
