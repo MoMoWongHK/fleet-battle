@@ -1,13 +1,13 @@
 //Global variables that set the game's settings.
 
 //whether sound are enabled.
-//TODO maybe these changable settings can be moved to another file?
+//TODO maybe these changeable settings can be moved to another file?
 var SOUND_ENABLED = true;
 //Switch for random map size
 var RANDOM_MAP_SIZE = false;
 //Maximum size for random map generation
 var RANDOM_MAP_SIZE_MAX = 20;
-//Maximum size for random map generation
+//Minimum size for random map generation
 var RANDOM_MAP_SIZE_MIN = 10;
 //size of the game map (number of grids each side)
 var DEFAULT_MAP_SIZE = 14;
@@ -20,9 +20,9 @@ var DEFAULT_GRID_SIZE = 32;
 var MAX_SHIP_COUNT_STANDARD = 6;
 //maximum  number of battleships allowed.
 var MAX_BB_COUNT_STANDARD = 4;
-//maximum number of aircraft carrriers allowed.
+//maximum number of aircraft carriers allowed.
 var MAX_CV_COUNT_STANDARD = 3;
-//maximum number of crusiers allowed.
+//maximum number of cruisers allowed.
 var MAX_CA_COUNT_STANDARD = 6;
 //maximum number of destroyers allowed.
 var MAX_DD_COUNT_STANDARD = 6;
@@ -32,9 +32,9 @@ var MAX_DD_COUNT_STANDARD = 6;
 var MAX_SHIP_COUNT_CLASSIC = 10;
 //maximum  number of battleships allowed.
 var MAX_BB_COUNT_CLASSIC = 1;
-//maximum number of aircraft carrriers allowed.
+//maximum number of aircraft carriers allowed.
 var MAX_CV_COUNT_CLASSIC = 2;
-//maximum number of crusiers allowed.
+//maximum number of cruisers allowed.
 var MAX_CA_COUNT_CLASSIC = 3;
 //maximum number of destroyers allowed.
 var MAX_DD_COUNT_CLASSIC = 4;
@@ -42,11 +42,11 @@ var MAX_DD_COUNT_CLASSIC = 4;
  * Intercept, breakthrough and convoy mode setting
  */
 //maximum number of turns allowed in intercept mode
-var MAX_TURN_INTERCEPT_DEFAULT= 8;
+var MAX_TURN_INTERCEPT_DEFAULT = 16;
 //maximum number of turns allowed in intercept mode, minimum of random value.
-var MAX_TURN_INTERCEPT_MIN = 6;
+var MAX_TURN_INTERCEPT_MIN = 12;
 //maximum number of turns allowed in intercept mode, maximum of random value.
-var MAX_TURN_INTERCEPT_MAX =12;
+var MAX_TURN_INTERCEPT_MAX = 22;
 //whether random time length in intercept_mode is active.
 var RANDOM_TIME_INTERCEPT_BREAKTHROUGH = true;
 //whether specific classes will be designated as target in intercept mode
@@ -65,24 +65,24 @@ var ai_config = AI_CONFIGURATION_INTERMEDIATE;
 var BB_ATTACK_COUNT = [
 	2,//parallel
 	1,//head on
- 	2,//t-adv
+	2,//t-adv
 	1//t-dis
 ];
 var CA_ATTACK_COUNT = [
 	1,//parallel
 	1,//head on
- 	1,//t-adv
+	1,//t-adv
 	0//t-dis
 ];
 var DD_ATTACK_COUNT = [
 	1,//parallel
 	1,//head on
- 	1,//t-adv
+	1,//t-adv
 	0//t-dis
 ];
 var CV_ATTACK_COUNT = [
 	1,//parallel
 	1,//head on
- 	1,//t-adv
+	1,//t-adv
 	1//t-dis
 ];
