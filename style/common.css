@@ -1,245 +1,326 @@
 html {
-    position: relative;
-    min-height: 100%;
-    background: url("../img/background/ocean-horizon-LQ.jpg");
-    background-size: 100% 100%;
-    user-select: none;
-    cursor:default;
+	position: relative;
+	min-height: 100%;
+	min-width: 100%;
+	background: url("../img/background/ocean-horizon-LQ.jpg");
+	background-size: 100% 100%;
+	user-select: none;
+	cursor: default;
 }
+
 h1 {
-    /* not supported right now
-    background: url("../img/background/metal.jpg");*/
-    
-    font-family: 'Iceberg', cursive;
-    font-size: 40px;
-    color: black;
-    background-clip: text;
-    /*not supposted right now
+	/* not supported right now
+	background: url("../img/background/metal.jpg");*/
+
+	font-family: 'Iceberg', cursive;
+	font-size: 40px;
+	color: black;
+	background-clip: text;
+	/*not supposted right now
    -webkit-background-clip: text;
    -webkit-text-fill-color: transparent;*/
 }
+
 body {
-    margin: 0 8vw 0 8vw;
-    text-align: center;
-    background-image: url("../img/background/painted-metal.jpg");
-    background-size: 100% 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+	margin: auto;
+	width: 84vw;
+	text-align: center;
+	background-image: url("../img/background/painted-metal.jpg");
+	background-size: 100% 100%;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
 }
+
 .content {
-    flex: 1;
-    margin-bottom: 70px;
-    visibility: hidden;
+	flex: 1;
+	margin-bottom: 70px;
+	visibility: hidden;
 }
+
 .wrapper {
-    display: inline-block;
+	display: inline-block;
 }
+
 footer {
-    position: absolute;
-    margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    bottom: 15px;
-    height: 70px;
-    width: 65vw;
-    display: inline-block;
-    padding-bottom: 10px;
-    padding-top: 8px;
-    background-image: url("../img/background/old-paper-1957.png");
-    background-size: 100% 100%;
-    box-shadow: 5px 5px 2px #444444;
-    font-family: 'Tienne', serif;
+	position: absolute;
+	margin-top: 40px;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	bottom: 15px;
+	height: 70px;
+	width: 65vw;
+	display: inline-block;
+	padding-bottom: 10px;
+	padding-top: 8px;
+	background-image: url("../img/background/old-paper-1957.png");
+	background-size: 100% 100%;
+	box-shadow: 5px 5px 2px #444444;
+	font-family: 'Tienne', serif;
 }
+
 .ImgLink {
-    height: 1.1em;
-    width: auto;
+	height: 1.1em;
+	width: auto;
 }
+
 p {
-    margin: 5px 5px 5px 5px;
+	margin: 5px 5px 5px 5px;
 }
+
 .Panel {
-    padding: 0 0 0 0;
-    margin: 0 auto 20px auto;
-    width: auto;
-    display: inline-block;
+	padding: 0 0 0 0;
+	margin: 0 auto 20px auto;
+	width: auto;
+	display: inline-block;
+	min-width: 740px;
 }
+
 .DataField {
-    color: red;
-    font-weight: bold;
+	color: red;
+	font-weight: bold;
 }
 
 #upperPanel {
-    text-align: center;
-    width: 98%;
-    font-family: 'Tienne', serif;
+	text-align: center;
+	width: 98%;
+	font-family: 'Tienne', serif;
+	margin: 0 auto 20px auto;
 }
+
 #objectivePanel {
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 30%;
-    padding-right: 30%;
-    padding-top: 20px;
-    background-image: url("../img/background/old-paper-1957.png");
-    box-shadow: 5px 5px 2px #444444;
-    background-size: 100% 100%;
-    display: inline-block;
-    table-layout: fixed;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 30%;
+	padding-right: 30%;
+	padding-top: 20px;
+	background-image: url("../img/background/old-paper-1957.png");
+	box-shadow: 5px 5px 2px #444444;
+	background-size: 100% 100%;
+	table-layout: fixed;
 }
-button{
-    color: #f5f5f5;
-    background-color: #444444;
-    font-family: 'Stardos Stencil', cursive;
-    text-align: center;
+
+button {
+	color: #F5F5F5;
+	background-color: #444444;
+	font-family: 'Stardos Stencil', cursive;
+	text-align: center;
 }
+
 #mainButton {
-    font-size: 1.1em;
-    margin: auto;
-    margin-top: 15px;
-    display: inline-block;
+	font-size: 1.1em;
+	margin: auto;
+	margin-top: 15px;
+	display: inline-block;
 }
 
-#leftPanel,
- #rightPanel {
-     display: table-cell;
-     padding-bottom: 30px;
- }
+#rbutton {
+	margin: 0;
+}
 
-@media only screen and (max-width: 1800px) {
-    #leftPanel,
-    #rightPanel {
-        display: inline-block;
-        margin: auto;
-        margin-bottom: 5px;
-    }
+#leftPanel {
+	float: left;
+}
+
+#rightPanel {
+	float: right;
+}
+
+#leftPanel, #rightPanel {
+	width: 50%;
+	margin-bottom: 50px;
+	padding-top: 20px;
+	max-height: 750px;
+
 }
 
 .DataPanelContent {
-    padding: 5px 5px 5px 5px;
-}
-.ActionPrompt{
-    color: #f5f5f5;
-    background-color: #e20014;
-    font-family: 'Stardos Stencil', cursive;
-    text-align: center;
-    font-size: 1.1em;
-    padding-right: 5px;
-    padding-left: 5px;
-    margin: auto;
-    margin-bottom: 15px;
-    display: inline-block;
-    visibility: hidden;
- }
-.Counter {
-    font-size: 1.4em;
-    color: red;
-}
-.ShipIcons {
-    float: left;
-    width: 240px;
-    height: auto;
-    margin-bottom: 10px;
-    display: inline-block;
-}
-.ShipIconsCA {
-    width: 205px;
-    height: auto;
-}
-.ShipIconsDD {
-    width: 170px;
-    height: auto;
-}
-.ShipIconsSelectable:hover {
-    cursor: pointer;
-    opacity: 0.5;
-}
-.ShipIconsUnSelectable {
-    opacity: 0.3;
-}
-.ShipIconsEnemy {
-    transform: scale(-1, 1);
-    float: right;
-}
-.ShipsTile {
-    background-size: contain;
-}
-.ShipsTileHorizontal {
-    background-size: contain;
-    transform: rotate(-90deg);
-}
-.DataPanelOverlay {
-    padding-top: 40%;
-    font-size: 1.4em;
-}
-.DataPanel {
-    width: 250px;
-    height: auto;
-    box-shadow: 5px 5px 2px #444444;
-    background-image: url("../img/background/old-paper-1957.png");
-    font-family: 'Tienne', serif;
-}
-#dataPanelLeft {
-    float: left;
-}
-#dataPanelRight {
-    float: right;
-}
-#monitorLeft {
-    float: right;
-    ;
-}
-#monitorRight {
-    float: left;
-}
-.Monitor {
-    position: relative;
-    margin: 0 15px 0 15px;
-    background-color: #0000b3;
-    border: solid 2px;
-}
-.MonitorGrid {
-    position:absolute;
-    vertical-align: top;
-    background-size: contain;
-    display: inline-block;
-    margin: 0;
-    border: solid 1px grey;
-    user-select: none;
-}
-.Crosshair{
-    vertical-align: top;
-    position: absolute;
-    user-select: none;
-    top:0;
-    left:0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 25;
-}
-.GridCanvas{
-    vertical-align: top;
-    background-size: contain;
-    display: relative;
-    top:0px;
-    left:0px;
-    margin: 0px;
-    user-select: none;
-    pointer-events: none;
+	padding: 5px;
 }
 
-.OptionalContent{
-    visibility:collapse;
+.ActionPrompt {
+	color: #F5F5F5;
+	background-color: #E20014;
+	font-family: 'Stardos Stencil', cursive;
+	text-align: center;
+	font-size: 1.1em;
+	padding-right: 5px;
+	padding-left: 5px;
+	margin: auto;
+	margin-bottom: 15px;
+	display: inline-block;
+	visibility: hidden;
+}
+
+.ActionPromptWrapper {
+	width: 100%;
+}
+
+.Counter {
+	font-size: 1.4em;
+	color: red;
+}
+
+.ShipIcons {
+	float: left;
+	width: 240px;
+	height: auto;
+	margin-bottom: 10px;
+	display: inline-block;
+}
+
+.ShipIconsCA {
+	width: 205px;
+	height: auto;
+}
+
+.ShipIconsDD {
+	width: 170px;
+	height: auto;
+}
+
+.ShipIconsSelectable:hover {
+	cursor: pointer;
+	opacity: 0.5;
+}
+
+.ShipIconsUnSelectable {
+	opacity: 0.3;
+}
+
+.ShipIconsEnemy {
+	transform: scale(-1, 1);
+	float: right;
+}
+
+.ShipsTile {
+	background-size: contain;
+}
+
+.ShipsTileHorizontal {
+	background-size: contain;
+	transform: rotate(-90deg);
+}
+
+.DataPanelOverlay {
+	padding-top: 40%;
+	font-size: 1.4em;
+}
+
+.DataPanel {
+	width: 250px;
+	height: auto;
+	box-shadow: 5px 5px 2px #444444;
+	background-image: url("../img/background/old-paper-1957.png");
+	font-family: 'Tienne', serif;
+}
+
+#dataPanelLeft {
+	float: left;
+}
+
+#dataPanelRight {
+	float: right;
+}
+
+#monitorLeft {
+	float: right;;
+}
+
+#monitorRight {
+	float: left;
+}
+
+.Monitor {
+	position: relative;
+	margin: 0 15px 0 15px;
+	background-color: #0000B3;
+	border: solid 2px;
+}
+
+.MonitorGrid {
+	position: absolute;
+	vertical-align: top;
+	background-size: contain;
+	display: inline-block;
+	margin: 0;
+	border: solid 1px grey;
+	user-select: none;
+}
+
+.Crosshair {
+	vertical-align: top;
+	position: absolute;
+	user-select: none;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 25;
+}
+
+.GridCanvas {
+	vertical-align: top;
+	background-size: contain;
+	display: relative;
+	top: 0px;
+	left: 0px;
+	margin: 0px;
+	user-select: none;
+	pointer-events: none;
+}
+
+.OptionalContent {
+	visibility: collapse;
 }
 
 .blink {
-    animation: blink 1.6s step-end infinite;
+	animation: blink 1.6s step-end infinite;
 }
+
 @keyframes blink {
-    67% { opacity: 0 }
+	67% {
+		opacity: 0
+	}
 }
 
+@media only screen and (max-width: 1800px) {
+	#leftPanel,
+	#rightPanel {
+		float: none;
+		display: block;
+		width: 100%;
 
+	}
+
+	.wrapper {
+		display: block;
+	}
+}
+
+@media only screen and (max-width: 840px) {
+	body {
+		margin: 0;
+		width: 100vw;
+	}
+
+	footer {
+		width: 100vw;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.Panel {
+		min-width: 740px;
+	}
+
+	#objectivePanel {
+		width: 100%;
+		padding-left: 10%;
+		padding-right: 10%;
+	}
+}

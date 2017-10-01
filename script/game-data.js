@@ -65,7 +65,7 @@ var string = {
 	"tutorial_confirm": "Greetings commander.<br>It seems that this is the first time you get hold of a fleet.<br>Would you like to read the manual first?",
 	"tutorial_confirm_yes": "Of course.",
 	"tutorial_confirm_no": "No, thanks.",
-	"version_code": "Version 0.8.0",
+	"version_code": "Version 0.8.1",
 	"github_link_text": "Source code, guides and other materials are available on",
 	"game_title": "Warships: Line of Battle"
 };
