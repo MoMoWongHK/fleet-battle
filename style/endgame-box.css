@@ -1,34 +1,41 @@
-#endGameBox{
-    display: none;
+#endGameBox {
+	display: none;
 }
+
 .modal-content-end {
-    background-image: url("../img/background/old-paper-1957.png");
-    background-size: 100% 100%;
-    font-family: 'Crimson Text', serif;
-    margin-left:auto;
-    margin-right: auto;
-    padding: 20px;
-    width: 40%;
-    box-shadow: 5px 5px 2px #444444;
+	background-image: url("../img/background/old-paper-1957.png");
+	background-size: 100% 100%;
+	font-family: 'Crimson Text', serif;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 20px;
+	width: 40%;
+	box-shadow: 5px 5px 2px #444444;
 }
 
-button{
-    font-size: 1.1em;
-    margin: 5px 0 5px 0;
-    display: inline-block;
+button {
+	font-size: 1.1em;
+	margin: 5px 0 5px 0;
+	display: inline-block;
 }
 
-.modal-content-end > h1{
-    font-family: 'Crimson Text', serif;
-    letter-spacing: 8px;
-    font-size: 4em;
-    font-weight: normal;
-    font-style: normal;
+.modal-content-end > h1 {
+	font-family: 'Crimson Text', serif;
+	letter-spacing: 8px;
+	font-size: 4em;
+	font-weight: normal;
+	font-style: normal;
 }
 
-.modal-content-end > p{
-    font-family: 'Crimson Text', serif;
-    font-size: 1.5em;
-    font-weight: normal;
-    font-style: normal;
+.modal-content-end > p {
+	font-family: 'Crimson Text', serif;
+	font-size: 1.5em;
+	font-weight: normal;
+	font-style: normal;
+}
+
+@media only screen and (max-width: 840px) {
+	.modal-content-end {
+		width: 60%;
+	}
 }

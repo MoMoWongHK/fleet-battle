@@ -2,6 +2,8 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="description" content="A turn based tactical naval board game inspired by the classic board game Battleship.">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!-- CSS Style Sheet Here -->
 		<link rel="icon" href="img/icon.png">
 		<link href='style/common.css' rel='stylesheet' type='text/css'>
@@ -22,7 +24,7 @@
 	<body>
 		<div id="tutorialBox" class="modal-confirm">
 			<div class="modal-confirm-box">
-				<div class="modal-confirm-content">
+				<div class="modal-content">
 					<p id="confirm-text"></p>
 					<div style="display: table;;margin: auto">
 						<div style="display:table-row;margin-left: 0;margin-right: 0">
@@ -35,7 +37,7 @@
 		</div>
 		<div id="settingBox" class="modal">
 			<div class="modal-box">
-				<div class="modal-content-start">
+				<div class="modal-content">
 					<!-- TODO any better alternatives?-->
 					<h1 id="title"></h1>
 					<div class="SettingPanel">
@@ -79,7 +81,7 @@
 			<div class="wrapper">
 				<h1 id="gameTitle">Warships: Line of Battle</h1>
 				<h2 id="subTitle"></h2>
-				<div class="Panel" id="upperPanel">
+				<div id="upperPanel">
 					<table id="objectivePanel">
 						<!-- TODO ditch this table and try out css -->
 						<!-- ↑Impossoble unless they add colspan for CSS -->
@@ -142,8 +144,11 @@
 					<button id="mainButton"></button>
 				</div>
 				<div id="leftPanel">
-					<div class="ActionPrompt blink" id="apLeft"></div>
-					<button id="rbutton"></button>
+					<div class="ActionPromptWrapper">
+						<div class="ActionPrompt blink" id="apLeft"></div>
+						<button id="rbutton"></button>
+					</div>
+
 					<div class="Panel">
 						<div class="DataPanel" id="dataPanelLeft">
 							<div class="DataPanelContent" id="dataPanelContentLeft">
@@ -154,7 +159,9 @@
 					</div>
 				</div>
 				<div id="rightPanel">
-					<div class="ActionPrompt blink" id="apRight"></div>
+					<div class="ActionPromptWrapper">
+						<div class="ActionPrompt blink" id="apRight"></div>
+					</div>
 					<div class="Panel">
 						<div class="Monitor" id="monitorRight"></div>
 						<div class="DataPanel" id="dataPanelRight">

@@ -910,6 +910,7 @@ function startGame() {
 
 	}
 }
+
 /**
  * start the aerial combat phase
  */
@@ -1833,6 +1834,7 @@ function hideActionPrompt() {
 	}
 
 }
+
 //refredh the number of ship displayed for player
 function refreshPlayerPanel() {
 	document.getElementById("counterLeft").innerHTML = getPlayerShipCount(PLAYER_1);
